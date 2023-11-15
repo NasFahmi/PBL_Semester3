@@ -122,7 +122,7 @@
     </div>
 
     {{-- Section 5 --}}
-    <div class="">
+    <div class="mb-10">
         <h1 class="text-2xl text-center font-semibold mb-4 pt-20 lg:text-3xl">Jangkauan Pemasaran</h1>
         <div id="visi-misi" class="mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-10 md:px-10 md:flex-row-reverse md:gap-8 lg:items-stretch md:justify-around lg:px-56">
             <div class="grid grid-cols-1 md:grid-cols-2 ">
@@ -171,59 +171,143 @@
     </div>
 
     {{-- section 6 --}}
-    <h1 class="text-2xl text-center font-semibold mb-4 pt-10 lg:text-3xl">Keungulan Produk Kami</h1>
-    <div id="keungulan" class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-16 md:px-10 md:flex-row md:gap-8 lg:items-stretch">
-        <div class="mb-10 md:w-1/2">
-            <div class="lg:w-8/12">
-                <ul class="px-5 list-disc">
-                    <li>Produk bersertifikat HALAL</li>
-                    <li>Kemasan rapi dan tahan lama</li>
-                    <li>Menggunakan bahan premium</li>
-                    <li>Ukuran perporsi</li>
-                    <li>Harga terjangkau</li>
-                    <li>Siap saji cocok untuk traveler</li>
-                    <li>Ada berbagai macam varian rasa</li> 
-                    <li>Pembayaran Secara Elektronik</li>
-                    <li>Produk unik dan belum banyak pesaing</li>
-                    <li>Produk mudah didapatkan di market place atau putsol</li> 
-                </ul>
-            </div>
-        </div>
-        <div class="w-10/12 md:w-1/2 flex justify-center items-center">
-            <div class="carousel w-11/12 h-56 lg:h-80 rounded-2xl">
-                <div id="slide1" class="carousel-item relative w-full ">
-                  <img src="{{asset('assets/images/product/crispy savour.jpg')}}" class="w-full object-cover" />
-                  <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide4" class="btn btn-circle">❮</a> 
-                    <a href="#slide2" class="btn btn-circle">❯</a>
-                  </div>
-                </div> 
-                <div id="slide2" class="carousel-item relative w-full">
-                  <img src="{{asset('assets/images/product/sambel.jpg')}}" class="w-full object-cover" />
-                  <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide1" class="btn btn-circle">❮</a> 
-                    <a href="#slide3" class="btn btn-circle">❯</a>
-                  </div>
-                </div> 
-                <div id="slide3" class="carousel-item relative w-full">
-                  <img src="{{asset('assets/images/product/squidy_crackers.jpg')}}" class="w-full object-cover" />
-                  <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide2" class="btn btn-circle">❮</a> 
-                    <a href="#slide4" class="btn btn-circle">❯</a>
-                  </div>
-                </div> 
-                <div id="slide4" class="carousel-item relative w-full">
-                  <img src="{{asset('assets/images/product/rambak.jpg')}}" class="w-full object-cover" />
-                  <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide3" class="btn btn-circle">❮</a> 
-                    <a href="#slide1" class="btn btn-circle">❯</a>
-                  </div>
+    <div class="bg-blue-100 pb-10">
+        <h1 class="text-2xl text-center font-semibold mb-10 pt-10 lg:text-3xl">Keungulan Produk Kami</h1>
+        <div id="keungulan" class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col   md:px-10 md:flex-row md:gap-8 lg:mt-0 lg:items-stretch gap-8">
+            <div class="ml-4 md:w-1/2">
+                <div class="lg:w-8/12">
+                    <ul class="px-5 list-disc lg:text-lg">
+                        <li>Produk bersertifikat HALAL</li>
+                        <li>Kemasan rapi dan tahan lama</li>
+                        <li>Menggunakan bahan premium</li>
+                        <li>Ukuran perporsi</li>
+                        <li>Harga terjangkau</li>
+                        <li>Siap saji cocok untuk traveler</li>
+                        <li>Ada berbagai macam varian rasa</li> 
+                        <li>Pembayaran Secara Elektronik</li>
+                        <li>Produk unik dan belum banyak pesaing</li>
+                        <li>Produk mudah didapatkan di market place atau putsol</li> 
+                    </ul>
                 </div>
-              </div>
+            </div>
+            <div class="w-10/12 md:w-1/2 flex justify-center items-center">
+                <div class="carousel w-11/12 h-56 lg:h-80 rounded-2xl">
+                    <div id="slide1" class="carousel-item relative w-full ">
+                      <img src="{{asset('assets/images/product/crispy savour.jpg')}}" class="w-full object-cover" />
+                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href="#slide4" class="btn btn-circle">❮</a> 
+                        <a href="#slide2" class="btn btn-circle">❯</a>
+                      </div>
+                    </div> 
+                    <div id="slide2" class="carousel-item relative w-full">
+                      <img src="{{asset('assets/images/product/sambel.jpg')}}" class="w-full object-cover" />
+                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href="#slide1" onclick="preventDefaultAndNavigate('#slide1');" class="btn btn-circle">❮</a> 
+                        <a href="#slide3" onclick="preventDefaultAndNavigate('#slide3'); class="btn btn-circle">❯</a>
+                      </div>
+                    </div> 
+                    <div id="slide3" class="carousel-item relative w-full">
+                      <img src="{{asset('assets/images/product/squidy_crackers.jpg')}}" class="w-full object-cover" />
+                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href="#slide2" onclick="preventDefaultAndNavigate('#slide2'); class="btn btn-circle">❮</a> 
+                        <a href="#slide4" onclick="preventDefaultAndNavigate('#slide4'); class="btn btn-circle">❯</a>
+                      </div>
+                    </div> 
+                    <div id="slide4" class="carousel-item relative w-full">
+                      <img src="{{asset('assets/images/product/rambak.jpg')}}" class="w-full object-cover" />
+                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href="#slide3" onclick="preventDefaultAndNavigate('#slide3'); class="btn btn-circle">❮</a> 
+                        <a href="#slide1" onclick="preventDefaultAndNavigate('#slide1'); class="btn btn-circle">❯</a>
+                      </div>
+                    </div>
+                  </div>
+            </div>
         </div>
     </div>
     {{-- section 7 --}}
 
-    {{-- section 8 -- footer --}}
+    <div class="">
+        <h1 class="text-2xl text-center font-semibold mb-4 mt-20 lg:text-3xl">Tim Kami</h1>
+        <div id="visi-misi" class="mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-16 md:px-10 md:flex-row-reverse md:gap-8 lg:items-stretch md:justify-around">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="flex justify-center items-center flex-col mt-8">
+                    <div class="flex justify-center items-center">
+                        <img src="{{asset('assets/images/jp.png')}}" alt="" srcset="" class="w-1/4">
+                    </div>
+                    <div class="w-3/4 lg:5/12 mt-5">
+                        <h1 class="text-xl text-center font-semibold mb-3 text-green-500">JP</h1>
+                        <h1 class="text-xl text-center font-semibold mb-1">Busines Analyst</h1>
+                        <p class="text-sm text-center">Iman kita adalah inti masa depan kita. Tidak ada kesuksesan besar tanpa pengorbanan besar.</p>
+                    </div>
+                </div>
+                <div class="flex justify-center items-center flex-col mt-8">
+                    <div class="flex justify-center items-center">
+                        <img src="{{asset('assets/images/diah.png')}}" alt="" srcset="" class="w-1/4">
+                    </div>
+                    <div class="w-3/4 lg:w-5/12 mt-5">
+                        <h1 class="text-xl text-center font-semibold mb-3 text-green-500">Diah Lestari</h1>
+                        <h1 class="text-xl text-center font-semibold mb-1">Owner</h1>
+                        <p class="text-sm text-center">Banyak dari kegagalan hidup adalah orang-orang yang tidak menyadari betapa dekatnya mereka dengan kesuksesan ketika mereka menyerah.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{-- section 8 -- footer --}}  
+    <div class="bg-gray-800 mt-20 pb-10">
+        <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
+        <div id="keungulan" class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col   md:px-10 md:flex-row md:gap-8 lg:mt-0 lg:items-stretch gap-8">
+            <div class="ml-4 md:w-1/2">
+                <div class="lg:w-8/12">
+                    <h1 class="text-white text-xl mb-2">PAWONKOE</h1>
+                    <h1 class="text-white text-base mb-4">PAWONKOE.BWI</h1>
+                    <p class="text-white">Kami juga terus mengupdate informasi mengenai perusahaan melalui media sosial, untuk informasi terkini anda dapat mengikuti media sosial kami.</p>
+                </div>
+                <div class="flex justify-start items-center mt-8 gap-2">
+                    <div class="text-white w-6 h-6">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 6H12.01M9 20L3 17V4L5 5M9 20L15 17M9 20V14M15 17L21 20V7L19 6M15 17V14M15 6.2C15 7.96731 13.5 9.4 12 11C10.5 9.4 9 7.96731 9 6.2C9 4.43269 10.3431 3 12 3C13.6569 3 15 4.43269 15 6.2Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <p class="text-white">Banyuwangi, Jawa Timur</p>
+                </div>
+                <div class="flex justify-start items-center mt-4 gap-2">
+                    <div class="shopee w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/shopee.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                    <div class="instagram w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/ig.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                    <div class="wa w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/wa.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                    <div class="email w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/email.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                    <div class="fb w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/fb.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-gray-900 flex justify-center items-center py-2">
+        <h1 class="text-white">@2023 PawonKoe. All right reserved</h1>
+    </div>
+    <script>
+        function preventDefaultAndNavigate(target) {
+            event.preventDefault();
+            window.location.href = target;
+        }
+    </script>
     
 @endsection
