@@ -256,9 +256,9 @@
     
     {{-- section 8 -- footer --}}  
     <div class="bg-gray-800 mt-20 pb-10">
-        <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
-        <div id="keungulan" class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col   md:px-10 md:flex-row md:gap-8 lg:mt-0 lg:items-stretch gap-8">
-            <div class="ml-4 md:w-1/2">
+        <h1 class="text-2xl text-center  font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
+        <div id="keungulan" class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col   md:px-10 md:flex-row md:gap-8  lg:mt-0 lg:items-stretch gap-8">
+            <div class="ml-4 lg:ml-0 md:w-full">
                 <div class="lg:w-8/12">
                     <h1 class="text-white text-xl mb-2">PAWONKOE</h1>
                     <h1 class="text-white text-base mb-4">PAWONKOE.BWI</h1>
