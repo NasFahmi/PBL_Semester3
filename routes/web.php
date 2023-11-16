@@ -14,5 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[HomeController::class,'landingpage'])->name('landing_page');
-Route::get('/katalog',[HomeController::class, 'katalog'])->name('katalog');
+
+Route::get('/welcome', function () {
+   return view('welcome');
+});
+
+Route::get('/admin/dashboard', function () {
+   return view('pages.admin.dashboard');
+});
+Route::get('/', [HomeController::class, 'landingpage'])->name('landing_page');
+Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');

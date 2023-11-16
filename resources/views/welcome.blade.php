@@ -1,140 +1,1044 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
-        <title>Laravel</title>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windmill Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="{{ asset('assets/js/init-alpine.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
+    <script src="{{ asset('assets/js/charts-lines.js') }}" defer></script>
+    <script src="{{ asset('assets/js/charts-pie.js') }}" defer></script>
+    @vite('resources/css/app.css')
+</head>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-
-        <!-- Styles -->
-        <style>
-            /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Figtree, sans-serif;font-feature-settings:normal}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mx-6{margin-left:1.5rem;margin-right:1.5rem}.ml-4{margin-left:1rem}.mt-16{margin-top:4rem}.mt-6{margin-top:1.5rem}.mt-4{margin-top:1rem}.-mt-px{margin-top:-1px}.mr-1{margin-right:0.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.h-16{height:4rem}.h-7{height:1.75rem}.h-6{height:1.5rem}.h-5{height:1.25rem}.min-h-screen{min-height:100vh}.w-auto{width:auto}.w-16{width:4rem}.w-7{width:1.75rem}.w-6{width:1.5rem}.w-5{width:1.25rem}.max-w-7xl{max-width:80rem}.shrink-0{flex-shrink:0}.scale-100{--tw-scale-x:1;--tw-scale-y:1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.items-center{align-items:center}.justify-center{justify-content:center}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.self-center{align-self:center}.rounded-lg{border-radius:0.5rem}.rounded-full{border-radius:9999px}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity))}.bg-dots-darker{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E")}.from-gray-700\/50{--tw-gradient-from:rgb(55 65 81 / 0.5);--tw-gradient-to:rgb(55 65 81 / 0);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0);--tw-gradient-stops:var(--tw-gradient-from), transparent, var(--tw-gradient-to)}.bg-center{background-position:center}.stroke-red-500{stroke:#ef4444}.stroke-gray-400{stroke:#9ca3af}.p-6{padding:1.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.text-center{text-align:center}.text-right{text-align:right}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-gray-500\/20{--tw-shadow-color:rgb(107 114 128 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\:bg-red-500 *::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.selection\:bg-red-500::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.hover\:text-gray-900:hover{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.hover\:text-gray-700:hover{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.focus\:rounded-sm:focus{border-radius:0.125rem}.focus\:outline:focus{outline-style:solid}.focus\:outline-2:focus{outline-width:2px}.focus\:outline-red-500:focus{outline-color:#ef4444}.group:hover .group-hover\:stroke-gray-600{stroke:#4b5563}.z-10{z-index: 10}@media (prefers-reduced-motion: no-preference){.motion-safe\:hover\:scale-\[1\.01\]:hover{--tw-scale-x:1.01;--tw-scale-y:1.01;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}@media (prefers-color-scheme: dark){.dark\:bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:bg-gray-800\/50{background-color:rgb(31 41 55 / 0.5)}.dark\:bg-red-800\/20{background-color:rgb(153 27 27 / 0.2)}.dark\:bg-dots-lighter{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E")}.dark\:bg-gradient-to-bl{background-image:linear-gradient(to bottom left, var(--tw-gradient-stops))}.dark\:stroke-gray-600{stroke:#4b5563}.dark\:text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:shadow-none{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.dark\:ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.dark\:ring-inset{--tw-ring-inset:inset}.dark\:ring-white\/5{--tw-ring-color:rgb(255 255 255 / 0.05)}.dark\:hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.group:hover .dark\:group-hover\:stroke-gray-400{stroke:#9ca3af}}@media (min-width: 640px){.sm\:fixed{position:fixed}.sm\:top-0{top:0px}.sm\:right-0{right:0px}.sm\:ml-0{margin-left:0px}.sm\:flex{display:flex}.sm\:items-center{align-items:center}.sm\:justify-center{justify-content:center}.sm\:justify-between{justify-content:space-between}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:gap-8{gap:2rem}.lg\:p-8{padding:2rem}}
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-            @if (Route::has('login'))
-                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                    @auth
-                        <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="max-w-7xl mx-auto p-6 lg:p-8">
-                <div class="flex justify-center">
-                    <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto bg-gray-100 dark:bg-gray-900">
-                        <path d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z" fill="#FF2D20"/>
-                    </svg>
-                </div>
-
-                <div class="mt-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                        <a href="https://laravel.com/docs" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Documentation</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-                                </p>
-                            </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+<body>
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+        <!-- Desktop sidebar -->
+        <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
+            <div class="py-4 text-gray-500 dark:text-gray-400">
+                <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+                    Windmill
+                </a>
+                <ul class="mt-6">
+                    <li class="relative px-6 py-3">
+                        <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                            aria-hidden="true"></span>
+                        <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                            href="index.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                </path>
                             </svg>
+                            <span class="ml-4">Dashboard</span>
                         </a>
-
-                        <a href="https://laracasts.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laracasts</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                </p>
-                            </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                    </li>
+                </ul>
+                <ul>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="forms.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                                </path>
                             </svg>
+                            <span class="ml-4">Forms</span>
                         </a>
-
-                        <a href="https://laravel-news.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laravel News</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                </p>
-                            </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="cards.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                </path>
                             </svg>
+                            <span class="ml-4">Cards</span>
                         </a>
-
-                        <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Forge</a>, <a href="https://vapor.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Vapor</a>, <a href="https://nova.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Nova</a>, and <a href="https://envoyer.io" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Telescope</a>, and more.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
-                        <div class="flex items-center gap-4">
-                            <a href="https://github.com/sponsors/taylorotwell" class="group inline-flex items-center hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="-mt-px mr-1 w-5 h-5 stroke-gray-400 dark:stroke-gray-600 group-hover:stroke-gray-600 dark:group-hover:stroke-gray-400">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="charts.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                            </svg>
+                            <span class="ml-4">Charts</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="buttons.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122">
+                                </path>
+                            </svg>
+                            <span class="ml-4">Buttons</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="modals.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <span class="ml-4">Modals</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="tables.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            <span class="ml-4">Tables</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <button
+                            class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            @click="togglePagesMenu" aria-haspopup="true">
+                            <span class="inline-flex items-center">
+                                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                                    </path>
                                 </svg>
-                                Sponsor
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </div>
+                                <span class="ml-4">Pages</span>
+                            </span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <template x-if="isPagesMenuOpen">
+                            <ul x-transition:enter="transition-all ease-in-out duration-300"
+                                x-transition:enter-start="opacity-25 max-h-0"
+                                x-transition:enter-end="opacity-100 max-h-xl"
+                                x-transition:leave="transition-all ease-in-out duration-300"
+                                x-transition:leave-start="opacity-100 max-h-xl"
+                                x-transition:leave-end="opacity-0 max-h-0"
+                                class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+                                aria-label="submenu">
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/login.html">Login</a>
+                                </li>
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/create-account.html">
+                                        Create account
+                                    </a>
+                                </li>
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/forgot-password.html">
+                                        Forgot password
+                                    </a>
+                                </li>
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/404.html">404</a>
+                                </li>
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/blank.html">Blank</a>
+                                </li>
+                            </ul>
+                        </template>
+                    </li>
+                </ul>
+                <div class="px-6 my-6">
+                    <button
+                        class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        Create account
+                        <span class="ml-2" aria-hidden="true">+</span>
+                    </button>
                 </div>
             </div>
+        </aside>
+        <!-- Mobile sidebar -->
+        <!-- Backdrop -->
+        <div x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in-out duration-150" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"></div>
+        <aside class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
+            x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"
+            x-transition:enter-start="opacity-0 transform -translate-x-20" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in-out duration-150" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0 transform -translate-x-20" @click.away="closeSideMenu"
+            @keydown.escape="closeSideMenu">
+            <div class="py-4 text-gray-500 dark:text-gray-400">
+                <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+                    Windmill
+                </a>
+                <ul class="mt-6">
+                    <li class="relative px-6 py-3">
+                        <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                            aria-hidden="true"></span>
+                        <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                            href="index.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                </path>
+                            </svg>
+                            <span class="ml-4">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="forms.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                                </path>
+                            </svg>
+                            <span class="ml-4">Forms</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="cards.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                </path>
+                            </svg>
+                            <span class="ml-4">Cards</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="charts.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                            </svg>
+                            <span class="ml-4">Charts</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="buttons.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122">
+                                </path>
+                            </svg>
+                            <span class="ml-4">Buttons</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="modals.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <span class="ml-4">Modals</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="tables.html">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            <span class="ml-4">Tables</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <button
+                            class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            @click="togglePagesMenu" aria-haspopup="true">
+                            <span class="inline-flex items-center">
+                                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                                    </path>
+                                </svg>
+                                <span class="ml-4">Pages</span>
+                            </span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <template x-if="isPagesMenuOpen">
+                            <ul x-transition:enter="transition-all ease-in-out duration-300"
+                                x-transition:enter-start="opacity-25 max-h-0"
+                                x-transition:enter-end="opacity-100 max-h-xl"
+                                x-transition:leave="transition-all ease-in-out duration-300"
+                                x-transition:leave-start="opacity-100 max-h-xl"
+                                x-transition:leave-end="opacity-0 max-h-0"
+                                class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+                                aria-label="submenu">
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/login.html">Login</a>
+                                </li>
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/create-account.html">
+                                        Create account
+                                    </a>
+                                </li>
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/forgot-password.html">
+                                        Forgot password
+                                    </a>
+                                </li>
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/404.html">404</a>
+                                </li>
+                                <li
+                                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                    <a class="w-full" href="pages/blank.html">Blank</a>
+                                </li>
+                            </ul>
+                        </template>
+                    </li>
+                </ul>
+                <div class="px-6 my-6">
+                    <button
+                        class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        Create account
+                        <span class="ml-2" aria-hidden="true">+</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+        <div class="flex flex-col flex-1 w-full">
+            <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+                <div
+                    class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+                    <!-- Mobile hamburger -->
+                    <button class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
+                        @click="toggleSideMenu" aria-label="Menu">
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <!-- Search input -->
+                    <div class="flex justify-center flex-1 lg:mr-32">
+                        <div class="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
+                            <div class="absolute inset-y-0 flex items-center pl-2">
+                                <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <input
+                                class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
+                                type="text" placeholder="Search for projects" aria-label="Search" />
+                        </div>
+                    </div>
+                    <ul class="flex items-center flex-shrink-0 space-x-6">
+                        <!-- Theme toggler -->
+                        <li class="flex">
+                            <button class="rounded-md focus:outline-none focus:shadow-outline-purple"
+                                @click="toggleTheme" aria-label="Toggle color mode">
+                                <template x-if="!dark">
+                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z">
+                                        </path>
+                                    </svg>
+                                </template>
+                                <template x-if="dark">
+                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </template>
+                            </button>
+                        </li>
+                        <!-- Notifications menu -->
+                        <li class="relative">
+                            <button
+                                class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+                                @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu"
+                                aria-label="Notifications" aria-haspopup="true">
+                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
+                                    </path>
+                                </svg>
+                                <!-- Notification badge -->
+                                <span aria-hidden="true"
+                                    class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
+                            </button>
+                            <template x-if="isNotificationsMenuOpen">
+                                <ul x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                                    @click.away="closeNotificationsMenu" @keydown.escape="closeNotificationsMenu"
+                                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700">
+                                    <li class="flex">
+                                        <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                            href="#">
+                                            <span>Messages</span>
+                                            <span
+                                                class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
+                                                13
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="flex">
+                                        <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                            href="#">
+                                            <span>Sales</span>
+                                            <span
+                                                class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
+                                                2
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="flex">
+                                        <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                            href="#">
+                                            <span>Alerts</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </template>
+                        </li>
+                        <!-- Profile menu -->
+                        <li class="relative">
+                            <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
+                                @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account"
+                                aria-haspopup="true">
+                                <img class="object-cover w-8 h-8 rounded-full"
+                                    src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
+                                    alt="" aria-hidden="true" />
+                            </button>
+                            <template x-if="isProfileMenuOpen">
+                                <ul x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                                    @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
+                                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
+                                    aria-label="submenu">
+                                    <li class="flex">
+                                        <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                            href="#">
+                                            <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path
+                                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                                </path>
+                                            </svg>
+                                            <span>Profile</span>
+                                        </a>
+                                    </li>
+                                    <li class="flex">
+                                        <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                            href="#">
+                                            <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path
+                                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                                                </path>
+                                                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            </svg>
+                                            <span>Settings</span>
+                                        </a>
+                                    </li>
+                                    <li class="flex">
+                                        <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                            href="#">
+                                            <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path
+                                                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                                                </path>
+                                            </svg>
+                                            <span>Log out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </template>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <main class="h-full overflow-y-auto">
+                <div class="container px-6 mx-auto grid">
+                    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                        Dashboard
+                    </h2>
+                    <!-- CTA -->
+                    <a class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
+                        href="https://github.com/estevanmaito/windmill-dashboard">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <span>Star this project on GitHub</span>
+                        </div>
+                        <span>View more &RightArrow;</span>
+                    </a>
+                    <!-- Cards -->
+                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+                        <!-- Card -->
+                        <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                            <div
+                                class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                    Total clients
+                                </p>
+                                <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                                    6389
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                        <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                            <div
+                                class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                    Account balance
+                                </p>
+                                <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                                    $ 46,760.89
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                        <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                            <div
+                                class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                    New sales
+                                </p>
+                                <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                                    376
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                        <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                            <div
+                                class="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                    Pending contacts
+                                </p>
+                                <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                                    35
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Table -->
+                    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                        <div class="w-full overflow-x-auto">
+                            <table class="w-full whitespace-no-wrap">
+                                <thead>
+                                    <tr
+                                        class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                        <th class="px-4 py-3">Client</th>
+                                        <th class="px-4 py-3">Amount</th>
+                                        <th class="px-4 py-3">Status</th>
+                                        <th class="px-4 py-3">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Hans Burger</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        10x Developer
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 863.45
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                Approved
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&facepad=3&fit=facearea&s=707b9c33066bf8808c934c8ab394dff6"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Jolina Angelie</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        Unemployed
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 369.95
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                                                Pending
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Sarah Curry</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        Designer
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 86.00
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+                                                Denied
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/photo-1551006917-3b4c078c47c9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Rulia Joberts</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        Actress
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 1276.45
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                Approved
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/photo-1546456073-6712f79251bb?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Wenzel Dashington</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        Actor
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 863.45
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+                                                Expired
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/photo-1502720705749-871143f0e671?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=b8377ca9f985d80264279f277f3a67f5"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Dave Li</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        Influencer
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 863.45
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                Approved
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Maria Ramovic</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        Runner
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 863.45
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                Approved
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/photo-1566411520896-01e7ca4726af?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Hitney Wouston</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        Singer
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 863.45
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                Approved
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <!-- Avatar with inset shadow -->
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full"
+                                                        src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                                                        alt="" loading="lazy" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner"
+                                                        aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Hans Burger</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        10x Developer
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            $ 863.45
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                Approved
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            6/10/2020
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+                            <span class="flex items-center col-span-3">
+                                Showing 21-30 of 100
+                            </span>
+                            <span class="col-span-2"></span>
+                            <!-- Pagination -->
+                            <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+                                <nav aria-label="Table navigation">
+                                    <ul class="inline-flex items-center">
+                                        <li>
+                                            <button
+                                                class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                                                aria-label="Previous">
+                                                <svg aria-hidden="true" class="w-4 h-4 fill-current"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                                1
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                                2
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                                3
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                                4
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <span class="px-3 py-1">...</span>
+                                        </li>
+                                        <li>
+                                            <button
+                                                class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                                8
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                                9
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
+                                                aria-label="Next">
+                                                <svg class="w-4 h-4 fill-current" aria-hidden="true"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                        Charts
+                    </h2>
+                    <div class="grid gap-6 mb-8 md:grid-cols-2">
+                        <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                            <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+                                Revenue
+                            </h4>
+                            <canvas id="pie"></canvas>
+                            <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
+                                <!-- Chart legend -->
+                                <div class="flex items-center">
+                                    <span class="inline-block w-3 h-3 mr-1 bg-blue-500 rounded-full"></span>
+                                    <span>Shirts</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
+                                    <span>Shoes</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                                    <span>Bags</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                            <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+                                Traffic
+                            </h4>
+                            <canvas id="line"></canvas>
+                            <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
+                                <!-- Chart legend -->
+                                <div class="flex items-center">
+                                    <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
+                                    <span>Organic</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                                    <span>Paid</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
