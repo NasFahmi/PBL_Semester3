@@ -267,7 +267,7 @@
     </div>
     
     {{-- section 8 -- footer --}}  
-    <div class="bg-gray-800 mt-20 ">
+    <div class="bg-gray-800 mt-20">
         <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
         <div class="mx-auto max-w-screen-lg flex justify-center items-start">
             <div  class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col   md:px-10 md:flex-row md:gap-8  lg:mt-0 lg:items-stretch gap-8">
@@ -330,5 +330,6 @@
         }
         
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
     
 @endsection
