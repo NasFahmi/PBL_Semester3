@@ -2,11 +2,11 @@
 <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
    <div class="py-4 text-gray-500 dark:text-gray-400">
       <div class="flex justify-start items-center">
-         <a href="" class="ml-6">
+         <a href="" class="ml-6 w-10 h-auto">
             <img src="{{ asset('assets/images/logo.png') }}" alt="">
          </a>
          <div>
-            <h1 class="text-2xl font-bold text-slate-800">PawonKOE</h1>
+            <h1 class="text-lg font-bold text-slate-800">PawonKOE</h1>
          </div>
       </div>
       <ul class="mt-6">
