@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -20,9 +21,7 @@ Route::get('/welcome', function () {
    return view('welcome');
 });
 
-Route::get('/admin/dashboard', function () {
-   return view('pages.admin.dashboard');
-});
+Route::get('/admin/dashboard', [DashboardController::class,'indexDashboard'])->name('admin.dashboard');
 Route::get('/login',[AuthController::class, 'loginview'])->name('loginview');
 Route::get('/', [HomeController::class, 'landingpage'])->name('landing_page');
 Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');
