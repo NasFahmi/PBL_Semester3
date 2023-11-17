@@ -191,36 +191,48 @@
                 </div>
             </div>
             <div class="w-10/12 md:w-1/2 flex justify-center items-center">
-                <div class="carousel w-11/12 h-56 lg:h-80 rounded-2xl">
-                    <div id="slide1" class="carousel-item relative w-full ">
-                      <img src="{{asset('assets/images/product/crispy savour.jpg')}}" class="w-full object-cover" />
-                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a href="#slide4" class="btn btn-circle">❮</a> 
-                        <a href="#slide2" class="btn btn-circle">❯</a>
-                      </div>
-                    </div> 
-                    <div id="slide2" class="carousel-item relative w-full">
-                      <img src="{{asset('assets/images/product/sambel.jpg')}}" class="w-full object-cover" />
-                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a href="#slide1" onclick="preventDefaultAndNavigate('#slide1');" class="btn btn-circle">❮</a> 
-                        <a href="#slide3" onclick="preventDefaultAndNavigate('#slide3'); class="btn btn-circle">❯</a>
-                      </div>
-                    </div> 
-                    <div id="slide3" class="carousel-item relative w-full">
-                      <img src="{{asset('assets/images/product/squidy_crackers.jpg')}}" class="w-full object-cover" />
-                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a href="#slide2" onclick="preventDefaultAndNavigate('#slide2'); class="btn btn-circle">❮</a> 
-                        <a href="#slide4" onclick="preventDefaultAndNavigate('#slide4'); class="btn btn-circle">❯</a>
-                      </div>
-                    </div> 
-                    <div id="slide4" class="carousel-item relative w-full">
-                      <img src="{{asset('assets/images/product/rambak.jpg')}}" class="w-full object-cover" />
-                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a href="#slide3" onclick="preventDefaultAndNavigate('#slide3'); class="btn btn-circle">❮</a> 
-                        <a href="#slide1" onclick="preventDefaultAndNavigate('#slide1'); class="btn btn-circle">❯</a>
-                      </div>
-                    </div>
-                  </div>
+                
+
+<div id="controls-carousel" class="relative w-full" data-carousel="static">
+    <!-- Carousel wrapper -->
+    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+         <!-- Item 1 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="{{asset('assets/images/product/crispy savour.jpg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+        <!-- Item 2 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+            <img src="{{asset('assets/images/product/rambak.jpg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+        <!-- Item 3 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="{{asset('assets/images/product/sambel.jpg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+        <!-- Item 4 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="{{asset('assets/images/product/squidy_crackers.jpg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+    
+    </div>
+    <!-- Slider controls -->
+    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+            </svg>
+            <span class="sr-only">Previous</span>
+        </span>
+    </button>
+    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            <span class="sr-only">Next</span>
+        </span>
+    </button>
+</div>
+
             </div>
         </div>
     </div>
@@ -255,7 +267,7 @@
     </div>
     
     {{-- section 8 -- footer --}}  
-    <div class="bg-gray-800 mt-20 pb-10">
+    <div class="bg-gray-800 mt-20 ">
         <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
         <div class="mx-auto max-w-screen-lg flex justify-center items-start">
             <div  class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col   md:px-10 md:flex-row md:gap-8  lg:mt-0 lg:items-stretch gap-8">
@@ -316,6 +328,8 @@
             event.preventDefault();
             window.location.href = target;
         }
+        
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
     
 @endsection
