@@ -229,8 +229,8 @@
     <div class="">
         <h1 class="text-2xl text-center font-semibold mb-4 mt-20 lg:text-3xl">Tim Kami</h1>
         <div id="visi-misi" class="mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-16 md:px-10 md:flex-row-reverse md:gap-8 lg:items-stretch md:justify-around">
-            <div class="grid grid-cols-1 md:grid-cols-2 justify-center items-start">
-                <div class="flex justify-start items-center flex-col ">
+            <div class="grid grid-cols-1 md:grid-cols-2 justify-center items-start gap-8 md:gap-0">
+                <div class="flex justify-start items-center flex-col  ">
                     <div class="flex justify-center items-center">
                         <img src="{{asset('assets/images/jp.png')}}" alt="" srcset="" class="w-1/4">
                     </div>
