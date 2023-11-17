@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>@yield('title')</title>
-    
+    @extends('partials.head')
 </head>
 <body>
     <main class="mx-auto scroll-smooth ">
