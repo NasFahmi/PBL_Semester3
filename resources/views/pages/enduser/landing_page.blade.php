@@ -195,7 +195,7 @@
 
 <div id="controls-carousel" class="relative w-full" data-carousel="static">
     <!-- Carousel wrapper -->
-    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+    <div id="produk" class="relative h-56 overflow-hidden rounded-lg md:h-96">
          <!-- Item 1 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
             <img src="{{asset('assets/images/product/crispy savour.jpg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
@@ -238,7 +238,7 @@
     </div>
     {{-- section 7 --}}
 
-    <div class="">
+    <div class="" id="kontak">
         <h1 class="text-2xl text-center font-semibold mb-4 mt-20 lg:text-3xl">Tim Kami</h1>
         <div id="visi-misi" class="mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-16 md:px-10 md:flex-row-reverse md:gap-8 lg:items-stretch md:justify-around">
             <div class="grid grid-cols-1 md:grid-cols-2 justify-center items-start gap-8 md:gap-0">
