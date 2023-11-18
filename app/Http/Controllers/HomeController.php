@@ -16,5 +16,9 @@ class HomeController extends Controller
     public function katalog(){
         return view('pages.enduser.katalog');
     }
+
+    public function detailProduct($id){
+        return view('pages.enduser.detailproduct');
+    }
     
 }
