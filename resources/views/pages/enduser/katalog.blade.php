@@ -97,4 +97,60 @@
         </div>
     </div>
 </div>
+<div class="bg-gray-800 mt-20">
+    <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
+    <div class="mx-auto max-w-screen-lg flex justify-center items-start">
+        <div  class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col   md:px-10 md:flex-row md:gap-8  lg:mt-0 lg:items-stretch gap-8">
+            <div class="ml-4 lg:ml-0 md:w-full">
+                <div class=" md:w-full">
+                    <h1 class="text-white text-xl md:text-lg mb-2">PAWONKOE</h1>
+                    <h1 class="text-white text-base md:text-sm mb-4">PAWONKOE.BWI</h1>
+                    <p class="text-white md:text-sm">Kami juga terus mengupdate informasi mengenai perusahaan melalui media sosial, untuk informasi terkini anda dapat mengikuti media sosial kami.</p>
+                </div>
+                <div class="flex justify-start items-center mt-8 gap-2">
+                    <div class="text-white w-6 h-6">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 6H12.01M9 20L3 17V4L5 5M9 20L15 17M9 20V14M15 17L21 20V7L19 6M15 17V14M15 6.2C15 7.96731 13.5 9.4 12 11C10.5 9.4 9 7.96731 9 6.2C9 4.43269 10.3431 3 12 3C13.6569 3 15 4.43269 15 6.2Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <a href="https://maps.app.goo.gl/LRtRixYMKA1tiok46">
+                        <p class="text-white">Banyuwangi, Jawa Timur</p>
+                    </a>
+                </div>
+                <div class="flex justify-start items-center mt-4 gap-2">
+                    <div class="shopee w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/shopee.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                    <div class="instagram w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/ig.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                    <div class="wa w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/wa.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                    <div class="email w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/email.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                    <div class="fb w-10 h-10">
+                        <a href="">
+                            <img src="{{asset('assets/images/fb.png')}}" alt="" srcset="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:block md:w-1/2 pr-10">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d761.0453252011717!2d114.14695737041085!3d-8.32120198595234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd15550498a1e55%3A0x616bafa860db82bb!2sProdusen%20Rambak%20Cumi%20dan%20aneka%20samval%20Pawon%20koe%20Banyuwangi!5e0!3m2!1sid!2sid!4v1700216465014!5m2!1sid!2sid" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded-2xl w-[300px] h-[200px] lg:w-[380px] lg:h-[280px] ">
+        </div>
+        </iframe>
+    </div>
+</div>
+<div class="bg-gray-900 flex justify-center items-center py-2 mt-20">
+    <h1 class="text-white">@2023 PawonKoe. All right reserved</h1>
+</div>
 @endsection
