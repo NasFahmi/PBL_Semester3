@@ -9,7 +9,7 @@
     @extends('partials.head')
 </head>
 <body>
-    <main class="mx-auto scroll-smooth ">
+    <main class="mx-auto scroll-smooth overflow-hidden">
         @yield('content')
     </main>
 </body>
