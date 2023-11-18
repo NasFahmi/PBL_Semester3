@@ -17,11 +17,11 @@ use App\Http\Controllers\HomeController;
 */
 
 
-Route::get('/welcome', function () {
-   return view('welcome');
-});
-
-Route::get('/admin/dashboard', [DashboardController::class,'indexDashboard'])->name('admin.dashboard');
-Route::get('/login',[AuthController::class, 'loginview'])->name('loginview');
+// enduser
 Route::get('/', [HomeController::class, 'landingpage'])->name('landing_page');
 Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');
+
+// admin
+Route::get('/login',[AuthController::class, 'loginview'])->name('loginview');
+Route::post('/login',[AuthController::class, 'Authlogin'])->name('auth.login');
+Route::get('/admin/dashboard', [DashboardController::class,'indexDashboard'])->name('admin.dashboard');
