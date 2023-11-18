@@ -53,7 +53,7 @@
     <h1 class="text-3xl font-semibold text-center mb-10">Produk Kami</h1>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center">
         <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
-            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/crispy savour.jpg')}}" alt="Shoes"/></figure>
+            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/crispy savour.jpg')}}" alt="Shoes" class="h-full"/></figure>
             <div class="card-body">
               <h2 class="card-title">Shoes!</h2>
               <p>If a dog chews shoes whose shoes does he choose?</p>
@@ -64,7 +64,7 @@
         </div>
 
         <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
-            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/rambak.jpg')}}" alt="Shoes"/></figure>
+            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/rambak.jpg')}}" alt="Shoes" class="h-full"/></figure>
             <div class="card-body">
               <h2 class="card-title">Shoes!</h2>
               <p>If a dog chews shoes whose shoes does he choose?</p>
@@ -75,7 +75,7 @@
         </div>
 
         <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
-            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/sambel.jpg')}}" alt="Shoes"/></figure>
+            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/sambel.jpg')}}" alt="Shoes" class="h-full"/></figure>
             <div class="card-body">
               <h2 class="card-title">Shoes!</h2>
               <p>If a dog chews shoes whose shoes does he choose?</p>
@@ -86,7 +86,7 @@
         </div>
 
         <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
-            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/squidy_crackers.jpg')}}" alt="Shoes"/></figure>
+            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/squidy_crackers.jpg')}}" alt="Shoes" class="h-full"/></figure>
             <div class="card-body">
               <h2 class="card-title">Shoes!</h2>
               <p>If a dog chews shoes whose shoes does he choose?</p>
