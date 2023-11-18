@@ -20,8 +20,14 @@ use App\Http\Controllers\HomeController;
 // enduser
 Route::get('/', [HomeController::class, 'landingpage'])->name('landing_page');
 Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');
+Route::get('/login', [AuthController::class, 'loginview'])->name('loginview');
+Route::post('/login', [AuthController::class, 'Authlogin'])->name('login');
 
 // admin
-Route::get('/login',[AuthController::class, 'loginview'])->name('loginview');
-Route::post('/login',[AuthController::class, 'Authlogin'])->name('auth.login');
-Route::get('/admin/dashboard', [DashboardController::class,'indexDashboard'])->name('admin.dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    // Rute-rute yang memerlukan autentikasi di sini
+    Route::get('/admin/dashboard', [DashboardController::class, 'indexDashboard'])->name('admin.dashboard');
+    Route::get('/admin/dashboard/logout',[AuthController::class, 'logout'])->name('logout') ;
+    // Tambahkan rute lain yang memerlukan autentikasi
+});
