@@ -57,8 +57,11 @@
             <div class="card-body">
               <h2 class="card-title">Shoes!</h2>
               <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
+              <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
+                <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp 15.000</p>
+                  <div class="card-actions justify-end w-full md:w-auto">
+                    <a href="" class="btn btn-primary w-full md:w-auto">Details</a>
+                  </div>
               </div>
             </div>
         </div>
@@ -68,8 +71,11 @@
             <div class="card-body">
               <h2 class="card-title">Shoes!</h2>
               <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
+              <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
+                <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp 15.000</p>
+                  <div class="card-actions justify-end w-full md:w-auto">
+                    <a href="" class="btn btn-primary w-full md:w-auto">Details</a>
+                  </div>
               </div>
             </div>
         </div>
@@ -79,19 +85,25 @@
             <div class="card-body">
               <h2 class="card-title">Shoes!</h2>
               <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
+              <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
+                <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp 15.000</p>
+                <div class="card-actions justify-end w-full md:w-auto">
+                    <a href="" class="btn btn-primary w-full md:w-auto">Details</a>
+                </div>
               </div>
             </div>
         </div>
 
         <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
-            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/squidy_crackers.jpg')}}" alt="Shoes" class="h-auto w-full"/></figure>
+            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/squidy_crackers.jpg savour.jpg')}}" alt="Shoes" class="h-auto w-full"/></figure>
             <div class="card-body">
               <h2 class="card-title">Shoes!</h2>
               <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
+              <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
+                <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp 15.000</p>
+                  <div class="card-actions justify-end w-full md:w-auto">
+                    <a href="" class="btn btn-primary w-full md:w-auto">Details</a>
+                  </div>
               </div>
             </div>
         </div>

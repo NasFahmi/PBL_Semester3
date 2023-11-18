@@ -23,6 +23,9 @@ Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');
 Route::get('/login', [AuthController::class, 'loginview'])->name('loginview');
 Route::post('/login', [AuthController::class, 'Authlogin'])->name('login');
 
+Route::get('/katalog/product/{id}',[HomeController::class,'detailProduct'])->name('detail_product');
+
+
 // admin
 
 Route::middleware(['auth'])->group(function () {
