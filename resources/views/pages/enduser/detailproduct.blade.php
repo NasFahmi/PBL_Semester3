@@ -1,5 +1,5 @@
 @extends('layout.pages')
-@section('title','ini judul')
+@section('title',$data->nama_product)
 @section('content')
     {{-- section 1 --}}
     <div class="bg-gray-50">
@@ -48,31 +48,20 @@
             <div id="default-carousel" class="relative w-full md:w-1/2" data-carousel="slide">
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                    <!-- Item 1 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{{asset('assets/images/product/rambak.jpg')}}" class="absolute z-10 block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{{asset('assets/images/product/crispy savour.jpg')}}" class="absolute z-10 block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{{asset('assets/images/product/sambel.jpg')}}" class="absolute z-10 block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 4 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{{asset('assets/images/product/squidy_crackers.jpg')}}" class="absolute z-10 block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
+                    @foreach ($data->fotos as $index => $foto)
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <img src="{{ asset('assets/images/product/' . $foto->foto) }}" class="absolute z-10 block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        </div>
+                    @endforeach
                 </div>
+            
                 <!-- Slider indicators -->
                 <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
+                    @foreach ($data->fotos as $index => $foto)
+                        <button type="button" class="w-3 h-3 rounded-full" aria-current="{{ $index === 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}" data-carousel-slide-to="{{ $index }}"></button>
+                    @endforeach
                 </div>
+            
                 <!-- Slider controls -->
                 <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
                     <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
@@ -82,6 +71,7 @@
                         <span class="sr-only">Previous</span>
                     </span>
                 </button>
+            
                 <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
                     <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                         <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -91,26 +81,35 @@
                     </span>
                 </button>
             </div>
+            
 
     
             <div class="w-full md:w-1/2">
-                <h1 class="text-3xl font-semibold mb-2">Nama Makanan Lorem ipsum dolor sit amet.</h1>
-                <h1 class="text-2xl font-semibold mb-1">Rp 15.000- Rp 30.000</h1>
-                <p class="text-lg">Lorem ini Deksripsi Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo maiores officia necessitatibus officiis et repellendus optio, consequuntur doloremque repudiandae eos placeat, minima eius quaerat laboriosam. Ullam unde velit delectus a!</p>
-                <a href="#" class="block w-full md:w-fit px-8 py-2 mt-4 text-sm font-medium text-center text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700">
+                <h1 class="text-3xl font-semibold mb-2">{{$data->nama_product}}</h1>
+                <h1 class="text-2xl font-semibold mb-1">{{$data->harga_rendah}} - {{$data->harga_tinggi}}</h1>
+                <p class="text-lg">{{$data->deskripsi}}</p>
+
+                <h1>Varian : </h1>
+                @foreach ($data->varians as $varian )
+                    <li class="text-lg">{{$varian->jenis_varian}}</li>
+                @endforeach
+                <p>{{$data->berat_jenis}}</p>
+                <h1>Berat Jenis :</h1>
+                <li class="text-lg">{{$berat_jenis->berat_jenis}}</li>
+
+                <a href="{{$data->link_shopee}}" class="block w-full md:w-fit px-8 py-2 mt-4 text-sm font-medium text-center text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700">
                     <div class="flex justify-center items-center">
                         <img src="{{asset('assets/images/shopee.png')}}" alt="Shopee Logo" class="w-8 h-8 mr-2">
                         <span>Shopee</span>
                     </div>
                 </a>
-                
             </div>
     
         </div>
     </div>
     <div class="mt-10 px-4 md:px-20">
         <h1 class="text-3xl">Product Spesifikasi</h1>
-        <p class="text-lg">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore, maiores.</p>
+        <p class="text-lg">{{$data->spesifikasi_product}}</p>
     </div>
     <div class="bg-gray-800 mt-20">
         <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>

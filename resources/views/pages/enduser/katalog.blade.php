@@ -49,23 +49,28 @@
         </div>
     </div>
 </div>
+{{-- <p>{{$data}}</p> --}}
 <div class=" mx-auto max-w-screen-xl px-4 mt-20 md:px-10 flex justify-center items-center flex-col ">
     <h1 class="text-3xl font-semibold text-center mb-10">Produk Kami</h1>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center">
+        @foreach ($data as $items)     
         <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
-            <figure  class="w-full h-96"><img src="{{asset('assets/images/product/crispy savour.jpg')}}" alt="Shoes" class="h-auto w-full"/></figure>
+            <figure  class="w-full h-96">
+                <img src="{{ asset('assets/images/product/'.$items->fotos->first()->foto) }}" alt="Shoes" class="h-auto w-full"/>
+            </figure>
             <div class="card-body">
-              <h2 class="card-title">Shoes!</h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
+              <h2 class="card-title">{{$items->nama_product}}</h2>
+              <p class="line-clamp-2">{{$items->deskripsi}}</p>
               <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
-                <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp 15.000</p>
+                <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp. {{ number_format($items->harga_rendah, 0, ',', '.') }}</p>
                   <div class="card-actions justify-end w-full md:w-auto">
-                    <a href="" class="btn btn-primary w-full md:w-auto">Details</a>
+                    <a href="{{route('detail_product',$items->id)}}" class="btn btn-primary w-full md:w-auto">Details</a>
                   </div>
               </div>
             </div>
         </div>
-
+        @endforeach
+{{-- 
         <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
             <figure  class="w-full h-96"><img src="{{asset('assets/images/product/rambak.jpg')}}" alt="Shoes" class="h-auto w-full"/></figure>
             <div class="card-body">
@@ -106,7 +111,7 @@
                   </div>
               </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 <div class="bg-gray-800 mt-20">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,11 +15,14 @@ class HomeController extends Controller
     
 
     public function katalog(){
-        return view('pages.enduser.katalog');
+        $data = Product::with(['fotos', 'varians', 'beratJenis'])->get();
+        return view('pages.enduser.katalog',compact('data'));
     }
 
     public function detailProduct($id){
-        return view('pages.enduser.detailproduct');
+        $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
+        $berat_jenis = $data->beratJenis;
+        return view('pages.enduser.detailproduct',compact('data','berat_jenis'));
     }
     
 }
