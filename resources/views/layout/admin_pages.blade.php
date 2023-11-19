@@ -7,10 +7,26 @@
    <title>@yield('title')</title>
    <link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
    @include('partials.link')
+   <style>
+      /* Add this in your CSS or within a style tag in your HTML */
+      .costumscroll::-webkit-scrollbar {
+         width: 8px; /* Set the width of the scrollbar */
+      }
+
+      .costumscroll::-webkit-scrollbar-thumb {
+         background-color: #cbd5e1; /* Set the color of the thumb (the draggable part) */
+         border-radius: 8px; /* Set the border-radius of the thumb */
+      }
+
+      .costumscroll::-webkit-scrollbar-track {
+         background-color: #f1f1f1; /* Set the color of the track (the non-draggable part) */
+      }
+
+   </style>
 </head>
 
 <body>
-   <div class="flex h-screen bg-gray-100 " :class="{ 'overflow-hidden': isSideMenuOpen }">
+   <div class="flex  h-screen bg-gray-100 " :class="{ 'overflow-hidden': isSideMenuOpen }">
       @include('partials.sidenav')
       <div class="flex flex-col flex-1 w-full">
          @include('partials.header')
@@ -19,6 +35,7 @@
          </main>
       </div>
    </div>
+   @extends('partials.link')
 </body>
 
 </html>

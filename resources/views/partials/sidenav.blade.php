@@ -3,10 +3,10 @@
    <div class="py-4 text-gray-500">
       <div class="flex justify-start items-center">
          <a href="{{route('landing_page')}}" class="ml-6">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="" class="w-10 h-auto">
          </a>
          <div>
-            <h1 class="text-2xl font-bold text-slate-800">PawonKOE</h1>
+            <h1 class="text-lg font-bold text-slate-800">PAWONKOE</h1>
          </div>
       </div>
       <ul class="mt-6">
