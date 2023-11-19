@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Preorder;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PreorderSeeder extends Seeder
 {
@@ -12,6 +14,13 @@ class PreorderSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Preorder::insert([
+            'is_dp'=>true,
+            'down_payment'=>50000,
+            'tanggal_pembayaran_preoreder'=>Carbon::now(),
+            'tanggal_pembayaran_down_payment'=>Carbon::now(),
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
     }
 }

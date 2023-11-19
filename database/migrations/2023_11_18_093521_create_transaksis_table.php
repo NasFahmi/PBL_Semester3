@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('pembeli_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('methode_pembayaran_id');
-            $table->integer('jumlah');
-            $table->integer('total_harga');
+            $table->bigInteger('jumlah');
+            $table->bigInteger('total_harga');
             $table->string('keterangan', 255)->nullable();
             $table->boolean('is_Preorder');
             $table->unsignedBigInteger('Preorder_id');

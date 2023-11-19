@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('preorders', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_DP');
-            $table->integer('down_payment')->nullable(true);
+            $table->bigInteger('down_payment')->nullable(true);
             $table->date('tanggal_pembayaran_preoreder');
             $table->date('tanggal_pembayaran_down_payment');
             $table->timestamps();

@@ -22,7 +22,6 @@ class akunSeeder extends Seeder
             "link_wa" => "disini",
             "link_ig" => "disani",
             "alamat" => "sempu"
-
         ]);
     }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_product', 100);
             $table->string('harga_rendah', 100);
+            $table->string('harga_tinggi', 100);
             $table->string('deskripsi', 255);
             $table->string('link_shopee', 100);
             $table->string('stok', 100);
