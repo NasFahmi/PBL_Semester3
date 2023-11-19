@@ -29,6 +29,9 @@ class Product extends Model
 
     public function beratJenis()
     {
-        return $this->hasOne(BeratJenis::class);
+        return $this->hasMany(BeratJenis::class);
+    }
+    public function transaksis(){
+        return $this->hasOne(Transaksi::class);
     }
 }

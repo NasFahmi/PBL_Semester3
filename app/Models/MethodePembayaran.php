@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class MethodePembayaran extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'methode_pembayaran'
+    ];
+    public function transaksis(){
+        return $this->hasOne(Transaksi::class);
+    }
 }

@@ -2,6 +2,7 @@
 @section('title', 'Admin Pawonkoe')
 @section('content')
 <div class="container  px-6 pb-6 mx-auto grid">
+
     <h2 class="my-6 text-2xl font-semibold text-gray-700 ">
         Dashboard
     </h2>
@@ -21,7 +22,7 @@
                     Jumlah Order
                 </p>
                 <p class="text-lg font-semibold text-gray-700 ">
-                    6389
+                    {{$dataJumlahOrder}}
                 </p>
             </div>
         </div>
@@ -39,7 +40,7 @@
                     Jumlah Pendapatan
                 </p>
                 <p class="text-lg font-semibold text-gray-700 ">
-                    Rp2.500.000
+                    {{$totalPendapatan}}
                 </p>
             </div>
         </div>
@@ -57,7 +58,7 @@
                     Jumlah Produk Terjual
                 </p>
                 <p class="text-lg font-semibold text-gray-700 ">
-                    376
+                    {{$totalProductTerjual}}
                 </p>
             </div>
         </div>
@@ -75,7 +76,7 @@
                     Jumlah Preorder
                 </p>
                 <p class="text-lg font-semibold text-gray-700 ">
-                    4
+                    {{$totalPreorder}}
                 </p>
             </div>
         </div>

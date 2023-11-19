@@ -20,8 +20,8 @@ return new class extends Migration
             $table->bigInteger('jumlah');
             $table->bigInteger('total_harga');
             $table->string('keterangan', 255)->nullable();
-            $table->boolean('is_Preorder');
-            $table->unsignedBigInteger('Preorder_id');
+            $table->boolean('is_Preorder')->nullable();
+            $table->unsignedBigInteger('Preorder_id')->nullable();
             $table->boolean('is_complete');
             $table->timestamps();
 
