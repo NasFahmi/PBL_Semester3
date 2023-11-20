@@ -95,7 +95,9 @@
                 @endforeach
                 <p>{{$data->berat_jenis}}</p>
                 <h1>Berat Jenis :</h1>
-                <li class="text-lg">{{$berat_jenis->berat_jenis}}</li>
+                @foreach ( $berat_jenis as $items )
+                    <li class="text-lg">{{$items->berat_jenis}}</li>
+                @endforeach
 
                 <a href="{{$data->link_shopee}}" class="block w-full md:w-fit px-8 py-2 mt-4 text-sm font-medium text-center text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700">
                     <div class="flex justify-center items-center">
