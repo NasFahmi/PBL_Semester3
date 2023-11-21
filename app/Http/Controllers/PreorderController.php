@@ -13,7 +13,7 @@ class PreorderController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.admin.preorder.index');
     }
 
     /**
