@@ -76,18 +76,12 @@ class ProductController extends Controller
         $request->validate([
             'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-        $images = [];
-            foreach ($request->file('image') as $file) {
-                $extension = $file->getClientOriginalExtension();
-                $filename = time() . '_' . uniqid() . '.' . $extension;
-                $path = $file->storeAs('images/product', $filename);
-                $images[] = $path;
-            }
+        
         // dd($images);
         
-        DB::beginTransaction();
-
+        
         try {
+            DB::beginTransaction();
             $productData = $request->session()->get('product_data');
             $product = Product::create($productData);
             $productID = $product->id;
@@ -105,7 +99,13 @@ class ProductController extends Controller
             ]);
 
             // Proses setiap file yang diunggah
-
+            $images = [];
+            foreach ($request->file('image') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '_' . uniqid() . '.' . $extension;
+                $path = $file->storeAs('images/product', $filename);
+                $images[] = $path;
+            }
             // Simpan informasi gambar ke dalam tabel Foto
             Foto::create([
                 'nama' => json_encode($images),
