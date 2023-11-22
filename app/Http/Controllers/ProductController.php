@@ -47,7 +47,7 @@ class ProductController extends Controller
         //     'stok' => 'required',
         //     'spesifikasi_product' => 'required',
 
-        ]);
+        // ]);
         $request->session()->put('product_data', [
             'nama_product' => $request->input('nama_product'),
             'harga_rendah' => $request->input('harga_rendah'),
