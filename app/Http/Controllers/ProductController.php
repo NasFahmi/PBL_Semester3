@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.product.create');
     }
 
     /**
@@ -35,6 +35,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        dd($request->all());
         $this->validate($request, [
             'nama_product' => 'required',
             'harga_rendah' => 'required',
