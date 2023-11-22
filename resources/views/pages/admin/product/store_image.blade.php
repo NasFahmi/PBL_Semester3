@@ -5,14 +5,14 @@
     <div class="w-full p-6 bg-white rounded-md shadow-md mt-10">
         <h2 class="text-2xl font-semibold mb-6">File Upload with Preview</h2>
 
-        <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
+        <form action="{{route('product.storeImagePost')}}" method="POST" enctype="multipart/form-data" id="uploadForm">
             @csrf
 
             <!-- Input file -->
             <div class="mb-4">
                 <label for="gambar" class="block text-gray-700 font-semibold mb-2">Choose a file:</label>
                 {{-- <input type="file" name="gambar" id="gambar" multiple class="border rounded-md px-4 py-2 w-full"> --}}
-                <input type="file" name="image[]" id="gambar" multiple class="file-input file-input-bordered border border-gray-800 file-input-info w-full max-w-xs" />
+                <input type="file" name="image[]" id="gambar" multiple class="file-input file-input-bordered border border-gray-800 file-input-info w-full max-w-xs" required/>
             </div>
 
             <!-- Image Preview -->

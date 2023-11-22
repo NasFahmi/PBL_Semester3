@@ -38,16 +38,16 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         // dd($request->all());
-        // $this->validate($request, [
-        //     'nama_product' => 'required',
-        //     'harga_rendah' => 'required',
-        //     'harga_tinggi' => 'required',
-        //     'deskripsi' => 'required',
-        //     'link_shopee' => 'required',
-        //     'stok' => 'required',
-        //     'spesifikasi_product' => 'required',
+        $this->validate($request, [
+            'nama_product' => 'required',
+            'harga_rendah' => 'required',
+            'harga_tinggi' => 'required',
+            'deskripsi' => 'required',
+            'link_shopee' => 'required',
+            'stok' => 'required',
+            'spesifikasi_product' => 'required',
 
-        // ]);
+        ]);
         $request->session()->put('product_data', [
             'nama_product' => $request->input('nama_product'),
             'harga_rendah' => $request->input('harga_rendah'),
@@ -58,56 +58,61 @@ class ProductController extends Controller
             'spesifikasi_product' => $request->input('spesifikasi_product'),
         ]);
         $request->session()->put('berat_jenis', [
-            'berat_jenis' => $request->input('berat_jenis')
+            'berat_jenis' => $request->input('beratjenis')
         ]);
         $request->session()->put('varian', [
             'varian' => $request->input('varian'),
         ]);
-        return redirect()->route('product.storeImage');
+        return redirect()->route('product.storeImage'); //! go to file upload
     }
 
-    public function viewstoreImage(){
-        return view('pages.admin.product.store_image');
-    }
-    public function storeImage(StoreProductRequest $request)
+    public function viewstoreImage()
     {
-        $this->validate($request, [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-        $extension = $request->file('image')->getClientOriginalExtension();
-        $filename = $request->time() . $extension;
-        $path = $request->file('image')->storeAs('images/product', $filename);
-
-        $request->session()->put('image_data', [
-            'image' => $filename
-        ]);
-        return redirect()->route('product.finalStore');
+        return view('pages.admin.product.store_image');
     }
     public function finalStore(Request $request)
     {
+        
+        $request->validate([
+            'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+        $images = [];
+            foreach ($request->file('image') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '_' . uniqid() . '.' . $extension;
+                $path = $file->storeAs('images/product', $filename);
+                $images[] = $path;
+            }
+        // dd($images);
+        
         DB::beginTransaction();
 
         try {
             $productData = $request->session()->get('product_data');
             $product = Product::create($productData);
             $productID = $product->id;
-            $beratJenis = $request->session()->get('berat_jenis');
-            $varian = $request->session()->get('varian');
-            $image = $request->session()->get('image_data');
-            BeratJenis::create([
-                $beratJenis,
-                'product_id' => $productID
-            ]);
-            Varian::create([
-                $varian,
-                'product_id' => $productID
-            ]);
-            Foto::create([
-                $image,
-                'product_id' => $productID
-            ]);
-            DB::commit();
 
+            $beratJenis = $request->session()->get('berat_jenis');
+            BeratJenis::create([
+                'nama' => $beratJenis,
+                'product_id' => $productID
+            ]);
+
+            $varian = $request->session()->get('varian');
+            Varian::create([
+                'nama' => $varian,
+                'product_id' => $productID
+            ]);
+
+            // Proses setiap file yang diunggah
+
+            // Simpan informasi gambar ke dalam tabel Foto
+            Foto::create([
+                'nama' => json_encode($images),
+                'product_id' => $productID
+            ]);
+
+            DB::commit();
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
@@ -115,9 +120,11 @@ class ProductController extends Controller
             // Handle kesalahan sesuai kebutuhan Anda, misalnya:
             return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
         }
+
         $request->session()->forget(['product_data', 'berat_jenis', 'varian', 'image_data']);
-        return redirect()->route('product.index')->with(['succes', 'Data Berhasil Disimpan']);
+        return redirect()->route('product.index')->with('success', 'Data Berhasil Disimpan');
     }
+
 
     public function edit(Product $product)
     {
@@ -172,7 +179,6 @@ class ProductController extends Controller
             }
 
             DB::commit();
-
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
             DB::rollBack();
