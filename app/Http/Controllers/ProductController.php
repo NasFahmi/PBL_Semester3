@@ -18,7 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.product.index');
+        $data = Product::with(['fotos', 'varians', 'beratJenis'])->get();
+        return view('pages.admin.product.index',compact('data'));
     }
 
     /**
@@ -26,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-       return view('pages.admin.product.tambah'); 
+        //
     }
 
     /**

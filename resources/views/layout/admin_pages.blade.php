@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html :class="{ 'theme-dark': light }" x-data="data()" lang="en">
+<html :class="{ 'theme-dark': light }" data-theme="light" x-data="data()" lang="en">
 
 <head>
    <meta charset="UTF-8" />
@@ -7,6 +7,7 @@
    <title>@yield('title')</title>
    <link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
    @include('partials.link')
+   @extends('partials.head')
    <style>
       /* Add this in your CSS or within a style tag in your HTML */
       .costumscroll::-webkit-scrollbar {
