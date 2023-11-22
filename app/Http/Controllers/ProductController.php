@@ -9,6 +9,7 @@ use App\Models\Foto;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class ProductController extends Controller
@@ -67,33 +68,53 @@ class ProductController extends Controller
     public function storeImage(StoreProductRequest $request)
     {
         $this->validate($request, [
-            
-
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+        $extension = $request->file('image')->getClientOriginalExtension();
+        $filename = $request->time(). $extension;
+        $path = $request->file('image')->storeAs('images/product', $filename);
+
         $request->session()->put('image_data', [
-            
+            'image' => $filename
         ]);
         return redirect()->route('product.finalStore');
     }
     public function finalStore(Request $request)
     {
-        $productData = $request->session()->get('product_data');
-        $beratJenis = $request->session()->get('berat_jenis');
-        $varian = $request->session()->get('varian');
-        $image = $request->session()->get('image_data');
-        $product = Product::create($productData);
-        $productID=$product->id;
-        BeratJenis::create($beratJenis);
-        Varian::create($varian);
-        Foto::create($image);
+        DB::beginTransaction();
 
+        try{
+            $productData = $request->session()->get('product_data');
+            $product = Product::create($productData);
+            $productID = $product->id;
+            $beratJenis = $request->session()->get('berat_jenis');
+            $varian = $request->session()->get('varian');
+            $image = $request->session()->get('image_data');
+            BeratJenis::create([
+                $beratJenis,
+                'product_id' => $productID
+            ]);
+            Varian::create([
+                $varian,
+                'product_id' => $productID
+            ]);
+            Foto::create([
+                $image,
+                'product_id' => $productID
+            ]);
+            DB::commit();
+
+        } catch (\Exception $e) {
+            // Jika ada kesalahan, rollback transaksi
+            DB::rollBack();
+
+            // Handle kesalahan sesuai kebutuhan Anda, misalnya:
+            return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
+        }
         $request->session()->forget(['product_data','berat_jenis','varian','image_data']);
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with(['succes','Data Berhasil Disimpan']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Product $product)
     {
         //
