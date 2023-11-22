@@ -36,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'indexDashboard'])->name('admin.dashboard');
     Route::get('/admin/dashboard/logout',[AuthController::class, 'logout'])->name('logout') ;
     
+    Route::get('/admin/product/create/image',[ProductController::class,'viewstoreImage'])->name('product.storeImage');
+    Route::post('/admin/product/create/image',[ProductController::class,''])->name('product.storeImagePost');
     Route::resource('/admin/product',ProductController::class);
 
     Route::resource('/admin/transaksi',TransaksiController::class);

@@ -35,40 +35,42 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        dd($request->all());
-        $this->validate($request, [
-            'nama_product' => 'required',
-            'harga_rendah' => 'required',
-            'harga_tinggi' => 'required',
-            'deskripsi' => 'required',
-            'link_shopee' => 'required',
-            'stok' => 'required',
-            'spesifikasi_product' => 'required',
+        // dd($request->all());
+        // $this->validate($request, [
+        //     'nama_product' => 'required',
+        //     'harga_rendah' => 'required',
+        //     'harga_tinggi' => 'required',
+        //     'deskripsi' => 'required',
+        //     'link_shopee' => 'required',
+        //     'stok' => 'required',
+        //     'spesifikasi_product' => 'required',
 
-        ]);
-        $request->session()->put('product_data', [
-            'nama_product' => $request->input('nama_product'),
-            'harga_rendah' => $request->input('harga_rendah'),
-            'harga_tinggi' => $request->input('harga_tinggi'),
-            'deskripsi' => $request->input('deskripsi'),
-            'link_shopee' => $request->input('link_shopee'),
-            'stok' => $request->input('stok'),
-            'spesifikasi_product' => $request->input('spesifikasi_product'),
-        ]);
-        $request->session()->put('berat_jenis',[
-            'berat_jenis' => $request->input('berat_jenis')
-        ]);
-        $request->session()->put('varian',[
-            'varian' => $request->input('varian'),
-        ]);
+        // ]);
+        // $request->session()->put('product_data', [
+        //     'nama_product' => $request->input('nama_product'),
+        //     'harga_rendah' => $request->input('harga_rendah'),
+        //     'harga_tinggi' => $request->input('harga_tinggi'),
+        //     'deskripsi' => $request->input('deskripsi'),
+        //     'link_shopee' => $request->input('link_shopee'),
+        //     'stok' => $request->input('stok'),
+        //     'spesifikasi_product' => $request->input('spesifikasi_product'),
+        // ]);
+        // $request->session()->put('berat_jenis',[
+        //     'berat_jenis' => $request->input('berat_jenis')
+        // ]);
+        // $request->session()->put('varian',[
+        //     'varian' => $request->input('varian'),
+        // ]);
         return redirect()->route('product.storeImage');
     }
 
+    public function viewstoreImage(){
+        return view('pages.admin.product.store_image');
+    }
     public function storeImage(StoreProductRequest $request)
     {
         $this->validate($request, [
             
-
         ]);
         $request->session()->put('image_data', [
             
