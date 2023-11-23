@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/admin/product/create/image',[ProductController::class,'viewstoreImage'])->name('product.storeImage');
     Route::post('/admin/product/create/image',[ProductController::class,'finalStore'])->name('product.storeImagePost');
+    Route::get('/admin/product/detail/{id}',[ProductController::class,'viewDetail'])->name('product.viewdetail');
     Route::resource('/admin/product',ProductController::class);
 
     Route::resource('/admin/transaksi',TransaksiController::class);

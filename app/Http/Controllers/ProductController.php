@@ -130,9 +130,13 @@ class ProductController extends Controller
         return view('pages.admin.product.edit', compact('product'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    public function viewDetail($id)
+    {
+        $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
+        $berat_jenis = $data->beratJenis;
+        return view('pages.admin.product.detail', compact('data', 'berat_jenis'));
+    }
+
     public function update(UpdateProductRequest $request, Product $product)
     {
         DB::beginTransaction();
@@ -193,7 +197,7 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
 
-        try {
+        try {   
             // Delete related records
             $product->fotos()->delete();
             $product->varians()->delete();

@@ -16,28 +16,28 @@ class FotoSeeder extends Seeder
     {
         Foto::insert([
             [
-                'foto'=>'rambak.jpg',
-                'product_id'=>1,
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now(),
+                'foto' => 'images/rambak.jpg',
+                'product_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
-                'foto'=>'crispy savour.jpg',
-                'product_id'=>1,
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now(),
+                'foto' => 'images/crispy savour.jpg',
+                'product_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
-                'foto'=>'sambel.jpg',
-                'product_id'=>1,
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now(),
+                'foto' => 'images/sambel.jpg',
+                'product_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
-                'foto'=>'squidy_crackers.jpg',
-                'product_id'=>1,
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now(),
+                'foto' => 'images/squidy_crackers.jpg',
+                'product_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ]);
     }

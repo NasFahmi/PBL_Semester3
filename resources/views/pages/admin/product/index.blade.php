@@ -40,7 +40,7 @@
                     <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp. {{ number_format($items->harga_rendah,
                         0, ',', '.') }}</p>
                     <div class="card-actions justify-end w-full md:w-auto">
-                        <a href="{{route('detail_product',$items->id)}}"
+                        <a href="{{route('product.viewdetail',$items->id)}}"
                             class="btn btn-primary w-full md:w-auto">Details</a>
                     </div>
                 </div>

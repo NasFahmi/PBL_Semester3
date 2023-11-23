@@ -1,0 +1,111 @@
+@extends('layout.admin_pages')
+@section('title', $data->nama_product)
+@section('content')
+    <div class=" px-4 md:px-20 w-full  justify-center items-center flex-col bg-white py-10">
+        <div class="flex justify-center items-start gap-10 flex-col md:flex-row">
+            <div id="default-carousel" class="relative w-full md:w-1/2" data-carousel="slide">
+                <!-- Carousel wrapper -->
+                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                    @if ($data->fotos->count() > 1)
+                        <!-- Gunakan carousel jika ada lebih dari satu foto -->
+                        @foreach ($data->fotos as $index => $foto)
+                            <div class="hidden duration-700 ease-in-out bg-cover" data-carousel-item>
+                                <img src="{{ asset('storage/' . $foto->foto) }}"
+                                    class="absolute image-full z-10 block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover-image"
+                                    alt="...">
+                            </div>
+                        @endforeach
+                    @elseif ($data->fotos->count() === 1)
+                        <!-- Tampilkan gambar langsung jika hanya ada satu foto -->
+                        <div class="block w-full h-full">
+                            <img src="{{ asset('storage/' . $data->fotos[0]->foto) }}" class="w-full h-full object-cover"
+                                alt="...">
+                        </div>
+                    @else
+                        <!-- Tambahkan placeholder atau pesan jika tidak ada foto -->
+                        <div class="flex items-center justify-center w-full h-full">
+                            <span class="text-gray-500">No photos available</span>
+                        </div>
+                    @endif
+                </div>
+
+
+
+                <!-- Slider controls -->
+                @if ($data->fotos->count() > 1)
+                    <button type="button"
+                        class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                        data-carousel-prev>
+                        <span
+                            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 1 1 5l4 4" />
+                            </svg>
+                            <span class="sr-only">Previous</span>
+                        </span>
+                    </button>
+
+                    <button type="button"
+                        class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                        data-carousel-next>
+                        <span
+                            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 9 4-4-4-4" />
+                            </svg>
+                            <span class="sr-only">Next</span>
+                        </span>
+                    </button>
+                @endif
+            </div>
+
+
+
+            <div class="w-full md:w-1/2">
+                <h1 class="text-3xl font-semibold mb-2">{{ $data->nama_product }}</h1>
+                <h1 class="text-2xl font-semibold mb-1">{{ $data->harga_rendah }} - {{ $data->harga_tinggi }}</h1>
+                <p class="text-lg">{{ $data->deskripsi }}</p>
+
+                <h1>Varian : </h1>
+                @foreach ($data->varians as $varian)
+                    <li class="text-lg">{{ $varian->jenis_varian }}</li>
+                @endforeach
+                <p>{{ $data->berat_jenis }}</p>
+                <h1>Berat Jenis :</h1>
+                @foreach ($berat_jenis as $items)
+                    <li class="text-lg">{{ $items->berat_jenis }}</li>
+                @endforeach
+
+                <a href="{{ $data->link_shopee }}"
+                    class="flex items-center justify-center w-full md:w-32 px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700">
+                    <img src="{{ asset('assets/images/shopee.png') }}" alt="Shopee Logo" class="w-8 h-8 mr-2">
+                    <span>Shopee</span>
+                </a>
+            </div>
+        </div>
+        <div class="mt-10 ">
+            <h1 class="text-3xl">Product Spesifikasi</h1>
+            <p class="text-lg">{{ $data->spesifikasi_product }}</p>
+        </div>
+        <div class="flex justify-center md:justify-start gap-4 mb-20 items-center mt-4 ">
+            <a href="{{ route('product.edit', $data->id) }}"
+                class="flex items-center justify-center w-32 h-12 px-4 py-2 text-sm font-medium text-white transition-colors duration-150 bg-blue-500 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700">
+                <span>Edit</span>
+            </a>
+            <form action="{{ route('product.destroy', $data->id) }}" method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this product?')">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit"
+                    class="flex items-center justify-center w-32 h-12 px-4 py-2 text-sm font-medium text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-700 hover:bg-red-800">
+                    <span>Hapus</span>
+                </button>
+            </form>
+        </div>
+    </div>
+@endsection
