@@ -11,8 +11,11 @@
             <!-- Input file -->
             <div class="mb-4">
                 <label for="gambar" class="block text-gray-700 font-semibold mb-2">Choose a file:</label>
-                {{-- <input type="file" name="gambar" id="gambar" multiple class="border rounded-md px-4 py-2 w-full"> --}}
-                <input type="file" name="image[]" id="gambar" multiple class="file-input file-input-bordered border border-gray-800 file-input-info w-full max-w-xs" required/>
+                {{-- <input type="file" name="gambar" id="gambar" multiple class="border rounded-md px-4 py-2 w-full">
+                --}}
+                <input type="file" name="image[]" id="gambar" multiple
+                    class="file-input file-input-bordered border border-gray-800 file-input-info w-full max-w-xs"
+                    required />
             </div>
 
             <!-- Image Preview -->
@@ -20,8 +23,8 @@
                 <label class="block text-gray-700 font-semibold mb-2">Image Preview:</label>
                 <img id="imagePreview" class="border rounded-lg w-1/4" alt="Image Preview">
             </div>
-            
-            
+
+
 
             <!-- Submit Button -->
             <div class="flex justify-center items-center">
@@ -29,7 +32,7 @@
                     Upload
                 </button>
             </div>
-            
+
         </form>
     </div>
 

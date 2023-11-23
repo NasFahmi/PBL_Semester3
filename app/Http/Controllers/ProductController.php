@@ -96,23 +96,25 @@ class ProductController extends Controller
                 ]);
             }
 
-            dd('berhasil');
-
             // Proses setiap file yang diunggah
             $images = [];
             foreach ($request->file('image') as $file) {
-                $extension = $file->getClientOriginalExtension();
-                $filename = time() . '_' . uniqid() . '.' . $extension;
-                $path = $file->storeAs('images/product', $filename);
-                $images[] = $path;
+                $img = $file->store("images");
+                $images[] = $img;
             }
+
             // Simpan informasi gambar ke dalam tabel Foto
-            Foto::create([
-                'nama' => json_encode($images),
-                'product_id' => $productID
-            ]);
+            foreach ($images as $image) {
+                Foto::create([
+                    'foto' => $image,
+                    'product_id' => $productID
+                ]);
+            }
 
             DB::commit();
+
+            $request->session()->forget(['product_data', 'berat_jenis', 'varian', 'image_data']);
+            return redirect()->route('product.index')->with('success', 'Data Berhasil Disimpan');
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
@@ -120,9 +122,6 @@ class ProductController extends Controller
             // Handle kesalahan sesuai kebutuhan Anda, misalnya:
             return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
         }
-
-        $request->session()->forget(['product_data', 'berat_jenis', 'varian', 'image_data']);
-        return redirect()->route('product.index')->with('success', 'Data Berhasil Disimpan');
     }
 
 
