@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Varian extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'jenis_varian',
-        'product_id ',
-    ];
+    protected $table = 'varians';
+    protected $guarded = [];
     public function product()
     {
         return $this->belongsTo(Product::class);

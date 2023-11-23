@@ -46,7 +46,6 @@ class ProductController extends Controller
             'link_shopee' => 'required',
             'stok' => 'required',
             'spesifikasi_product' => 'required',
-
         ]);
         $request->session()->put('product_data', [
             'nama_product' => $request->input('nama_product'),
@@ -57,12 +56,8 @@ class ProductController extends Controller
             'stok' => $request->input('stok'),
             'spesifikasi_product' => $request->input('spesifikasi_product'),
         ]);
-        $request->session()->put('berat_jenis', [
-            'berat_jenis' => $request->input('beratjenis')
-        ]);
-        $request->session()->put('varian', [
-            'varian' => $request->input('varian'),
-        ]);
+        $request->session()->put('berat_jenis', $request->beratjenis);
+        $request->session()->put('varian', $request->varian);
         return redirect()->route('product.storeImage'); //! go to file upload
     }
 
@@ -72,31 +67,36 @@ class ProductController extends Controller
     }
     public function finalStore(Request $request)
     {
-        
+
         $request->validate([
             'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-        
-        // dd($images);
-        
-        
+
         try {
             DB::beginTransaction();
             $productData = $request->session()->get('product_data');
             $product = Product::create($productData);
             $productID = $product->id;
 
-            $beratJenis = $request->session()->get('berat_jenis');
-            BeratJenis::create([
-                'nama' => $beratJenis,
-                'product_id' => $productID
-            ]);
+            $varians = $request->session()->get('varian');
 
-            $varian = $request->session()->get('varian');
-            Varian::create([
-                'nama' => $varian,
-                'product_id' => $productID
-            ]);
+            foreach ($varians as $varian) {
+                Varian::create([
+                    'jenis_varian' => $varian,
+                    'product_id' => $productID,
+                ]);
+            }
+
+            $beratJenis = $request->session()->get('berat_jenis');
+
+            foreach ($beratJenis as $berat) {
+                BeratJenis::create([
+                    "berat_jenis" => $berat,
+                    "product_id" => $productID
+                ]);
+            }
+
+            dd('berhasil');
 
             // Proses setiap file yang diunggah
             $images = [];
