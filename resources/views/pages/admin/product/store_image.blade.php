@@ -7,7 +7,7 @@
 
         <form action="{{route('product.storeImagePost')}}" method="POST" enctype="multipart/form-data" id="uploadForm">
             @csrf
-
+            
             <!-- Input file -->
             <div class="mb-4">
                 <label for="gambar" class="block text-gray-700 font-semibold mb-2">Choose a file:</label>
@@ -17,6 +17,9 @@
                     class="file-input file-input-bordered border border-gray-800 file-input-info w-full max-w-xs"
                     required />
             </div>
+            @error('image[]')
+                <p class="text-red-500 text-sm italic">{{ $message }}</p>
+            @enderror
 
             <!-- Image Preview -->
             <div class="mb-4" id="imagePreviewContainer" style="display: none;">

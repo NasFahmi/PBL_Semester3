@@ -21,9 +21,9 @@
                             <span class="text-gray-700 dark:text-gray-400">Harga</span>
                         </label>
                         <div class="grid grid-cols-2 justify-start items-center gap-4 max-w-sm mb-3">
-                            <input type="text" placeholder="Rendah" name="harga_rendah"
+                            <input type="number" placeholder="Rendah" name="harga_rendah"
                                 class="input input-bordered input-info w-full bg-slate-50  duration-50 " />
-                            <input type="text" placeholder="Tinggi" name="harga_tinggi"
+                            <input type="number" placeholder="Tinggi" name="harga_tinggi"
                                 class="input input-bordered input-info w-fulll bg-slate-50  duration-50 " />
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                         <label class="block text-sm mb-1">
                             <span class="text-gray-700 dark:text-gray-400">Stok</span>
                         </label>
-                        <input type="text" placeholder="Jumlah Stok" name="stok"
+                        <input type="number" placeholder="Jumlah Stok" name="stok"
                             class="input input-bordered input-info w-full max-w-sm duration-50 bg-slate-50 mb-3" />
                     </div>
                     <div class="">
