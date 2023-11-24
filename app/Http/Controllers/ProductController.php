@@ -65,6 +65,10 @@ class ProductController extends Controller
     {
         return view('pages.admin.product.store_image');
     }
+    public function viewupdateImage()
+    {
+        return view('pages.admin.product.update_image');
+    }
     public function finalStore(Request $request)
     {
 
@@ -125,9 +129,11 @@ class ProductController extends Controller
     }
 
 
-    public function edit(Product $product)
+    public function edit($id)
     {
-        return view('pages.admin.product.edit', compact('product'));
+        $data = Product::with(['varians', 'beratJenis'])->findOrFail($id);
+        $berat_jenis = $data->beratJenis;
+        return view('pages.admin.product.update', compact('data', 'berat_jenis'));
     }
 
     public function viewDetail($id)
@@ -138,6 +144,23 @@ class ProductController extends Controller
     }
 
     public function update(UpdateProductRequest $request, Product $product)
+    {
+        $data = Product::with(['varians', 'beratJenis'])->findOrFail($product->id);
+        $berat_jenis = $data->beratJenis;
+        $request->session()->put('product_data', [
+            'nama_product' => $request->input('nama_product'),
+            'harga_rendah' => $request->input('harga_rendah'),
+            'harga_tinggi' => $request->input('harga_tinggi'),
+            'deskripsi' => $request->input('deskripsi'),
+            'link_shopee' => $request->input('link_shopee'),
+            'stok' => $request->input('stok'),
+            'spesifikasi_product' => $request->input('spesifikasi_product'),
+        ]);
+        $request->session()->put('berat_jenis', $request->beratjenis);
+        $request->session()->put('varian', $request->varian);
+        return redirect()->route('product.storeImage', compact('data', 'berat_jenis'));
+    }
+    public function finalUpdate(UpdateProductRequest $request, Product $product)
     {
         DB::beginTransaction();
 
@@ -192,12 +215,11 @@ class ProductController extends Controller
 
         return redirect()->route('product.index')->with('success', 'Product has been updated successfully');
     }
-
     public function destroy(Product $product)
     {
         DB::beginTransaction();
 
-        try {   
+        try {
             // Delete related records
             $product->fotos()->delete();
             $product->varians()->delete();

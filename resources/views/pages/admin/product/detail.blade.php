@@ -97,7 +97,7 @@
                 <span>Edit</span>
             </a>
             <form action="{{ route('product.destroy', $data->id) }}" method="POST"
-                onsubmit="return confirm('Are you sure you want to delete this product?')">
+                onsubmit="return confirm('Apakah yakin ingin menghapus product ini?')">
                 @csrf
                 @method('DELETE')
 
