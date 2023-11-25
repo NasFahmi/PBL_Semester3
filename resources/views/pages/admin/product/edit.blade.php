@@ -5,7 +5,7 @@
         <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Edit Product</h1>
         <div class="bg-white flex justify-center items-center px-8 py-8 shadow-lg rounded-3xl">
 
-            <form action="{{ route('product.editUpdate', ['id' => $data->id]) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('product.updatePost',$data->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div class="left">
@@ -110,9 +110,9 @@
 
                 <div class="flex justify-center items-center mt-3">
                     <button type="submit"
-                        class="text-center focus:outline-none text-white w-full md:w-fit bg-green-700 hover:text-gray-900 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-3 me-2 mb duration-300 whitespace-nowrap">Next</button>
+                        class="text-center focus:outline-none text-white w-full md:w-fit bg-green-700 hover:text-gray-100 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-3 me-2 mb duration-300 whitespace-nowrap">Next</button>
                     <a href="{{ route('product.index') }}"
-                        class="inline-block px-4 py-2 bg-yellow-400 text-white hover:bg-yellow-500 hover:text-gray-900 rounded-md font-medium cursor-pointer">
+                        class="inline-block px-4 py-2 bg-red-600 text-white hover:bg-red-700 hover:text-gray-100 rounded-md font-medium cursor-pointer duration-300">
                         Cancel
                     </a>
                 </div>

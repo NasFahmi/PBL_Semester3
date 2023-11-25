@@ -59,17 +59,14 @@ class ProductController extends Controller
         $request->session()->put('berat_jenis', $request->beratjenis);
         $request->session()->put('varian', $request->varian);
         return redirect()->route('product.storeImage'); //! go to file upload
-        // dd(session()->all());
+    
     }
 
     public function viewstoreImage()
     {
         return view('pages.admin.product.store_image');
     }
-    public function viewupdateImage()
-    {
-        return view('pages.admin.product.update_image');
-    }
+   
     public function finalStore(Request $request)
     {
 
@@ -141,13 +138,7 @@ class ProductController extends Controller
     }
 
 
-    public function edit($id)
-    {
-        $data = Product::with(['varians', 'beratJenis'])->findOrFail($id);
-        $berat_jenis = $data->beratJenis;
-        return view('pages.admin.product.update', compact('data', 'berat_jenis'));
-    }
-
+   
     public function viewDetail($id)
     {
         $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
@@ -155,10 +146,16 @@ class ProductController extends Controller
         return view('pages.admin.product.detail', compact('data', 'berat_jenis'));
     }
 
-    public function update(UpdateProductRequest $request, Product $product)
+    public function edit($id)
     {
-        $data = Product::with(['varians', 'beratJenis'])->findOrFail($product->id);
+        $data = Product::with(['varians', 'beratJenis'])->findOrFail($id);
         $berat_jenis = $data->beratJenis;
+        return view('pages.admin.product.edit', compact('data', 'berat_jenis'));
+    }
+
+    public function updatePost(Request $request, $id)
+    {
+        $dataID = $id;
         $request->session()->put('product_data', [
             'nama_product' => $request->input('nama_product'),
             'harga_rendah' => $request->input('harga_rendah'),
@@ -168,62 +165,75 @@ class ProductController extends Controller
             'stok' => $request->input('stok'),
             'spesifikasi_product' => $request->input('spesifikasi_product'),
         ]);
+        $request->session()->put('product_id',$dataID);
         $request->session()->put('berat_jenis', $request->beratjenis);
         $request->session()->put('varian', $request->varian);
-        return redirect()->route('product.storeImage', compact('data', 'berat_jenis'));
+        // dd(session()->all());
+        // dd(session()->all());
+     
+        return redirect()->route('product.editImage');
     }
-    public function finalUpdate(UpdateProductRequest $request, Product $product)
+
+    public function viewUpdateImage()
     {
+        $product_id = session()->get('product_id');
+        // dd($product_id);
+        return view('pages.admin.product.update_image',compact('product_id'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
         DB::beginTransaction();
 
-        try {
-            // Update product data
-            $product->update([
-                'nama_product' => $request->input('nama_product'),
-                'harga_rendah' => $request->input('harga_rendah'),
-                'harga_tinggi' => $request->input('harga_tinggi'),
-                'deskripsi' => $request->input('deskripsi'),
-                'link_shopee' => $request->input('link_shopee'),
-                'stok' => $request->input('stok'),
-                'spesifikasi_product' => $request->input('spesifikasi_product'),
-            ]);
+        // try {
+        //     // // Update product data
+        //     // $product->update([
+        //     //     'nama_product' => $request->input('nama_product'),
+        //     //     'harga_rendah' => $request->input('harga_rendah'),
+        //     //     'harga_tinggi' => $request->input('harga_tinggi'),
+        //     //     'deskripsi' => $request->input('deskripsi'),
+        //     //     'link_shopee' => $request->input('link_shopee'),
+        //     //     'stok' => $request->input('stok'),
+        //     //     'spesifikasi_product' => $request->input('spesifikasi_product'),
+        //     // ]);
 
-            // Update related records
-            $product->beratJenis()->update([
-                'berat_jenis' => $request->input('berat_jenis'),
-            ]);
+        //     // // Update related records
+        //     // $product->beratJenis()->update([
+        //     //     'berat_jenis' => $request->input('berat_jenis'),
+        //     // ]);
 
-            $product->varians()->update([
-                'varian' => $request->input('varian'),
-            ]);
+        //     // $product->varians()->update([
+        //     //     'varian' => $request->input('varian'),
+        //     // ]);
 
-            // Handle image update (if needed)
-            if ($request->hasFile('image')) {
-                $this->validate($request, [
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                ]);
+        //     // // Handle image update (if needed)
+        //     // if ($request->hasFile('image')) {
+        //     //     $this->validate($request, [
+        //     //         'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        //     //     ]);
 
-                // Delete existing image (if exists)
-                Storage::delete('images/product/' . $product->foto->image);
+        //     //     // Delete existing image (if exists)
+        //     //     Storage::delete('images/product/' . $product->foto->image);
 
-                // Upload and update new image
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
-                $path = $request->file('image')->storeAs('images/product', $filename);
+        //     //     // Upload and update new image
+        //     //     $extension = $request->file('image')->getClientOriginalExtension();
+        //     //     $filename = time() . '.' . $extension;
+        //     //     $path = $request->file('image')->storeAs('images/product', $filename);
 
-                $product->foto()->update([
-                    'image' => $filename,
-                ]);
-            }
+        //     //     $product->foto()->update([
+        //     //         'image' => $filename,
+        //     //     ]);
+        //     }
 
-            DB::commit();
-        } catch (\Exception $e) {
-            // If there is an error, rollback the transaction
-            DB::rollBack();
+        //     DB::commit();
+        // } catch (\Exception $e) {
+        //     // If there is an error, rollback the transaction
+        //     DB::rollBack();
 
-            // Handle the error as needed
-            return redirect()->back()->with('error', 'Failed to update product data.');
-        }
+        //     // Handle the error as needed
+        //     return redirect()->back()->with('error', 'Failed to update product data.');
+        // }
 
         return redirect()->route('product.index')->with('success', 'Product has been updated successfully');
     }
