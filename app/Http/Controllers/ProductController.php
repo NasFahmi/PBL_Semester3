@@ -73,11 +73,20 @@ class ProductController extends Controller
     public function finalStore(Request $request)
     {
 
-        // dd($request->all());
         $request->validate([
-            'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'image.*' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg',
+                'max:2048',
+            ],
+        ], [
+            'image.*.required' => 'Setiap gambar harus dipilih.',
+            'image.*.image' => 'File yang dipilih harus berupa gambar.',
+            'image.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
+            'image.*.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
         ]);
-        // dd('awdw');
+
         try {
             DB::beginTransaction();
             $productData = $request->session()->get('product_data');

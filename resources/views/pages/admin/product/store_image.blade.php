@@ -17,9 +17,17 @@
                     class="file-input file-input-bordered border border-gray-800 file-input-info w-full max-w-xs"
                     required />
             </div>
-            @error('image')
-            <p class="text-red-500 text-sm italic">{{ $message }}</p>
-            @enderror
+
+
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
             <!-- Image Preview -->
             <div id="imagePreviews" class="w-2/5 rounded-lg mt-4 mx-4">
