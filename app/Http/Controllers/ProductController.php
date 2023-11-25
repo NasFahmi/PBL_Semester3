@@ -120,14 +120,14 @@ class ProductController extends Controller
             DB::commit();
 
             $request->session()->forget(['product_data', 'berat_jenis', 'varian', 'image_data']);
-            dd('berhasil');
             return redirect()->route('product.index')->with('success', 'Data Berhasil Disimpan');
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
-            dd('gagal ');
+            throw $e;
+            // dd('gagal ');
             // Handle kesalahan sesuai kebutuhan Anda, misalnya:
-            return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
+            // return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
         }
     }
 

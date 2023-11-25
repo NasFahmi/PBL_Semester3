@@ -7,24 +7,23 @@
 
         <form action="{{route('product.storeImagePost')}}" method="POST" enctype="multipart/form-data" id="uploadForm">
             @csrf
-            
+
             <!-- Input file -->
             <div class="mb-4">
                 <label for="gambar" class="block text-gray-700 font-semibold mb-2">Choose a file:</label>
                 {{-- <input type="file" name="gambar" id="gambar" multiple class="border rounded-md px-4 py-2 w-full">
                 --}}
-                <input type="file" name="image[]" id="gambar" multiple
+                <input type="file" name="image[]" id="gambar" multiple onchange="previewImages()"
                     class="file-input file-input-bordered border border-gray-800 file-input-info w-full max-w-xs"
                     required />
             </div>
-            @error('image[]')
-                <p class="text-red-500 text-sm italic">{{ $message }}</p>
+            @error('image')
+            <p class="text-red-500 text-sm italic">{{ $message }}</p>
             @enderror
 
             <!-- Image Preview -->
-            <div class="mb-4" id="imagePreviewContainer" style="display: none;">
-                <label class="block text-gray-700 font-semibold mb-2">Image Preview:</label>
-                <img id="imagePreview" class="border rounded-lg w-1/4" alt="Image Preview">
+            <div id="imagePreviews" class="w-2/5 rounded-lg mt-4 mx-4">
+
             </div>
 
 
@@ -39,7 +38,7 @@
         </form>
     </div>
 
-    <script>
+    {{-- <script>
         const inputFile = document.getElementById('gambar');
         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
     
@@ -98,6 +97,27 @@
             // Menampilkan container pratinjau
             imagePreviewContainer.style.display = 'flex';
         });
+    </script> --}}
+    <script>
+        function previewImages() {
+    const images = document.getElementById("gambar");
+    const imagePreviews = document.getElementById("imagePreviews");
+    imagePreviews.innerHTML = ''; // Membersihkan pratinjau sebelumnya
+
+    for (let i = 0; i < images.files.length; i++) {
+        const oFReader = new FileReader();
+        const imagePreview = document.createElement("img");
+        imagePreview.className = "w-full rounded-lg";
+        imagePreviews.appendChild(imagePreview);
+
+        oFReader.readAsDataURL(images.files[i]);
+
+        oFReader.onload = (oFREvent) => {
+            imagePreview.src = oFREvent.target.result;
+        };
+    }
+}
+
     </script>
 </div>
 
