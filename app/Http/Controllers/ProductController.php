@@ -246,7 +246,10 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($product->id);
-        $photos = $data->fotos;
+        // $photos = $data->fotos;
+        // foreach ($data->fotos as $foto) {
+        //     dd($foto['foto']);
+        // }
         // foreach ($photos as $photo) {
         //     dd($photo);
         // }
@@ -263,7 +266,7 @@ class ProductController extends Controller
             // Handle image deletion (if needed)
             if ($data->fotos) {
                 foreach ($data->fotos as $foto) {
-                    Storage::delete('images/' . $foto->image);
+                    Storage::delete($foto['foto']);
                 }
             }
 
