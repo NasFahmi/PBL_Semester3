@@ -24,8 +24,9 @@ class DashboardController extends Controller
             ->select('product_id', DB::raw('SUM(jumlah) as totalJumlah'))
             ->orderByDesc('totalJumlah')
             ->with('products') // Order in descending order by total quantity
+            ->limit(5)
             ->get();
-        dd($data);
+        // dd($data);
         // $topSalesProductsArray = $topSalesProducts->toArray();
         // dd($topSalesProductsArray);
 
