@@ -409,7 +409,8 @@
             </div>
         </div>
     </div>
-
+    <p>{{$data}}</p>
+    <p>{{$topSalesProducts}}</p>
     <script>
         // ApexCharts options and config
     window.addEventListener("load", function() {
