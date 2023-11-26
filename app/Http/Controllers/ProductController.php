@@ -156,6 +156,8 @@ class ProductController extends Controller
     public function updatePost(Request $request, $id)
     {
 
+        // dd($request->all());
+
         $dataID = $id;
         $request->session()->put('product_data', [
             'nama_product' => $request->input('nama_product'),
@@ -168,7 +170,7 @@ class ProductController extends Controller
         ]);
         $request->session()->put('product_id', $dataID);
         $request->session()->put('berat_jenis', $request->beratjenis);
-        $request->session()->put('varian', $request->varian);
+        // $request->session()->put('varian', $request->varian);
         // dd(session()->all());
         // dd(session()->all());
 
@@ -178,7 +180,6 @@ class ProductController extends Controller
     public function viewUpdateImage()
     {
         $product_id = session()->get('product_id');
-        // dd($product_id);
         $foto = Foto::where('product_id', $product_id)->get();
         return view('pages.admin.product.update_image', compact('product_id', 'foto'));
     }

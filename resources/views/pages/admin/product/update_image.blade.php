@@ -5,7 +5,8 @@
     <div class="w-full p-6 bg-white rounded-md shadow-md mt-10">
         <h2 class="text-2xl font-semibold mb-6">Edit Gambar Product</h2>
 
-        <form action="{{route('product.update',$product_id)}}" method="POST" enctype="multipart/form-data" id="uploadForm">
+        <form action="{{route('product.update',$product_id)}}" method="POST" enctype="multipart/form-data"
+            id="uploadForm">
             @method('patch')
             @csrf
 
@@ -30,12 +31,13 @@
             </div>
             @endif
 
+
             <!-- Image Preview -->
             <div id="imagePreviews" class="w-full rounded-lg mt-4 mx-4 flex justify-start items-start">
-
+                @foreach ($fotos as $foto)
+                <img src="{{ asset('storage/'.$foto->foto) }}" class="w-2/6 rounded-lg" />
+                @endforeach
             </div>
-
-
 
             <!-- Submit Button -->
             <div class="flex justify-center items-center">
