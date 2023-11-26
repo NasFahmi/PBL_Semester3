@@ -21,15 +21,15 @@ class Transaksi extends Model
         'is_complete',
     ];
     public function pembelis(){
-        return $this->belongsTo(Pembeli::class);
+        return $this->belongsTo(Pembeli::class,'pembeli_id','id');
     }
     public function products(){
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class,'product_id','id');
     }
     public function methodePembayarans(){
-        return $this->belongsTo(MethodePembayaran::class);
+        return $this->belongsTo(MethodePembayaran::class,'methode_pembayaran_id','id');
     }
     public function preorders(){
-        return $this->belongsTo(Preorder::class);
+        return $this->belongsTo(Preorder::class,'Preorder_id','id');
     }
 }

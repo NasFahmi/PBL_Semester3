@@ -282,126 +282,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            @foreach ( $topSalesProducts as $product )    
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1
+                                    {{$loop->iteration}}
                                 </th>
                                 <td class="px-6 py-4  ">
-                                    Product A
+                                    {{$product->products->nama_product}}
                                 </td>
                                 <td class="px-6 py-4">
-                                    120
+                                    {{$product->totalJumlah}}
                                 </td>
                             </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    2
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product B
-                                </td>
-                                <td class="px-6 py-4">
-                                    110
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    3
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product C
-                                </td>
-                                <td class="px-6 py-4">
-                                    100
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product A
-                                </td>
-                                <td class="px-6 py-4">
-                                    120
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    2
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product B
-                                </td>
-                                <td class="px-6 py-4">
-                                    110
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product A
-                                </td>
-                                <td class="px-6 py-4">
-                                    120
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    2
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product B
-                                </td>
-                                <td class="px-6 py-4">
-                                    110
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    3
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product C
-                                </td>
-                                <td class="px-6 py-4">
-                                    100
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product A
-                                </td>
-                                <td class="px-6 py-4">
-                                    120
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    2
-                                </th>
-                                <td class="px-6 py-4 ">
-                                    Product B
-                                </td>
-                                <td class="px-6 py-4">
-                                    110
-                                </td>
-                            </tr>
+                            @endforeach
+                            
                         </tbody>
                     </table>
                 </div>
@@ -409,8 +304,7 @@
             </div>
         </div>
     </div>
-    <p>{{$data}}</p>
-    <p>{{$topSalesProducts}}</p>
+  
     <script>
         // ApexCharts options and config
     window.addEventListener("load", function() {
