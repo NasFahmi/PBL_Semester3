@@ -40,7 +40,8 @@
                     Jumlah Pendapatan
                 </p>
                 <p class="text-lg font-semibold text-gray-700 ">
-                    {{$totalPendapatan}}
+                    {{-- {{ number_format($items->harga_rendah, 0, ',', '.') }} --}}
+                    {{number_format($totalPendapatan,0,',','.')}}
                 </p>
             </div>
         </div>
@@ -282,20 +283,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ( $topSalesProducts as $product )    
+                            
+                            @foreach ($topSalesProducts as $product)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{$loop->iteration}}
-                                </th>
-                                <td class="px-6 py-4  ">
-                                    {{$product->products->nama_product}}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{$product->totalJumlah}}
-                                </td>
-                            </tr>
-                            @endforeach
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $loop->iteration }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ $product->products->nama_product }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $product->totalJumlah }}
+                                    </td>
+                                </tr>
+                        @endforeach
                             
                         </tbody>
                     </table>

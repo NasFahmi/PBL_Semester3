@@ -277,7 +277,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
             DB::rollBack();
-
+            throw $e;
             // Handle the error as needed
             return redirect()->back()->with('error', 'Failed to delete the product.');
         }

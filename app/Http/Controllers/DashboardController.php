@@ -20,12 +20,14 @@ class DashboardController extends Controller
         $dataJumlahOrder = $data->count();
         
         $topSalesProducts = Transaksi::where('is_complete', 1)
+            ->whereNotNull('product_id')
             ->groupBy('product_id')
             ->select('product_id', DB::raw('SUM(jumlah) as totalJumlah'))
             ->orderByDesc('totalJumlah')
             ->with('products') // Order in descending order by total quantity
             ->limit(5)
             ->get();
+        // dd($topSalesProducts);
         // dd($data);
         // $topSalesProductsArray = $topSalesProducts->toArray();
         // dd($topSalesProductsArray);

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal');
             $table->unsignedBigInteger('pembeli_id');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->nullable(); // Allow NULL
             $table->unsignedBigInteger('methode_pembayaran_id');
             $table->bigInteger('jumlah');
             $table->bigInteger('total_harga');
@@ -26,12 +26,10 @@ return new class extends Migration
             $table->timestamps();
 
             // relasi
-            $table->foreign('pembeli_id')->references('id')->on('pembelis');
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('methode_pembayaran_id')->references('id')->on('methode_pembayarans');
-            $table->foreign('Preorder_id')->references('id')->on('preorders');
-
-
+            $table->foreign('pembeli_id')->references('id')->on('pembelis')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('methode_pembayaran_id')->references('id')->on('methode_pembayarans')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('Preorder_id')->references('id')->on('preorders')->onDelete('set null')->onUpdate('cascade');
         });
     }
 
