@@ -180,8 +180,8 @@ class ProductController extends Controller
     public function viewUpdateImage()
     {
         $product_id = session()->get('product_id');
-        $foto = Foto::where('product_id', $product_id)->get();
-        return view('pages.admin.product.update_image', compact('product_id', 'foto'));
+        $fotos = Foto::where('product_id', $product_id)->get();
+        return view('pages.admin.product.update_image', compact('product_id', 'fotos'));
     }
 
     public function update(Request $request, $id)
