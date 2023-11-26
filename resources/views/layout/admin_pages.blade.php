@@ -12,6 +12,7 @@
             height: 100%;
         }
     </style>
+    
     <link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
     @include('partials.link')
     @extends('partials.head')

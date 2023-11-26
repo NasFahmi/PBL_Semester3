@@ -35,7 +35,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(Request $request)
     {
         // dd($request->all());
         $this->validate($request, [
@@ -46,51 +46,23 @@ class ProductController extends Controller
             'link_shopee' => 'required',
             'stok' => 'required',
             'spesifikasi_product' => 'required',
+            'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-        $request->session()->put('product_data', [
-            'nama_product' => $request->input('nama_product'),
-            'harga_rendah' => $request->input('harga_rendah'),
-            'harga_tinggi' => $request->input('harga_tinggi'),
-            'deskripsi' => $request->input('deskripsi'),
-            'link_shopee' => $request->input('link_shopee'),
-            'stok' => $request->input('stok'),
-            'spesifikasi_product' => $request->input('spesifikasi_product'),
-        ]);
-        $request->session()->put('berat_jenis', $request->beratjenis);
-        $request->session()->put('varian', $request->varian);
-        return redirect()->route('product.storeImage'); //! go to file upload
-
-    }
-
-    public function viewstoreImage()
-    {
-        return view('pages.admin.product.store_image');
-    }
-
-    public function finalStore(Request $request)
-    {
-
-        $request->validate([
-            'image.*' => [
-                'required',
-                'image',
-                'mimes:jpeg,png,jpg',
-                'max:2048',
-            ],
-        ], [
-            'image.*.required' => 'Setiap gambar harus dipilih.',
-            'image.*.image' => 'File yang dipilih harus berupa gambar.',
-            'image.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
-            'image.*.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
-        ]);
+        $data=$request->all();
 
         try {
             DB::beginTransaction();
-            $productData = $request->session()->get('product_data');
-            $product = Product::create($productData);
+            $product = Product::create([
+                'nama_product' =>$data['nama_product'],
+                'harga_rendah'=>$data['harga_rendah'],
+                'harga_tinggi'=>$data['harga_tinggi'],
+                'deskripsi'=>$data['deskripsi'],
+                'link_shopee'=>$data['link_shopee'],
+                'stok'=>$data['stok'],
+                'spesifikasi_product'=>$data['spesifikasi_product'],
+            ]);
             $productID = $product->id;
-
-            $varians = $request->session()->get('varian');
+            $varians= $data['varian'];
 
             foreach ($varians as $varian) {
                 Varian::create([
@@ -99,7 +71,7 @@ class ProductController extends Controller
                 ]);
             }
 
-            $beratJenis = $request->session()->get('berat_jenis');
+            $beratJenis = $data['beratjenis'];
 
             foreach ($beratJenis as $berat) {
                 BeratJenis::create([
@@ -133,13 +105,13 @@ class ProductController extends Controller
             throw $e;
             // dd('gagal ');
             // Handle kesalahan sesuai kebutuhan Anda, misalnya:
-            // return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
+            return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
         }
+
     }
 
 
-
-    public function viewDetail($id)
+    public function show($id)
     {
         $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
         $berat_jenis = $data->beratJenis;
@@ -148,110 +120,89 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $data = Product::with(['varians', 'beratJenis'])->findOrFail($id);
-        $berat_jenis = $data->beratJenis;
-        return view('pages.admin.product.edit', compact('data', 'berat_jenis'));
+        $data = Product::with(['fotos','varians', 'beratJenis'])->findOrFail($id);
+        // dd($data);
+        return view('pages.admin.product.edit', compact('data'));
     }
 
-    public function updatePost(Request $request, $id)
-    {
-
-        // dd($request->all());
-
-        $dataID = $id;
-        $request->session()->put('product_data', [
-            'nama_product' => $request->input('nama_product'),
-            'harga_rendah' => $request->input('harga_rendah'),
-            'harga_tinggi' => $request->input('harga_tinggi'),
-            'deskripsi' => $request->input('deskripsi'),
-            'link_shopee' => $request->input('link_shopee'),
-            'stok' => $request->input('stok'),
-            'spesifikasi_product' => $request->input('spesifikasi_product'),
-        ]);
-        $request->session()->put('product_id', $dataID);
-        $request->session()->put('berat_jenis', $request->beratjenis);
-        // $request->session()->put('varian', $request->varian);
-        // dd(session()->all());
-        // dd(session()->all());
-
-        return redirect()->route('product.editImage');
-    }
-
-    public function viewUpdateImage()
-    {
-        $product_id = session()->get('product_id');
-        $fotos = Foto::where('product_id', $product_id)->get();
-        return view('pages.admin.product.update_image', compact('product_id', 'fotos'));
-    }
 
     public function update(Request $request, $id)
     {
-        $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
-        $product = session()->get('product_data');
-        $berat_jenis = session()->get('berat_jenis');
-        $varian = session()->get('varian');
-
-        DB::beginTransaction();
+        $this->validate($request, [
+            'nama_product' => 'required',
+            'harga_rendah' => 'required',
+            'harga_tinggi' => 'required',
+            'deskripsi' => 'required',
+            'link_shopee' => 'required',
+            'stok' => 'required',
+            'spesifikasi_product' => 'required',
+            'image.*' => 'image|mimes:jpeg,png,jpg|max:2048', // Allow empty image updates
+        ]);
+    
         try {
-            // Update product data
-            $data->update([
-                'nama_product' => $product['nama_product'],
-                'harga_rendah' => $product['harga_rendah'],
-                'harga_tinggi' => $product['harga_tinggi'],
-                'deskripsi' => $product['deskripsi'],
-                'link_shopee' => $product['link_shopee'],
-                'stok' => $product['stok'],
-                'spesifikasi_product' => $product['spesifikasi_product'],
+            DB::beginTransaction();
+    
+            // Find the product by ID
+            $product = Product::findOrFail($id);
+    
+            // Update the product data
+            $product->update([
+                'nama_product' => $request->nama_product,
+                'harga_rendah' => $request->harga_rendah,
+                'harga_tinggi' => $request->harga_tinggi,
+                'deskripsi' => $request->deskripsi,
+                'link_shopee' => $request->link_shopee,
+                'stok' => $request->stok,
+                'spesifikasi_product' => $request->spesifikasi_product,
             ]);
-
-            // Update related records
-            $data->beratJenis()->update([
-                'berat_jenis' => $berat_jenis,
-            ]);
-
-            $data->varians()->update([
-                'varian' => $varian,
-            ]);
-
-            // Handle image update (if needed)
+    
+            // Update or create beratJenis records
+            foreach ($request->beratjenis as $beratjenis) {
+                $beratJenisModel = BeratJenis::updateOrCreate(['berat_jenis' => $beratjenis]);
+                $beratJenisIds[] = $beratJenisModel->id;
+            }
+            $product->beratJenis()->sync($beratJenisIds);
+    
+            // Update or create varians records
+            $product->varians()->delete(); // Delete existing varians
+            foreach ($request->varian as $varian) {
+                $product->varians()->create(['jenis_varian' => $varian]);
+            }
+    
+            // Handle image updates
             if ($request->hasFile('image')) {
                 $this->validate($request, [
-                    'image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
                 ]);
-
+    
                 // Delete existing images
-                foreach ($data->fotos as $foto) {
-                    Storage::delete($foto['foto']);
+                foreach ($product->fotos as $foto) {
+                    Storage::delete($foto->foto);
                 }
-
-                // Proses setiap file yang diunggah
-                $images = [];
+    
+                // Process each uploaded file
                 foreach ($request->file('image') as $file) {
                     $img = $file->store("images");
-                    $images[] = $img;
-                }
-
-                // Update image data
-                $data->fotos()->delete();
-                foreach ($images as $image) {
+                    // Create new image record
                     Foto::create([
-                        'foto' => $image,
-                        'product_id' => $id,
+                        'foto' => $img,
+                        'product_id' => $product->id,
                     ]);
                 }
             }
-
+    
             DB::commit();
+    
+            return redirect()->route('product.index')->with('success', 'Product has been updated successfully');
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
             DB::rollBack();
-
+            throw $e;
             // Handle the error as needed
             return redirect()->back()->with('error', 'Failed to update product data.');
         }
-
-        return redirect()->route('product.index')->with('success', 'Product has been updated successfully');
     }
+    
 
     public function destroy(Product $product)
     {
@@ -277,7 +228,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
             DB::rollBack();
-            throw $e;
+            // throw $e;
             // Handle the error as needed
             return redirect()->back()->with('error', 'Failed to delete the product.');
         }
