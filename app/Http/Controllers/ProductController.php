@@ -180,9 +180,8 @@ class ProductController extends Controller
     public function viewUpdateImage()
     {
         $product_id = session()->get('product_id');
-        // dd($product_id);
-        $fotos = Foto::where('product_id', $product_id)->get();
-        return view('pages.admin.product.update_image', compact('product_id', 'fotos'));
+        $foto = Foto::where('product_id', $product_id)->get();
+        return view('pages.admin.product.update_image', compact('product_id', 'foto'));
     }
 
     public function update(Request $request, $id)
@@ -191,7 +190,7 @@ class ProductController extends Controller
         $product = session()->get('product_data');
         $berat_jenis = session()->get('berat_jenis');
         $varian = session()->get('varian');
-        // dd($data->beratJenis);
+
         DB::beginTransaction();
         try {
             // Update product data
@@ -206,33 +205,41 @@ class ProductController extends Controller
             ]);
 
             // Update related records
-            $product->beratJenis->update([
-                'berat_jenis' => $berat_jenis['berat_jenis'],
+            $data->beratJenis()->update([
+                'berat_jenis' => $berat_jenis,
             ]);
 
-            $product->varians->update([
-                'varian' => $varian['varian'],
+            $data->varians()->update([
+                'varian' => $varian,
             ]);
 
             // Handle image update (if needed)
             if ($request->hasFile('image')) {
                 $this->validate($request, [
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
 
-                // Delete existing image (if exists)
-                Storage::delete('images/product/' . $product->foto->image);
+                // Delete existing images
+                foreach ($data->fotos as $foto) {
+                    Storage::delete($foto['foto']);
+                }
 
-                // Upload and update new image
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
-                $path = $request->file('image')->storeAs('images/product', $filename);
+                // Proses setiap file yang diunggah
+                $images = [];
+                foreach ($request->file('image') as $file) {
+                    $img = $file->store("images");
+                    $images[] = $img;
+                }
 
-                $product->foto()->update([
-                    'image' => $filename,
-                ]);
+                // Update image data
+                $data->fotos()->delete();
+                foreach ($images as $image) {
+                    Foto::create([
+                        'foto' => $image,
+                        'product_id' => $id,
+                    ]);
+                }
             }
-            // dd('test');
 
             DB::commit();
         } catch (\Exception $e) {
@@ -245,14 +252,11 @@ class ProductController extends Controller
 
         return redirect()->route('product.index')->with('success', 'Product has been updated successfully');
     }
+
     public function destroy(Product $product)
     {
         $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($product->id);
-        $photos = $data->fotos;
-        // foreach ($photos as $photo) {
-        //     dd($photo);
-        // }
-        // dd($data->fotos->image);
+
         DB::beginTransaction();
         try {
             // Delete related records
@@ -265,7 +269,7 @@ class ProductController extends Controller
             // Handle image deletion (if needed)
             if ($data->fotos) {
                 foreach ($data->fotos as $foto) {
-                    Storage::delete('images/' . $foto->image);
+                    Storage::delete($foto['foto']);
                 }
             }
 

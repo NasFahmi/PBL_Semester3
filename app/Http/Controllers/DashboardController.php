@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -18,7 +19,17 @@ class DashboardController extends Controller
         $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
         $dataJumlahOrder = $data->count();
         
-        return view('pages.admin.dashboard', compact('data', 'totalPendapatan', 'totalProductTerjual', 'totalPreorder', 'dataJumlahOrder'));
+        $topSalesProducts = Transaksi::where('is_complete', 1)
+            ->groupBy('product_id')
+            ->select('product_id', DB::raw('SUM(jumlah) as totalJumlah'))
+            ->orderByDesc('totalJumlah')
+            ->with('products') // Order in descending order by total quantity
+            ->get();
+        dd($data);
+        // $topSalesProductsArray = $topSalesProducts->toArray();
+        // dd($topSalesProductsArray);
+
+        return view('pages.admin.dashboard', compact('data', 'totalPendapatan', 'totalProductTerjual', 'totalPreorder', 'dataJumlahOrder','topSalesProducts'));
     }
 
 
