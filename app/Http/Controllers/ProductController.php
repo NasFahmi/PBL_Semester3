@@ -155,6 +155,7 @@ class ProductController extends Controller
 
     public function updatePost(Request $request, $id)
     {
+
         $dataID = $id;
         $request->session()->put('product_data', [
             'nama_product' => $request->input('nama_product'),
@@ -178,77 +179,93 @@ class ProductController extends Controller
     {
         $product_id = session()->get('product_id');
         // dd($product_id);
-        return view('pages.admin.product.update_image',compact('product_id'));
+        $foto = Foto::where('product_id', $product_id)->get();
+        return view('pages.admin.product.update_image',compact('product_id','foto'));
     }
 
     public function update(Request $request, $id)
     {
         $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
+        $product = session()->get('product_data');
+        $berat_jenis = session()->get('berat_jenis');
+        $varian = session()->get('varian');
+        // dd($data->beratJenis);
         DB::beginTransaction();
+        try {
+            // Update product data
+            $data->update([
+                'nama_product' => $product['nama_product'],
+                'harga_rendah' => $product['harga_rendah'],
+                'harga_tinggi' => $product['harga_tinggi'],
+                'deskripsi' => $product['deskripsi'],
+                'link_shopee' => $product['link_shopee'],
+                'stok' => $product['stok'],
+                'spesifikasi_product' => $product['spesifikasi_product'],
+            ]);
 
-        // try {
-        //     // // Update product data
-        //     // $product->update([
-        //     //     'nama_product' => $request->input('nama_product'),
-        //     //     'harga_rendah' => $request->input('harga_rendah'),
-        //     //     'harga_tinggi' => $request->input('harga_tinggi'),
-        //     //     'deskripsi' => $request->input('deskripsi'),
-        //     //     'link_shopee' => $request->input('link_shopee'),
-        //     //     'stok' => $request->input('stok'),
-        //     //     'spesifikasi_product' => $request->input('spesifikasi_product'),
-        //     // ]);
+            // Update related records
+            $product->beratJenis->update([
+                'berat_jenis' => $berat_jenis['berat_jenis'],
+            ]);
 
-        //     // // Update related records
-        //     // $product->beratJenis()->update([
-        //     //     'berat_jenis' => $request->input('berat_jenis'),
-        //     // ]);
+            $product->varians->update([
+                'varian' => $varian['varian'],
+            ]);
 
-        //     // $product->varians()->update([
-        //     //     'varian' => $request->input('varian'),
-        //     // ]);
+            // Handle image update (if needed)
+            if ($request->hasFile('image')) {
+                $this->validate($request, [
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                ]);
 
-        //     // // Handle image update (if needed)
-        //     // if ($request->hasFile('image')) {
-        //     //     $this->validate($request, [
-        //     //         'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        //     //     ]);
+                // Delete existing image (if exists)
+                Storage::delete('images/product/' . $product->foto->image);
 
-        //     //     // Delete existing image (if exists)
-        //     //     Storage::delete('images/product/' . $product->foto->image);
+                // Upload and update new image
+                $extension = $request->file('image')->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $path = $request->file('image')->storeAs('images/product', $filename);
 
-        //     //     // Upload and update new image
-        //     //     $extension = $request->file('image')->getClientOriginalExtension();
-        //     //     $filename = time() . '.' . $extension;
-        //     //     $path = $request->file('image')->storeAs('images/product', $filename);
+                $product->foto()->update([
+                    'image' => $filename,
+                ]);
+            }
+            // dd('test');
 
-        //     //     $product->foto()->update([
-        //     //         'image' => $filename,
-        //     //     ]);
-        //     }
+            DB::commit();
+        } catch (\Exception $e) {
+            // If there is an error, rollback the transaction
+            DB::rollBack();
 
-        //     DB::commit();
-        // } catch (\Exception $e) {
-        //     // If there is an error, rollback the transaction
-        //     DB::rollBack();
-
-        //     // Handle the error as needed
-        //     return redirect()->back()->with('error', 'Failed to update product data.');
-        // }
+            // Handle the error as needed
+            return redirect()->back()->with('error', 'Failed to update product data.');
+        }
 
         return redirect()->route('product.index')->with('success', 'Product has been updated successfully');
     }
     public function destroy(Product $product)
     {
+        $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($product->id);
+        $photos = $data->fotos;
+        // foreach ($photos as $photo) {
+        //     dd($photo);
+        // }
+        // dd($data->fotos->image);
         DB::beginTransaction();
-
         try {
             // Delete related records
-            $product->fotos()->delete();
-            $product->varians()->delete();
-            $product->beratJenis()->delete();
+            $data->fotos()->delete();
+            $data->varians()->delete();
+            $data->beratJenis()->delete();
 
-            // Delete the product itself
-            $product->delete();
+            // Delete the data itself
+            $data->delete();
+            // Handle image deletion (if needed)
+            if ($data->fotos) {
+                foreach ($data->fotos as $foto) {
+                    Storage::delete('images/' . $foto->image);
+                }
+            }
 
             DB::commit();
         } catch (\Exception $e) {
