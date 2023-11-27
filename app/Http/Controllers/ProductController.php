@@ -157,11 +157,13 @@ class ProductController extends Controller
             ]);
     
             // Update or create beratJenis records
+            $product->beratJenis()->delete();
             foreach ($request->beratjenis as $beratjenis) {
-                $beratJenisModel = BeratJenis::updateOrCreate(['berat_jenis' => $beratjenis]);
-                $beratJenisIds[] = $beratJenisModel->id;
+                $product->beratJenis()->create([
+                    'berat_jenis'=> $beratjenis,
+                ]);
             }
-            $product->beratJenis()->sync($beratJenisIds);
+            // $product->beratJenis()->sync($beratJenisIds);
     
             // Update or create varians records
             $product->varians()->delete(); // Delete existing varians
