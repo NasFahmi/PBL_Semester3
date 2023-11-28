@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = Product::with(['fotos', 'varians', 'beratJenis'])->get();
+        $data = Product::with(['fotos', 'varians', 'beratJenis'])->search(request('search'))->get();
         return view('pages.admin.product.index', compact('data'));
     }
 
@@ -31,7 +31,7 @@ class ProductController extends Controller
     {
         return view('pages.admin.product.create');
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -206,7 +206,7 @@ class ProductController extends Controller
         }
     }
     
-
+    
     public function destroy(Product $product)
     {
         $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($product->id);
