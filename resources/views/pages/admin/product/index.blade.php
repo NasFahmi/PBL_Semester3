@@ -1,7 +1,6 @@
 @extends('layout.admin_pages')
 @section('title', 'Admin Product')
 @section('content')
-
 <div class="container  px-6 pb-6 mx-auto">
     <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Product</h1>
     <div class="flex justify-center items-center gap-2 md:gap-4 flex-col-reverse md:flex-row mb-4">

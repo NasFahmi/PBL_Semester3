@@ -38,7 +38,7 @@
 </head>
 
 <body>
-    <div class="flex  h-screen bg-gray-100 " :class="{ 'overflow-hidden': isSideMenuOpen }">
+    <div class="flex  h-screen w-screen bg-gray-100 " :class="{ 'overflow-hidden': isSideMenuOpen }">
         @include('partials.sidenav')
         <div class="flex flex-col flex-1 w-full">
             @include('partials.header')
