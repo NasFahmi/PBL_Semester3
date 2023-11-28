@@ -34,4 +34,11 @@ class Product extends Model
     public function transaksis(){
         return $this->hasOne(Transaksi::class);
     }
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            $query->where('nama_product', 'like', '%' . $search . '%')
+                ->orWhere('deskripsi', 'like', '%' . $search . '%');
+        }
+    }
 }
