@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Transaksi;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
 
@@ -21,15 +23,17 @@ class TransaksiController extends Controller
      */
     public function create()
     {
-        //
+        $data = Product::get();
+        // dd($data);
+        return view('pages.admin.transaksi.create',compact('data'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransaksiRequest $request)
+    public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -63,4 +67,5 @@ class TransaksiController extends Controller
     {
         //
     }
+
 }

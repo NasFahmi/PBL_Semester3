@@ -36,20 +36,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'indexDashboard'])->name('admin.dashboard');
     Route::get('/admin/dashboard/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Route::get('/admin/product/detail/{id}', [ProductController::class, 'viewDetail'])->name('product.viewdetail');
-    
-    // Route::get('/admin/product/create/image', [ProductController::class, 'viewstoreImage'])->name('product.storeImage');
-    // Route::post('/admin/product/create/image', [ProductController::class, 'finalStore'])->name('product.storeImagePost');
-
-    // //! di edit view yang dimana mengedit product spesifikasi next btn akan mengeksekusi updatePost 
-    // Route::post('/admin/product/{id}/edit',[ProductController::class,'updatePost'])->name('product.updatePost');
-    // //! dan akan mengarahkan keroute dibawah ini, 
-    // Route::get('/admin/product/edit/image',[ProductController::class,'viewUpdateImage'])->name('product.editImage');
-    // //! dari route image view diatas ini btn upload akan mengeksekusi product.update dimana method patch
 
     Route::resource('/admin/product', ProductController::class);
 
     Route::resource('/admin/transaksi', TransaksiController::class);
+   
 
     Route::resource('/admin/preorder', PreorderController::class);
 
