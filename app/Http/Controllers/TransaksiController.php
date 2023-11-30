@@ -41,7 +41,7 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
-        //
+        return view('pages.admin.transaksi.detail');
     }
 
     /**

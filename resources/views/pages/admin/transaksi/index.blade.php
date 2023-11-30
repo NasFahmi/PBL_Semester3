@@ -52,7 +52,7 @@
 
             </div>
         </div>
-        <div class="bg-white p-4 shadow-lg rounded-3xl   lg:w-full">
+        <div class="bg-white p-8 shadow-lg rounded-3xl   lg:w-full">
             <div class="overflow-x-auto ">
                 <table class=" text-sm text-left table-auto w-full">
                     <thead class="text-xs text-gray-700  bg-gray-100  ">
