@@ -38,18 +38,18 @@
                 </form>
 
                 <a href="{{ route('transaksi.create') }}"
-                    class="bg-green-200 px-4 w-full md:w-fit py-2 rounded-3xl flex justify-center items-center gap-1 ">
+                    class="bg-sky-200 px-4 w-full md:w-fit py-2 rounded-3xl flex justify-center items-center gap-1 ">
                     <div class="w-4 h-4">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                             <g id="SVGRepo_iconCarrier">
-                                <path d="M6 12H18M12 6V18" stroke="#65a30d" stroke-width="2" stroke-linecap="round"
+                                <path d="M6 12H18M12 6V18" stroke="#0284c7" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"></path>
                             </g>
                         </svg>
                     </div>
-                    <span class="font-semibold text-green-600 text-sm">Tambah Transaksi</span>
+                    <span class="font-semibold text-sky-600 text-sm">Tambah Transaksi</span>
                 </a>
 
             </div>

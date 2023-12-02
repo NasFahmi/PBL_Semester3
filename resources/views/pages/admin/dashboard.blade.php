@@ -41,7 +41,7 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 ">
                     {{-- {{ number_format($items->harga_rendah, 0, ',', '.') }} --}}
-                    {{number_format($totalPendapatan,0,',','.')}}
+                    Rp. {{number_format($totalPendapatan,0,',','.')}}
                 </p>
             </div>
         </div>
