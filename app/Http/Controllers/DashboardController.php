@@ -13,7 +13,7 @@ class DashboardController extends Controller
      */
     public function indexDashboard()
     {
-        $data = Transaksi::with(['pembelis','products','methodePembayarans','preorders'])->get();
+        $data = Transaksi::with(['pembelis','products','methode_pembayaran','preorders'])->get();
         $totalPendapatan = Transaksi::where('is_complete', 1)->sum('total_harga');
         $totalProductTerjual = Transaksi::where('is_complete', 1)->sum('jumlah');
         $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use App\Models\Pembeli;
 use App\Models\Product;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
 
@@ -15,7 +18,9 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.transaksi.index');
+        $data = Transaksi::with(['pembelis','products','methode_pembayaran','preorders'])->get();
+        // dd($data);
+        return view('pages.admin.transaksi.index',compact('data'));
     }
 
     /**
@@ -33,7 +38,50 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+     
+        
+        // dd($request->all());
+        try {
+            DB::beginTransaction();
+            $data = $request->all();
+
+            $dataTanggal = $request->tanggal;
+            $dateTime = DateTime::createFromFormat('d/m/Y', $dataTanggal);
+            $tanggal = $dateTime->format('Y-m-d');
+    
+            $totalharga = $request->total;
+            $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
+            
+
+            $dataPembeli = Pembeli::create([
+                "nama"=> $data['nama'],
+                "email"=>$data['email'],
+                'alamat'=>$data['alamat'],
+                "no_hp"=>$data['telepon'],
+            ]);
+            $idPembeli = $dataPembeli->id;
+
+            Transaksi::create([
+                "tanggal"=> $tanggal,
+                "pembeli_id"=>$idPembeli,
+                "product_id"=>$data['product'],
+                "methode_pembayaran_id"=>$data['methode_pembayaran'],
+                "jumlah"=>$data['jumlah'],
+                "total_harga"=>$totalHargaTanpaTitik,
+                "keterangan"=>$data['keterangan'],
+                "is_Preorder"=>'0',
+                "Preorder_id"=>null,
+                "is_complete"=>$data['is_complete'],
+            ]);
+            DB::commit();
+            return redirect()->route('transaksi.index')->with('success', 'Transaksi has been created successfully');
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+            // return redirect()->back()->with('error', 'Failed to create transaksi data.');
+
+        }
     }
 
     /**
@@ -41,23 +89,33 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
-        return view('pages.admin.transaksi.detail');
+        
+        $data = Transaksi::with(['pembelis','products','methode_pembayaran','preorders'])
+            ->findOrFail($transaksi->id);
+            // dd($data->methode_pembayaran->methode_pembayaran);
+
+        // dd($data); // Uncomment this line for debugging
+        return view('pages.admin.transaksi.detail', compact('data'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Transaksi $transaksi)
     {
-        //
+        $data = Product::get();
+        $dataTransaksi = Transaksi::with(['pembelis','products','methode_pembayaran','preorders'])
+        ->findOrFail($transaksi->id);
+        return view('pages.admin.transaksi.edit',compact('data','dataTransaksi'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
+    public function update(Request $request, Transaksi $transaksi)
     {
-        //
+        
     }
 
     /**
@@ -65,7 +123,19 @@ class TransaksiController extends Controller
      */
     public function destroy(Transaksi $transaksi)
     {
-        //
+        try {
+            DB::beginTransaction();
+    
+            $transaksi->delete();
+    
+            DB::commit();
+    
+            return redirect()->route('transaksi.index')->with('success', 'Transaksi has been deleted successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+            // return redirect()->back()->with('error', 'Failed to delete transaksi data.');
+        }
     }
 
 }

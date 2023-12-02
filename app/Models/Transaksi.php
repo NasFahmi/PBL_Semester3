@@ -26,7 +26,7 @@ class Transaksi extends Model
     public function products(){
         return $this->belongsTo(Product::class,'product_id','id');
     }
-    public function methodePembayarans(){
+    public function methode_pembayaran(){
         return $this->belongsTo(MethodePembayaran::class,'methode_pembayaran_id','id');
     }
     public function preorders(){

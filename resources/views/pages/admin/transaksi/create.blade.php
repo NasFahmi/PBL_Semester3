@@ -43,10 +43,10 @@
                                         class="block mb-2 text-sm font-medium  text-gray-800 ">Methode Pembayaran</label>
                                     <select id="methode_pembayaran" name="methode_pembayaran"
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="transfer">Transfer</option>
-                                        <option value="shopee">Shopee</option>
-                                        <option value="offline">Offline</option>
-                                        <option value="lainnya">Lainnya</option>
+                                        <option value="1">Transfer</option>
+                                        <option value="2">Shopee</option>
+                                        <option value="3">Offline</option>
+                                        <option value="4">Lainnya</option>
                                     </select>
                                 </div>
                                 <div class="w-full">
@@ -59,19 +59,19 @@
                                 </div>
                                 <div class="w-full">
                                     <p class="text-sm font-medium text-gray-800">Total Harga</p>
-                                    <div class="relative mb-6">
+                                    <div class="relative ">
                                         <div
                                             class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                             <p>Rp.</p>
                                         </div>
-                                        <input type="number" name="total" id="total-harga"
+                                        <input type="text" name="total" id="total-harga"
                                             class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="0">
                                     </div>
                                 </div>
                                 <div class="w-full">
-                                    <p>Status</p>
-                                    <div class="flex items-center mb-4">
+                                    <p class="mb-1">Status</p>
+                                    <div class="flex items-center mb-2">
                                         <input checked id="radio-btn-1" type="radio" value="1" name="is_complete"
                                             class="w-4 h-4  text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
                                         <label for="radio-btn-1"
@@ -132,5 +132,31 @@
             </form>
         </div>
     </div>
+    <script>
+        /* Tanpa Rupiah */
+    let total_harga = document.getElementById('total-harga');
+    total_harga.addEventListener('keyup', function(e)
+    {
+        total_harga.value = formatRupiah(this.value);
+    });
     
+    
+    /* Fungsi */
+    function formatRupiah(angka,prefix)
+    {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split    = number_string.split(','),
+            sisa     = split[0].length % 3,
+            rupiah     = split[0].substr(0, sisa),
+            ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+            
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+    </script>
 @endsection
