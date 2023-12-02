@@ -7,6 +7,7 @@
         <div class="bg-white px-8 py-8 shadow-lg rounded-3xl">
             <form action="{{route('transaksi.update',$dataTransaksi->id)}}" method="post">
                 @csrf
+                @method('PATCH')
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div class="left">
                         <div class="max-w-lg">
