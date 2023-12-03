@@ -121,7 +121,7 @@ class PreorderController extends Controller
      */
     public function show(Preorder $preorder)
     {
-        dd($preorder->id);
+        dd("test");
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
         ->findOrFail($preorder->id);
         // dd($data->methode_pembayaran->methode_pembayaran);
