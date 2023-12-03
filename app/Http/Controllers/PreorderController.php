@@ -121,7 +121,14 @@ class PreorderController extends Controller
      */
     public function show(Preorder $preorder)
     {
-        //
+        dd($preorder->id);
+        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
+        ->findOrFail($preorder->id);
+        // dd($data->methode_pembayaran->methode_pembayaran);
+
+        // dd($data); // Uncomment this line for debugging
+        return view('pages.admin.preorder.detail', compact('data'));
+        // return view('pages.admin.preorder.detail');
     }
 
     /**
@@ -149,6 +156,18 @@ class PreorderController extends Controller
      */
     public function destroy(Preorder $preorder)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $preorder->delete();
+
+            DB::commit();
+
+            return redirect()->route('transaksi.index')->with('success', 'Transaksi has been deleted successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+            // return redirect()->back()->with('error', 'Failed to delete transaksi data.');
+        }
     }
 }
