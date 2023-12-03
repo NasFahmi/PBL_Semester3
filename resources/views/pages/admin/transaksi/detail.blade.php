@@ -12,7 +12,7 @@
                         <div class="flex gap-4 justify-start items-center">
                             <div class="flex justify-start items-center gap-2">
                                 <div class="w-8 h-8 flex justify-center items-center">
-                                    <svg vieAwBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#clip0_443_3628)"> <rect x="2" y="6" width="20" height="12" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></rect> <path d="M22 10C21.4747 10 20.9546 9.89654 20.4693 9.69552C19.984 9.4945 19.543 9.19986 19.1716 8.82843C18.8001 8.45699 18.5055 8.01604 18.3045 7.53073C18.1035 7.04543 18 6.52529 18 6L22 6L22 10Z" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18 18C18 16.9391 18.4214 15.9217 19.1716 15.1716C19.9217 14.4214 20.9391 14 22 14L22 18L18 18Z" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M2 14C3.06087 14 4.07828 14.4214 4.82843 15.1716C5.57857 15.9217 6 16.9391 6 18L2 18L2 14Z" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 6C6 7.06087 5.57857 8.07828 4.82843 8.82843C4.07828 9.57857 3.06087 10 2 10L2 6H6Z" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14.0741 9.5H11.3333C10.597 9.5 10 10.0596 10 10.75C10 11.4404 10.597 12 11.3333 12H13.1111C13.8475 12 14.4444 12.5596 14.4444 13.25C14.4444 13.9404 13.8475 14.5 13.1111 14.5H10" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 9.51733V8.5" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 15.5173V14.5" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> <defs> <clipPath id="clip0_443_3628"> <rect width="24" height="24" fill="white"></rect> </clipPath> </defs> </g></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11.25 7.84748C10.3141 8.10339 9.75 8.82154 9.75 9.5C9.75 10.1785 10.3141 10.8966 11.25 11.1525V7.84748Z" fill="#1C274C"></path> <path d="M12.75 12.8475V16.1525C13.6859 15.8966 14.25 15.1785 14.25 14.5C14.25 13.8215 13.6859 13.1034 12.75 12.8475Z" fill="#1C274C"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 5.25C12.4142 5.25 12.75 5.58579 12.75 6V6.31673C14.3804 6.60867 15.75 7.83361 15.75 9.5C15.75 9.91421 15.4142 10.25 15 10.25C14.5858 10.25 14.25 9.91421 14.25 9.5C14.25 8.82154 13.6859 8.10339 12.75 7.84748V11.3167C14.3804 11.6087 15.75 12.8336 15.75 14.5C15.75 16.1664 14.3804 17.3913 12.75 17.6833V18C12.75 18.4142 12.4142 18.75 12 18.75C11.5858 18.75 11.25 18.4142 11.25 18V17.6833C9.61957 17.3913 8.25 16.1664 8.25 14.5C8.25 14.0858 8.58579 13.75 9 13.75C9.41421 13.75 9.75 14.0858 9.75 14.5C9.75 15.1785 10.3141 15.8966 11.25 16.1525V12.6833C9.61957 12.3913 8.25 11.1664 8.25 9.5C8.25 7.83361 9.61957 6.60867 11.25 6.31673V6C11.25 5.58579 11.5858 5.25 12 5.25Z" fill="#1C274C"></path> </g></svg>
                                 </div>
                                 <h1 class="text-2xl text-gray-800 font-semibold">Rp. {{ number_format($data->total_harga, 0, ',', '.') }}</h1>
                             </div>
@@ -113,7 +113,7 @@
                     <div class="flex flex-col gap-2 mt-1">
                         <div class="grid grid-cols-2 justify-start items-start">
                             <p class="text-sm col-span-1 text-gray-500">DP</p>
-                            <p class="text-base col-span-1 text-gray-800 font-medium">{{$data->preorders->down_payment}}</p>
+                            <p class="text-base col-span-1 text-gray-800 font-medium">Rp. {{ number_format($data->preorders->down_payment, 0, ',', '.') }} </p>
                         </div>
                         <div class="grid grid-cols-2 justify-start items-start">
                             <p class="text-sm col-span-1 text-gray-500 whitespace-nowrap ">Tanggal Pembayaran DP</p>
@@ -122,7 +122,7 @@
                         </div>
                         <div class="grid grid-cols-2 justify-start items-start">
                             <p class="text-sm col-span-1 text-gray-500 whitespace-nowrap">Kekurangan Harga</p>
-                            <p class="text-base col-span-1 text-red-400 font-medium">{{$data->total_harga-$data->preorders->down_payment}}</p>
+                            <p class="text-base col-span-1 text-red-400 font-medium">Rp. {{ number_format($data->total_harga-$data->preorders->down_payment, 0, ',', '.') }} </p>
                         </div>
                        
                     </div>

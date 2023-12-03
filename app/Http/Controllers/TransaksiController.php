@@ -182,8 +182,8 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been updated successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
-            // return redirect()->back()->with('error', 'Failed to update transaksi data.');
+            // throw $th;
+            return redirect()->back()->with('error', 'Failed to update transaksi data.');
         }
     }
 
@@ -203,8 +203,8 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been deleted successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
-            // return redirect()->back()->with('error', 'Failed to delete transaksi data.');
+            // throw $th;
+            return redirect()->back()->with('error', 'Failed to delete transaksi data.');
         }
     }
 }
