@@ -1,10 +1,10 @@
 @extends('layout.admin_pages')
-@section('title', 'Admin Transaksi')
+@section('title', 'Admin Preorder')
 @section('content')
     <div class="container  px-6 pb-6 mx-auto">
-        <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Tambah Transaksi</h1>
+        <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Tambah Transaksi Preorder</h1>
         <div class="bg-white px-8 py-8 shadow-lg rounded-3xl">
-            <form action="{{route('transaksi.store')}}" method="post">
+            <form action="{{route('preorder.store')}}" method="post">
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div class="left">
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="w-full">
                                     <label for="methode_pembayaran"
-                                        class="block mb-2 text-sm font-medium  text-gray-800 ">Methode Pembayaran</label>
+                                        class="block  text-sm font-medium  text-gray-800 ">Methode Pembayaran</label>
                                     <select id="methode_pembayaran" name="methode_pembayaran"
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="1">Transfer</option>
@@ -51,14 +51,14 @@
                                 </div>
                                 <div class="w-full">
                                     <label for="jumlah"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
+                                        class="block  text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
                                     <input type="number" id="jumlah" name="jumlah"
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="0" required>
 
                                 </div>
                                 <div class="w-full">
-                                    <p class="text-sm font-medium text-gray-800 mb-1">Total Harga</p>
+                                    <p class="text-sm font-medium text-gray-800 ">Total Harga</p>
                                     <div class="relative ">
                                         <div
                                             class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -83,8 +83,48 @@
                                         <label for="radio-btn-2" class="ms-2 text-sm font-medium text-gray-900 ">Belum
                                             Selesai</label>
                                     </div>
-
                                 </div>
+                                {{-- Preorder --}}
+                                <div class="w-full">
+                                    <label for="is_dp"
+                                        class="block text-sm font-medium  text-gray-800 ">Apakah DP?</label>
+                                    <select id="is_dp" name="is_dp" 
+                                        class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="1" selected>Ya</option>
+                                        <option value="0">Tidak</option>
+                                    </select>
+                                </div>
+
+                                <div class="w-full" id="tanggal_dp_container">
+                                    <label for="" class="text-sm font-medium text-gray-800">Tanggal Pembayaran DP</label>
+                                    <div class="relative max-w-lg">
+                                        <div
+                                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                            </svg>
+                                        </div>
+                                        <input datepicker type="text" name="tanggal_dp"
+                                            class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="Select date">
+                                    </div>
+                                </div>
+
+                                <div class="w-full" id="jumlah_dp_container">
+                                    <p class="text-sm font-medium text-gray-800">Jumlah DP</p>
+                                    <div class="relative ">
+                                        <div
+                                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                            <p>Rp.</p>
+                                        </div>
+                                        <input type="text" name="jumlah_dp" id="jumlah_dp"
+                                            class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="0">
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -126,6 +166,8 @@
 
                     </div>
                 </div>
+
+                
                 <div class="flex justify-center items-center mt-8">
                     <button type="submit" class="bg-green-400 text-gray-100 px-4 py-2 w-full lg:w-fit rounded-lg hover:bg-green-500 duration-300">Submit</button>
                 </div>
@@ -135,6 +177,13 @@
     <script>
         /* Tanpa Rupiah */
     let total_harga = document.getElementById('total-harga');
+    let jumlah_dp = document.getElementById('jumlah_dp');
+    let is_dp = document.getElementById('is_dp');
+    
+    jumlah_dp.addEventListener('keyup',function(e){
+        jumlah_dp.value = formatRupiah(this.value);
+    })
+
     total_harga.addEventListener('keyup', function(e)
     {
         total_harga.value = formatRupiah(this.value);
@@ -158,5 +207,19 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
+    
+    is_dp.addEventListener('change', function () {
+        console.log(this.value);
+        let tanggalContainer = document.getElementById('tanggal_dp_container');
+        let jumlahContainer = document.getElementById('jumlah_dp_container');
+
+        if (this.value === '1') {
+            tanggalContainer.style.display = 'block';
+            jumlahContainer.style.display = 'block';
+        } else {
+            tanggalContainer.style.display = 'none';
+            jumlahContainer.style.display = 'none';
+        }
+    });
     </script>
 @endsection

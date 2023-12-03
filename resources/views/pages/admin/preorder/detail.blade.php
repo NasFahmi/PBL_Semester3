@@ -2,7 +2,7 @@
 @section('title', 'Admin Transaksi')
 @section('content')
     <div class="container  px-6 pb-6 mx-auto">
-        <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Detail Transaksi</h1>
+        <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Detail Transaksi Preorder</h1>
         {{-- <p>{{$data}}</p> --}}
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
             <div class="col-span-3 ">
