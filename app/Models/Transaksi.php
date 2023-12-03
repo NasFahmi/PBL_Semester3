@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Product;
+use App\Models\Pembeli;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,5 +33,18 @@ class Transaksi extends Model
     }
     public function preorders(){
         return $this->belongsTo(Preorder::class,'Preorder_id','id');
+    }
+    // Transaksi.php
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            $query->whereHas('products', function ($query) use ($search) {
+                $query->where('nama_product', 'like', '%' . $search . '%');
+            })
+                ->orWhereHas('pembelis', function ($query) use ($search) {
+                    $query->where('nama', 'like', '%' . $search . '%');
+                });
+        }
+
     }
 }

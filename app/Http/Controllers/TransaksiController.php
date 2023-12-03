@@ -16,13 +16,17 @@ class TransaksiController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // TransaksiController.php
     public function index()
     {
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-        ->where('is_Preorder',0)->get();
-        // dd($data);
+            ->where('is_Preorder', 0)
+            ->search(request('search'))
+            ->get();
+
         return view('pages.admin.transaksi.index', compact('data'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -90,8 +94,8 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
-            // return redirect()->back()->with('error', 'Failed to create transaksi data.');
+            // throw $th;
+            return redirect()->back()->with('error', 'Failed to create transaksi data.');
 
         }
     }
