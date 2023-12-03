@@ -20,6 +20,7 @@ class TransaksiController extends Controller
     {
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
         ->where('is_Preorder',0)->get();
+        
         // dd($data);
         return view('pages.admin.transaksi.index', compact('data'));
     }
