@@ -121,25 +121,18 @@ class PreorderController extends Controller
      */
     public function show(Preorder $preorder)
     {
-        dd("test");
-        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-        ->findOrFail($preorder->id);
-        // dd($data->methode_pembayaran->methode_pembayaran);
-
-        // dd($data); // Uncomment this line for debugging
-        return view('pages.admin.preorder.detail', compact('data'));
-        // return view('pages.admin.preorder.detail');
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Preorder $preorder)
+    public function edit($preorder)
     {
-        // dd('test');
+        // dd($preorder);
         $data = Product::get();
         $dataTransaksi = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-            ->findOrFail($preorder->id);
+            ->findOrFail($preorder);
         return view('pages.admin.preorder.edit', compact('data', 'dataTransaksi'));
     }
 
@@ -154,16 +147,22 @@ class PreorderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Preorder $preorder)
+    public function destroy($preorder)
     {
         try {
-            DB::beginTransaction();
 
-            $preorder->delete();
+            DB::beginTransaction();
+            $dataTransaksi = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
+            ->findOrFail($preorder);
+
+            $dataPembeli = $dataTransaksi->pembelis;
+
+            $dataTransaksi->delete();
+            $dataPembeli->delete();
 
             DB::commit();
 
-            return redirect()->route('transaksi.index')->with('success', 'Transaksi has been deleted successfully');
+            return redirect()->route('preorder.index')->with('success', 'Transaksi has been deleted successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
