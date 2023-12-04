@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AuthLoginRequest extends FormRequest
 {
@@ -22,16 +24,21 @@ class AuthLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string',
+            'username' => 'required',
+            'password' => 'required',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'email.required' => 'Kolom email wajib diisi.',
-            'password.required' => 'Kolom password wajib diisi.',
+            'username.required' => 'Kolom Username wajib diisi.',
+            'password.required' => 'Kolom Password wajib diisi.',
         ];
     }
+    function failedValidation(Validator $validator)  {
+        throw new HttpResponseException(response([
+            'errors'=>$validator->getMessageBag()
+        ]));
+    }   
 }

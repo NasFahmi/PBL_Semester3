@@ -34,7 +34,7 @@ class AuthController extends Controller
         if ($succeslogin) {
             return redirect()->route('admin.dashboard')->with('success', 'Login berhasil');
         } else {
-            return back()->with('error', 'Nama Atau Password Salah');
+            return back()->withErrors(['login' => 'Nama Atau Password Salah']);
         }
 
     }
