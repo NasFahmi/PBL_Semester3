@@ -20,7 +20,9 @@ class PreorderController extends Controller
     public function index()
     {
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-        ->where('is_Preorder',1)->get();
+        ->where('is_Preorder',1)
+        ->search(request('search'))
+        ->get();
         // dd($data);
         return view('pages.admin.preorder.index',compact('data'));
     }
