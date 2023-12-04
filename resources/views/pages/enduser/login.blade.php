@@ -16,17 +16,28 @@
                         </h1>
                         <form action="{{ route('login') }}" method="post">
                             @csrf
+                            @if ($errors->has('login'))
+                                <p class="text-red-500 text-sm italic">{{ $errors->first('login') }}</p>
+                            @endif
                             <label class="block text-sm">
                                 <span class="text-gray-700 ">Username</span><span class="text-red-600 ">*</span>
                                 <input name="nama" type="text"
                                     class="block w-full mt-1 text-sm border-gray-200 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue form-input rounded-md"
-                                    placeholder="Username" />
+                                    placeholder="Username" 
+                                    value="{{old('nama')}}"/>
+                                @error('nama')
+                                    <p class="text-red-500 text-sm italic">{{ $message }}</p>
+                                @enderror
                             </label>
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 ">Password</span><span class="text-red-600 ">*</span>
                                 <input name="password"
                                     class="block w-full mt-1 text-sm border-gray-200 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue form-input rounded-md"
-                                    placeholder="***************" type="password" />
+                                    placeholder="***************" type="password" 
+                                    value="{{old('password')}}"/>
+                                @error('password')
+                                    <p class="text-red-500 text-sm italic">{{ $message }}</p>
+                                @enderror
                             </label>
 
                             <!-- You should use a button here, as the anchor is only used for the example  -->
