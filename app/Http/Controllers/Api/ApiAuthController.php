@@ -10,7 +10,7 @@ use App\Http\Requests\AuthLoginRequest;
 use App\Http\Resources\AuthLoginResources;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AuthController extends Controller
+class ApiAuthController extends Controller
 {
     public function AuthLogin (AuthLoginRequest $request)
     {
