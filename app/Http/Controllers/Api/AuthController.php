@@ -32,4 +32,9 @@ class AuthController extends Controller
          // ! membuat token berdasarkan username
          return response()->json(new AuthLoginResources($user), 200);
     }
+    public function logout(Request $request) {
+        // dd($request->user());
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['status'=>200,'message' => 'Logged out successfully'], 200);
+    }
 }
