@@ -27,10 +27,7 @@ class DashboardController extends Controller
             ->with('products') // Order in descending order by total quantity
             ->limit(5)
             ->get();
-        // dd($topSalesProducts);
-        // dd($data);
-        // $topSalesProductsArray = $topSalesProducts->toArray();
-        // dd($topSalesProductsArray);
+        
 
         return view('pages.admin.dashboard', compact('data', 'totalPendapatan', 'totalProductTerjual', 'totalPreorder', 'dataJumlahOrder','topSalesProducts'));
     }

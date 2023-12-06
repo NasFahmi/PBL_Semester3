@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\ApiAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApiAuthController;
+use App\Http\Controllers\Api\ApiDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::get('/test',function(){
     return 'hello';
 });
 
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [ApiAuthController::class, 'logout']);
+    Route::get('/dashboard',[ApiDashboardController::class,'index']);
 });
