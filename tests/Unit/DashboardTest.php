@@ -36,6 +36,7 @@ class DashboardTest extends BaseTestCase
         // dd($token);
          $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json', 
         ])->get('/api/dashboard');
         $response->assertStatus(200)
         ->assertJson(
@@ -43,5 +44,13 @@ class DashboardTest extends BaseTestCase
                 'success'=>true,
             ]
         );
+    }
+    public function test_Api_get_data_dashboard_without_auth ():void
+    {
+
+        $response = $this->withHeaders([
+            'Accept' => 'application/json', 
+        ])->get('/api/dashboard');
+        $response->assertUnauthorized();
     }
 }
