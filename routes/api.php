@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiAuthController;
@@ -20,7 +21,7 @@ use App\Http\Controllers\Api\ApiDashboardController;
 //     return $request->user();
 // });
 // ! auth
-Route::post('/login', [ApiAuthController::class, 'AuthLogin']);
+Route::post('/login', [ApiAuthController::class, 'AuthLogin'])->name('login');
 
 
 Route::get('/test',function(){
@@ -31,4 +32,6 @@ Route::get('/test',function(){
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [ApiAuthController::class, 'logout']);
     Route::get('/dashboard',[ApiDashboardController::class,'index']);
+
 });
+Route::resource('/product',ApiProductController::class);
