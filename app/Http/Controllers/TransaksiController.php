@@ -27,7 +27,11 @@ class TransaksiController extends Controller
         return view('pages.admin.transaksi.index', compact('data'));
     }
 
-
+    public function cetakTransaksi()
+    {
+        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])->get();
+        return view('pages.admin.transaksi.cetak', compact('data'));
+    }
     /**
      * Show the form for creating a new resource.
      */
