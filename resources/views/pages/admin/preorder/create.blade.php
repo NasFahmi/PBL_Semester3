@@ -69,7 +69,7 @@
                                             placeholder="0">
                                     </div>
                                 </div>
-                                <div class="w-full">
+                                {{-- <div class="w-full">
                                     <p class="mb-1">Status</p>
                                     <div class="flex items-center mb-2">
                                         <input checked id="radio-btn-1" type="radio" value="1" name="is_complete"
@@ -83,9 +83,9 @@
                                         <label for="radio-btn-2" class="ms-2 text-sm font-medium text-gray-900 ">Belum
                                             Selesai</label>
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- Preorder --}}
-                                <div class="w-full">
+                                {{-- <div class="w-full">
                                     <label for="is_dp"
                                         class="block text-sm font-medium  text-gray-800 ">Apakah DP?</label>
                                     <select id="is_dp" name="is_dp" 
@@ -93,7 +93,7 @@
                                         <option value="1" selected>Ya</option>
                                         <option value="0">Tidak</option>
                                     </select>
-                                </div>
+                                </div> --}}
 
                                 <div class="w-full" id="tanggal_dp_container">
                                     <label for="" class="text-sm font-medium text-gray-800">Tanggal Pembayaran DP</label>

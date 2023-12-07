@@ -264,7 +264,8 @@
         <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-gray-800 font-semibold ">Top Sales Product</h1>
-                <a href="" class="text-sm hover:underline"><span>See Details</span></a>
+                <h1 class="text-gray-800 font-semibold ">Last 30 Days</h1>
+                {{-- <a href="" class="text-sm hover:underline"><span>See Details</span></a> --}}
             </div>
             <div class="">
                 <div class="relative overflow-auto max-h-96 costumscroll">
