@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\ApiDashboardController;
 //     return $request->user();
 // });
 // ! auth
-Route::post('/login', [ApiAuthController::class, 'AuthLogin']);
+Route::post('/login', [ApiAuthController::class, 'AuthLogin'])->name('login');
 
 
 Route::get('/test',function(){
