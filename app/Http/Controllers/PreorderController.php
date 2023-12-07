@@ -48,12 +48,11 @@ class PreorderController extends Controller
             'methode_pembayaran' => 'required',
             'jumlah' => 'required',
             'total' => 'required',
-            'is_complete' => 'required',
             'nama' => 'required',
             'email' => 'required',
             'alamat' => 'required',
             'telepon' => 'required',
-            'is_dp'=>'required', // bisa iya bisa tidak jika iya ada tanggal_dp dan jumlah_dp
+             // bisa iya bisa tidak jika iya ada tanggal_dp dan jumlah_dp
             // opsional
             // tanggal_dp
             // jumlah_dp
@@ -71,13 +70,12 @@ class PreorderController extends Controller
             $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
 
             $jumlahDP = $request->jumlah_dp;
-            $jumlahDPTanpaTitik = str_replace(".", "", $jumlahDP);
-
-            if ($request->tanggal_dp) {
-                $dataTanggalDP = $request->tanggal_dp;
-                $dateTimeTanggalDp = DateTime::createFromFormat('d/m/Y',$dataTanggalDP);
-                $tanggalDP = $dateTimeTanggalDp->format('Y-m-d');
-            }
+            $jumlahDPTanpaTitik = $jumlahDP ? str_replace(".", "", $jumlahDP) : 0;
+            
+            $dataTanggalDP = $request->tanggal_dp;
+            $dateTimeTanggalDp = DateTime::createFromFormat('d/m/Y', strval($dataTanggalDP));
+            $tanggalDP = $dateTimeTanggalDp->format('Y-m-d');
+            
 
             $dataPembeli = Pembeli::create([
                 "nama" => $data['nama'],
@@ -88,10 +86,10 @@ class PreorderController extends Controller
             $idPembeli = $dataPembeli->id;
 
             $dataPreorder = Preorder::create([
-                'is_DP' => $data['is_dp'],
-                'down_payment' =>$jumlahDPTanpaTitik,
-                'tanggal_pembayaran_preoreder'=>$tanggal,
-                'tanggal_pembayaran_down_payment'=>$tanggalDP,
+                'is_DP' => '1',
+                'down_payment' => $jumlahDPTanpaTitik,
+                'tanggal_pembayaran_preoreder' => $tanggal,
+                'tanggal_pembayaran_down_payment' => $tanggalDP,
             ]);
             $idPreorder = $dataPreorder->id;
 
@@ -105,7 +103,7 @@ class PreorderController extends Controller
                 "keterangan" => $data['keterangan'],
                 "is_Preorder" => '1',
                 "Preorder_id" => $idPreorder,
-                "is_complete" => $data['is_complete'],
+                "is_complete" => '0',
             ]);
             DB::commit();
             return redirect()->route('preorder.index')->with('success', 'Transaksi has been created successfully');
