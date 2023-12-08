@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\ProductResources;
 use App\Models\Product;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResources;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ApiProductController extends Controller
 {
@@ -18,7 +19,7 @@ class ApiProductController extends Controller
         $transformedData = $data->map(function ($product) {
             return new ProductResources($product);
         });
-    
+
         return response()->json(['success' => true, 'data' => $transformedData], 200);
     }
 
@@ -27,15 +28,21 @@ class ApiProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        try {
+            $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
+            $transformedData = new ProductResources($data);
+            return response()->json(['success' => true, 'data' => $transformedData]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['success' => false, 'message' => 'Product not found.'], 404);
+        }
     }
 
     /**
@@ -49,8 +56,14 @@ class ApiProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        try {
+            $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
+            $data->delete();
+            return response()->json(['success' => true, 'message' => 'Product has deleted']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['success' => false, 'message' => 'Something went wrong'], 404);
+        }
     }
 }
