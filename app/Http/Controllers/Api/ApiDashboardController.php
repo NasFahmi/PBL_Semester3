@@ -30,7 +30,7 @@ class ApiDashboardController extends Controller
             ->with('products') // Order in descending order by total quantity
             ->limit(5)
             ->get();
-        
+            
         return response()->json(new DashboardResources([$dataJumlahOrder,$totalPendapatan,$totalProductTerjual,$totalPreorder,$product,$topSalesProducts]),200);
 
     }
