@@ -23,8 +23,21 @@ class PreorderController extends Controller
         ->where('is_Preorder',1)
         ->search(request('search'))
         ->get();
+        $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
         // dd($data);
-        return view('pages.admin.preorder.index',compact('data'));
+        $totalDP = Preorder::whereIn('id', function ($query) {
+            $query->select('Preorder_id')
+                ->from('transaksis')
+                ->where('is_complete', 0);
+        })
+            ->sum('down_payment');
+            
+        $totalHargaBelumLunas = Transaksi::where('is_complete', 0)
+            ->sum('total_harga');
+
+        $totalDPBelumLunas = $totalHargaBelumLunas - $totalDP;
+
+        return view('pages.admin.preorder.index',compact('data','totalPreorder','totalDP','totalDPBelumLunas'));
     }
 
     /**

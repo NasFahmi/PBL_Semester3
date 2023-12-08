@@ -75,22 +75,12 @@
                             </div>
                             <div class="grid grid-cols-2 gap-4 mb-1">
                                 <p class=" text-gray-400">Total Harga</p>
-                                <p class="font-medium text-gray-800">: {{ $preorder->total_harga }}</p>
+                                <p class="font-medium text-gray-800">: {{ number_format($preorder->total_harga, 0, ',', '.') }}</p>
                             </div>
-                            @if ($preorder->preorders->is_DP == true)
-                                <div class="grid grid-cols-2 gap-4 mb-1">
-                                    <p class=" text-gray-400">Status</p>
-                                    <p class="font-medium text-gray-800">: Sudah DP</p>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4 mb-1">
-                                    <p class="text-gray-400">DP Sebesar </p>
-                                    <p class="font-medium text-gray-800">: Rp. 500.000</p>
-                                </div>
-                            @elseif ($preorder->preorders->is_DP == false)
-                                <div class="grid grid-cols-2 gap-4 mb-1">
-                                    <p class="font-medium text-gray-800">: Belum DP</p>
-                                </div>
-                            @endif
+                            <div class="grid grid-cols-2 gap-4 mb-1">
+                                <p class=" text-gray-400">Down Payment</p>
+                                <p class="font-medium text-gray-800">: {{ number_format($preorder->preorders->down_payment, 0, ',', '.') }}</p>
+                            </div>
                         </div>
                         <div class="kanan flex justify-center items-center gap-4">
                             <a href="{{ route('transaksi.show', $preorder->id) }}"
@@ -207,24 +197,16 @@
                 <p class="text-gray-500 mb-2 font-medium">Informasi</p>
                 <div class="mb-2">
                     <p class="text-gray-600 text-sm">Total Preorder</p>
-                    <p class="text-gray-800 text-xl font-medium ">20</p>
-                </div>
-                <div class="mb-2">
-                    <p class="text-gray-600 text-sm">Jumlah Preorder DP</p>
-                    <p class="text-gray-800 text-xl font-medium ">5</p>
-                </div>
-                <div class="mb-2">
-                    <p class="text-gray-600 text-sm">Jumlah Preorder Belum DP</p>
-                    <p class="text-gray-800 text-xl font-medium ">15</p>
+                    <p class="text-gray-800 text-xl font-medium ">{{$totalPreorder}}</p>
                 </div>
                 <div class="mb-2">
                     <p class="text-gray-600 text-sm">Total Saldo Preorder Terbayar</p>
-                    <p class="text-gray-800 text-xl font-medium ">Rp. 250.000</p>
+                    <p class="text-gray-800 text-xl font-medium ">Rp.{{number_format($totalDP,0,',','.')}}</p>
                     <p class="text-xs italic text-gray-400">(Total dari Preorder yang Sudah Membayar DP)</p>
                 </div>
                 <div class="">
-                    <p class="text-gray-600 text-sm">Total Saldo Perorder Belum Terbayar</p>
-                    <p class="text-gray-800 text-xl font-medium ">Rp. 750.000</p>
+                    <p class="text-gray-600 text-sm">Total Saldo Prorder Belum Terbayar</p>
+                    <p class="text-gray-800 text-xl font-medium ">Rp.{{number_format($totalDPBelumLunas,0,',','.')}}</p>
                     <p class="text-xs italic text-gray-400">(Total Saldo yang Masih Dibutuhkan dari Transaksi Preorder yang
                         Belum Lunas)</p>
                 </div>
