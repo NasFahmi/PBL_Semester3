@@ -146,24 +146,24 @@
                     @foreach ($preorderRecently as $index => $preorder)
                         <div class="bg-teal-100 rounded-md p-4 mb-4">
                             <div class="flex justify-start items-center gap-4 mb-2">
-                                <div class=" w-10 h-10">
-                                    @foreach ($foto as $item)
-                                        <img src="{{ asset('storage/'.$item->foto) }}" alt="" srcset=""
-                                        class="rounded-full">
+                                <div class="w-10 h-10">
+                                    @foreach ($foto->where('product_id', $preorder->transaksis->product_id) as $item)
+                                        <img src="{{ asset('storage/' . $item->foto) }}" alt="" srcset=""
+                                            class="rounded-full">
                                     @endforeach
-
                                 </div>
                                 <div class="">
                                     <h1 class="text-gray-800 text-lg font-semibold"></h1>
                                     <p class="text-gray-700">Total Order : {{ $preorder->transaksis->jumlah ?? 0 }}</p>
                                 </div>
                             </div>
-                            
-                            <p class="text-gray-700 font-medium">Nama : {{ $namaPembeli[$index]}}</p>
+
+                            <p class="text-gray-700 font-medium">Nama : {{ $namaPembeli[$index] }}</p>
                             <p class="text-gray-500 text-sm mb-4">Keterangan : {{ $preorder->transaksis->keterangan }}</p>
                             <p class="text-sm text-right">{{ $preorder->created_at }}</p>
                         </div>
                     @endforeach
+
                 </div>
             </div>
         </div>
@@ -171,62 +171,23 @@
             <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
                 <h1 class="text-gray-800 font-semibold mb-4">Product Recently</h1>
                 <div class="overflow-y-auto costumscroll  rounded-lg max-h-96">
-                    <div class="bg-blue-100 rounded-md p-4 mb-4">
-                        <div class="flex justify-start items-center gap-4 mb-2">
-                            <div class=" w-16 h-16">
-                                <img src="{{ asset('assets/images/product/rambak.jpg') }}" alt="" srcset=""
-                                    class="rounded-full">
-                            </div>
-                            <div class="">
-                                <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">Product A</h1>
-                                <p class="text-gray-700 text-sm">Stok : 20</p>
-                                <p class="text-gray-700">Harga : Rp. 120.000</p>
+                    @foreach ($productRecently as $item)
+                        <div class="bg-blue-100 rounded-md p-4 mb-4">
+                            <div class="flex justify-start items-center gap-4 mb-2">
+                                <div class=" w-16 h-16">
+                                    <img src="{{ asset('storage/' . $item->fotos->first()->foto) }}" alt=""
+                                        srcset="" class="rounded-full">
+                                </div>
+                                <div class="">
+                                    <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">
+                                        {{ $item->nama_product }}</h1>
+                                    <p class="text-gray-700 text-sm">Stok : {{ $item->stok }}</p>
+                                    <p class="text-gray-700">Harga : {{ $item->harga_rendah }}</p>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="bg-blue-100 rounded-md p-4 mb-4">
-                        <div class="flex justify-start items-center gap-4 mb-2">
-                            <div class=" w-16 h-16">
-                                <img src="{{ asset('assets/images/product/rambak.jpg') }}" alt="" srcset=""
-                                    class="rounded-full">
-                            </div>
-                            <div class="">
-                                <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">Product A</h1>
-                                <p class="text-gray-700 text-sm">Stok : 20</p>
-                                <p class="text-gray-700">Harga : Rp. 120.000</p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-blue-100 rounded-md p-4 mb-4">
-                        <div class="flex justify-start items-center gap-4 mb-2">
-                            <div class=" w-16 h-16">
-                                <img src="{{ asset('assets/images/product/rambak.jpg') }}" alt="" srcset=""
-                                    class="rounded-full">
-                            </div>
-                            <div class="">
-                                <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">Product A</h1>
-                                <p class="text-gray-700 text-sm">Stok : 20</p>
-                                <p class="text-gray-700">Harga : Rp. 120.000</p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-blue-100 rounded-md p-4 mb-4">
-                        <div class="flex justify-start items-center gap-4 mb-2">
-                            <div class=" w-16 h-16">
-                                <img src="{{ asset('assets/images/product/rambak.jpg') }}" alt="" srcset=""
-                                    class="rounded-full">
-                            </div>
-                            <div class="">
-                                <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">Product A</h1>
-                                <p class="text-gray-700 text-sm">Stok : 20</p>
-                                <p class="text-gray-700">Harga : Rp. 120.000</p>
-
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">

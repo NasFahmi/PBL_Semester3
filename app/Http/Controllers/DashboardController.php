@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Foto;
 use App\Models\Preorder;
+use App\Models\Product;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,10 +34,9 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-
-        $preorderRecently = Preorder::latest()
-        ->limit(3)
-        ->get();
+        $preorderRecently = Preorder::latest()->limit(3)->get();
+        $productRecently = Product::with('fotos','transaksis')
+        ->latest()->limit(5)->get();
         
         $foto= Foto::join('transaksis', 'fotos.product_id', '=', 'transaksis.product_id')
             ->where('transaksis.is_complete', 0)
@@ -53,7 +53,8 @@ class DashboardController extends Controller
             'topSalesProducts',
             'preorderRecently',
             'namaPembeli',
-            'foto'
+            'foto',
+            'productRecently'
     ));
     }
 
