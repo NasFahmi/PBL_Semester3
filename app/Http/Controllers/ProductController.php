@@ -51,7 +51,7 @@ class ProductController extends Controller
             'beratjenis' => ['required'],
         ]);
         $data=$request->all();
-
+        // dd($data['image']);
         try {
             DB::beginTransaction();
             $product = Product::create([
@@ -143,6 +143,7 @@ class ProductController extends Controller
             'stok' => 'required',
             'spesifikasi_product' => 'required',
             'image.*' => 'image|mimes:jpeg,png,jpg|max:2048', // Allow empty image updates
+            'beratjenis' => ['required'],
         ]);
     
         try {

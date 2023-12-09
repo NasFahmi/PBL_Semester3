@@ -9,6 +9,7 @@ use App\Models\BeratJenis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductResources;
 use App\Http\Requests\StoreProductRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -33,9 +34,9 @@ class ApiProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {   
-        // $data = $request->validated();
+        $request->validated();
         $data = $request->all();
-        dd($data);
+        // return response()->json($data);
         try {
             DB::beginTransaction();
             $product = Product::create([
@@ -83,15 +84,37 @@ class ApiProductController extends Controller
 
             DB::commit();
 
-            $request->session()->forget(['product_data', 'berat_jenis', 'varian', 'image_data']);
-            return redirect()->route('product.index')->with('success', 'Data Berhasil Disimpan');
+            // $request->session()->forget(['product_data', 'berat_jenis', 'varian', 'image_data']);
+            return response()->json(
+                [
+                    'success'=>true,
+                    'message'=>'Product Created',
+                    'data'=>[
+                        'id'=>$productID,
+                        'nama_product'=>$data['nama_product'],
+                        'harga_rendah'=>$data['harga_rendah'],
+                        'harga_tinggi'=>$data['harga_tinggi'],
+                        'deskripsi'=>$data['deskripsi'],
+                        'link_shopee'=>$data['link_shopee'],
+                        'stok'=>$data['stok'],
+                        'spesifikasi_product'=>$data['spesifikasi_product'],
+                        'berat_jenis'=>$beratJenis,
+                        'varian'=>$varians,
+                        'image'=>$images,
+                        
+                    ]
+                
+                ]
+                ,201);
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
             // throw $e;
-            // dd('gagal ');
-            // Handle kesalahan sesuai kebutuhan Anda, misalnya:
-            return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
+            $errorMessage = $e instanceof \Illuminate\Database\QueryException ?
+            'Database error. Something went wrong.' :
+            'An unexpected error occurred.';
+
+        return response()->json(['success' => false, 'message' => $errorMessage], 500);
         }
 
     }
@@ -113,9 +136,97 @@ class ApiProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(StoreProductRequest $request, $id)
     {
-        //
+        
+        $request->validated();
+        $data = $request->all();
+        // dd($data);
+        try {
+            DB::beginTransaction();
+    
+            // Find the product by ID
+            $product = Product::findOrFail($id);
+    
+            // Update the product data
+            $product->update([
+                'nama_product' => $request->nama_product,
+                'harga_rendah' => $request->harga_rendah,
+                'harga_tinggi' => $request->harga_tinggi,
+                'deskripsi' => $request->deskripsi,
+                'link_shopee' => $request->link_shopee,
+                'stok' => $request->stok,
+                'spesifikasi_product' => $request->spesifikasi_product,
+            ]);
+    
+            // Update or create beratJenis records
+            $product->beratJenis()->delete();
+            foreach ($request->beratjenis as $beratjenis) {
+                $product->beratJenis()->create([
+                    'berat_jenis'=> $beratjenis,
+                ]);
+            }
+            // $product->beratJenis()->sync($beratJenisIds);
+    
+            // Update or create varians records
+            $product->varians()->delete(); // Delete existing varians
+            foreach ($request->varian as $varian) {
+                $product->varians()->create(['jenis_varian' => $varian]);
+            }
+    
+            // Handle image updates
+            if ($request->hasFile('image')) {
+                $this->validate($request, [
+                    'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+                ]);
+    
+                // Delete existing images
+                foreach ($product->fotos as $foto) {
+                    Storage::delete($foto->foto);
+                    $foto->delete();
+                }
+    
+                // Process each uploaded file
+                foreach ($request->file('image') as $file) {
+                    $img = $file->store("images");
+                    // Create new image record
+                    Foto::create([
+                        'foto' => $img,
+                        'product_id' => $product->id,
+                    ]);
+                }
+            }
+    
+            DB::commit();
+    
+            return response()->json(
+                [
+                    'success'=>true,
+                    'message'=>'Product Edited',
+                    'data'=>[
+                        'id'=>$id,
+                        'nama_product'=>$request->nama_product,
+                        'harga_rendah'=>$request->harga_rendah,
+                        'harga_tinggi'=>$request->harga_tinggi,
+                        'deskripsi'=>$request->deskripsi,
+                        'link_shopee'=>$request->link_shopee,
+                        'stok'=>$request->stok,
+                        'spesifikasi_product'=>$request->spesifikasi_product,
+                        'berat_jenis'=>$request->beratjenis,
+                        'varian'=>$request->varian,
+                        'image'=>$request->image,
+                        
+                    ]
+                
+                ]
+                ,200);
+        } catch (\Exception $e) {
+            // If there is an error, rollback the transaction
+            DB::rollBack();
+            throw $e;
+            // Handle the error as needed
+            // return redirect()->back()->with('error', 'Failed to update product data.');
+        }
     }
 
     /**
