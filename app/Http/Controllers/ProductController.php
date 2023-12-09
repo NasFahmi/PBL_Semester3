@@ -63,7 +63,7 @@ class ProductController extends Controller
                 'stok'=>$data['stok'],
                 'spesifikasi_product'=>$data['spesifikasi_product'],
             ]);
-            if ($data['$varians']) {
+            if (isset($data['$varians'])) {
                 $productID = $product->id;
                 $varians= $data['varian'];
 
