@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Rules\BeratJenisValidationRule;
 
 
 class ProductController extends Controller
@@ -37,7 +38,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        // dd($request->all()); 
         $this->validate($request, [
             'nama_product' => 'required',
             'harga_rendah' => 'required',
@@ -47,6 +48,7 @@ class ProductController extends Controller
             'stok' => 'required',
             'spesifikasi_product' => 'required',
             'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'beratjenis' => ['required'],
         ]);
         $data=$request->all();
 
@@ -61,8 +63,9 @@ class ProductController extends Controller
                 'stok'=>$data['stok'],
                 'spesifikasi_product'=>$data['spesifikasi_product'],
             ]);
-            $productID = $product->id;
-            $varians= $data['varian'];
+            if ($data['$varians']) {
+                $productID = $product->id;
+                $varians= $data['varian'];
 
             foreach ($varians as $varian) {
                 Varian::create([
@@ -70,6 +73,8 @@ class ProductController extends Controller
                     'product_id' => $productID,
                 ]);
             }
+            }
+            
 
             $beratJenis = $data['beratjenis'];
 
@@ -102,10 +107,10 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
-            // throw $e;
+            throw $e;
             // dd('gagal ');
             // Handle kesalahan sesuai kebutuhan Anda, misalnya:
-            return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
+            // return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
         }
 
     }
