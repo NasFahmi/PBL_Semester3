@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\ApiPreorderController;
 use App\Http\Controllers\Api\ApiProductController;
+use App\Http\Controllers\Api\ApiTransaksiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiAuthController;
@@ -35,3 +37,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 });
 Route::resource('/product',ApiProductController::class);
+Route::resource('/preorder',ApiPreorderController::class);
+Route::resource('/transaksi',ApiTransaksiController::class);
