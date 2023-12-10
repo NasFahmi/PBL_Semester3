@@ -3,33 +3,48 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <style>
-        table.static {
-            position: relative;
-            /* left: 3% */
-            border: 1px solid #543535;
-        }
-    </style>
-    <title> CETAK DATA TRANSAKSI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>CETAK DATA TRANSAKSI</title>
 </head>
 
-<body>
-    <div class="form-group">
-        <p align="center"><b>Laporan Transaksi</b></p>
-        <table class="static" align="center" rules="all" border="1px" style="width: 95%;">
-            <!-- Data transaksi dapat ditambahkan di sini -->
-            <tr>
-                <th> No. </th>
-                <th> Product </th>
-                <th> Pembeli </th>
-                <th> Jumlah </th>
-                <th> Total Harga </th>
-                <th> Tanggal </th>
-            </tr>
-            @endforeach
+<body class="bg-gray-100">
+    <div class="container mx-auto my-8 p-8 bg-white shadow-lg">
+        <p class="text-center text-2xl font-bold">Laporan Transaksi</p>
+        <table class="table-auto w-full mt-4 border-collapse border border-gray-700">
+            <thead>
+                <tr>
+                    <th class="border border-gray-700">No.</th>
+                    <th class="border border-gray-700">Nama Pembeli</th>
+                    <th class="border border-gray-700">Product</th>
+                    <th class="border border-gray-700">Tanggal</th>
+                    <th class="border border-gray-700">Jumlah Pesanan</th>
+                    <th class="border border-gray-700">Total Harga </th>
+
+  
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach ($data as $transaction)
+                <tr>
+                    <td class="border text-center border-gray-700">{{ $loop->iteration }}</td>
+                    <td class="border pl-3 border-gray-700">{{ $transaction->pembelis->nama }}</td>
+                    <td class="border pl-3 border-gray-700">{{ $transaction->products->nama_product }}</td>
+                    <td class="border text-center border-gray-700">{{ $transaction->tanggal }}</td>
+                    <td class="border text-center border-gray-700">{{ $transaction->jumlah }}</td>
+                    <td class="border text-center border-gray-700">Rp. {{ number_format($transaction-> total_harga, 0, ',', '.')}}</td>
+
+ 
+
+
+                </tr>
+                @endforeach
+            </tbody>
         </table>
     </div>
 </body>

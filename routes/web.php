@@ -36,4 +36,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/admin/preorder', PreorderController::class);
 
     Route::get('/admin/cetak/transaksi',[TransaksiController::class,'cetakTransaksi'])->name('cetak.transaksi');
+    // Route::get('/admin/cetak-transaksi-form/transaksi',[TransaksiController::class,'cetakForm'])->name('cetak.transaksi.form');
+
 });
