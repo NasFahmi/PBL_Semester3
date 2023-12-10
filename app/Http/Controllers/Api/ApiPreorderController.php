@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Api;
 use DateTime;
 use App\Models\Pembeli;
 use App\Models\Product;
 use App\Models\Preorder;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Models\MethodePembayaran;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\TransaksiResources;
 use App\Http\Requests\StorePreorderRequest;
 use App\Http\Requests\UpdatePreorderRequest;
 
-class PreorderController extends Controller
+class ApiPreorderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,60 +22,20 @@ class PreorderController extends Controller
     public function index()
     {
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-            ->where('is_Preorder', 1)
-            ->search(request('search'))
-            ->get();
-        $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
-        // dd($data);
-        $totalDP = Preorder::whereIn('id', function ($query) {
-            $query->select('Preorder_id')
-                ->from('transaksis')
-                ->where('is_complete', 0);
-        })
-            ->sum('down_payment');
-
-        $totalHargaBelumLunas = Transaksi::where('is_complete', 0)
-            ->where('is_Preorder', 1)
-            ->sum('total_harga');
-
-        $totalDPBelumLunas = $totalHargaBelumLunas - $totalDP;
-        // dd($totalDPBelumLunas);
-
-        return view('pages.admin.preorder.index', compact('data', 'totalPreorder', 'totalDP', 'totalDPBelumLunas'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $data = Product::get();
-        return view('pages.admin.preorder.create', compact('data'));
+        ->where('is_Preorder',1)
+        ->get();
+        $transformedData = $data->map(function ($transaksi) {
+            return new TransaksiResources($transaksi);
+        });
+        return response()->json(['success' => true, 'data' => $transformedData], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePreorderRequest $request)
     {
-        // dd($request->all());
-        $this->validate($request, [
-            'tanggal' => 'required',
-            'product' => 'required',
-            'methode_pembayaran' => 'required',
-            'jumlah' => 'required',
-            'total' => 'required',
-            'nama' => 'required',
-            'email' => 'required',
-            'alamat' => 'required',
-            'telepon' => 'required',
-            'tanggal_dp' => 'required',
-            'jumlah_dp' => 'required'
-            // bisa iya bisa tidak jika iya ada tanggal_dp dan jumlah_dp
-            // opsional
-            // tanggal_dp
-            // jumlah_dp
-        ]);
+        $request->validated();
 
         try {
             DB::beginTransaction();
@@ -88,11 +50,11 @@ class PreorderController extends Controller
 
             $jumlahDP = $request->jumlah_dp;
             $jumlahDPTanpaTitik = $jumlahDP ? str_replace(".", "", $jumlahDP) : 0;
-
+            
             $dataTanggalDP = $request->tanggal_dp;
             $dateTimeTanggalDp = DateTime::createFromFormat('d/m/Y', strval($dataTanggalDP));
             $tanggalDP = $dateTimeTanggalDp->format('Y-m-d');
-
+            
 
             $dataPembeli = Pembeli::create([
                 "nama" => $data['nama'],
@@ -122,15 +84,38 @@ class PreorderController extends Controller
                 "Preorder_id" => $idPreorder,
                 "is_complete" => '0',
             ]);
+            $dataProduct = Product::find($data['product']);
+            $dataMethodePembayaran = MethodePembayaran::find($data['methode_pembayaran']);
             DB::commit();
-            return redirect()->route('preorder.index')->with('success', 'Transaksi has been created successfully');
+            return response()->json(
+                [
+                    'success'=>true,
+                    'message'=>'Preorder has been created',
+                    'data'=>[
+                        'id'=>$idPreorder,
+                        "tanggal" => $tanggal,
+                        "product" => $dataProduct,
+                        "methode_pembayaran" => $dataMethodePembayaran,
+                        "jumlah" => $data['jumlah'],
+                        "total_harga" => $totalHargaTanpaTitik,
+                        "keterangan" => $data['keterangan'],
+                        "is_Preorder" => '1',
+                        "Preorder_id" => $idPreorder,
+                        'is_DP' => '1',
+                        'down_payment' => $jumlahDPTanpaTitik,
+                        'tanggal_pembayaran_preoreder' => $tanggal,
+                        'tanggal_pembayaran_down_payment' => $tanggalDP,
+                        "is_complete" => '0',
+                        "pembeli" => $dataPembeli
+                    ]
+                ]
+            );
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
-            // return redirect()->back()->with('error', 'Failed to create transaksi data.');
+            // throw $th;
+            return response()->json(['succes'=>false,'message'=>'Something Went Wrong']);
 
         }
-
     }
 
     /**
@@ -138,37 +123,17 @@ class PreorderController extends Controller
      */
     public function show(Preorder $preorder)
     {
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($preorder)
-    {
-        // dd($preorder);
-        $data = Product::get();
-        $dataTransaksi = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-            ->findOrFail($preorder);
-        return view('pages.admin.preorder.edit', compact('data', 'dataTransaksi'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePreorderRequest $request,$id)
     {
-        $this->validate($request, [
-            'methode_pembayaran' => 'required',
-            'jumlah' => 'required',
-            'total' => 'required',
-            'is_complete' => 'required',
-            'jumlah_dp' => 'required',
-            'nama' => 'required',
-            'email' => 'required',
-            'alamat' => 'required',
-            'telepon' => 'required',
-        ]);
+        $request->validated();
+        $data = $request->all();
+
         try {
             DB::beginTransaction();
             $dataInput = $request->all();
@@ -208,12 +173,36 @@ class PreorderController extends Controller
                 ];
                 $preorder->update($dataPreorder);
             }
+
+
             DB::commit();
-            return redirect()->route('preorder.index')->with('success', 'Preorder has been updated successfully');
+            return response()->json(
+                [
+                    'success'=>true,
+                    'message'=>'Preorder has been updated',
+                    'data'=>[
+                        'id'=>$id,
+                        'product'=>$preorder->products,
+                        "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
+                        "jumlah" => $dataInput['jumlah'],
+                        "total_harga" => $totalHargaTanpaTitik,
+                        "keterangan" => $dataInput['keterangan'],
+                        'jumlah_dp' => $dataInput['jumlah_dp'],
+                        'is_complete' => $dataInput['is_complete'],
+                        "is_Preorder" => $preorder->is_Preorder,
+
+                        "nama" => $dataInput['nama'],
+                        "email" => $dataInput['email'],
+                        'alamat' => $dataInput['alamat'],
+                        "no_hp" => $dataInput['telepon'],
+                    ]
+                ]
+            );
 
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Failed to update transaksi data.');
+            throw $th;
+            // return redirect()->back()->with('error', 'Failed to update transaksi data.');
 
         }
     }
@@ -221,25 +210,32 @@ class PreorderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($preorder)
+    public function destroy($id)
     {
         try {
 
             DB::beginTransaction();
             $dataTransaksi = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-                ->findOrFail($preorder);
-
+            ->where('is_Preorder',1)
+            ->find($id);
+            
             $dataPembeli = $dataTransaksi->pembelis;
 
             $dataTransaksi->delete();
             $dataPembeli->delete();
 
             DB::commit();
-
-            return redirect()->route('preorder.index')->with('success', 'Transaksi has been deleted successfully');
+            return response()->json(
+                [
+                    'succes'=>true,
+                    'message'=>'Preorder has been deleted',
+                ]
+            );
+            // return redirect()->route('preorder.index')->with('success', 'Transaksi has been deleted successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
+            // throw $th;
+            return response()->json(['success' => false, 'message' => 'Preorder has been deleted'], 404);
             // return redirect()->back()->with('error', 'Failed to delete transaksi data.');
         }
     }
