@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TransaksiResources;
 use App\Http\Requests\StorePreorderRequest;
+use App\Http\Requests\UpdatePreorderRequest;
 
 class ApiPreorderController extends Controller
 {
@@ -128,9 +129,82 @@ class ApiPreorderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Preorder $preorder)
+    public function update(UpdatePreorderRequest $request,$id)
     {
-        //
+        $request->validated();
+        $data = $request->all();
+
+        try {
+            DB::beginTransaction();
+            $dataInput = $request->all();
+            $preorder = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
+                ->findOrFail($id);
+            $dataPembeli = [
+                "nama" => $dataInput['nama'],
+                "email" => $dataInput['email'],
+                'alamat' => $dataInput['alamat'],
+                "no_hp" => $dataInput['telepon'],
+            ];
+
+            $preorder->pembelis->update($dataPembeli);
+            $totalharga = $request->input('total');
+            $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
+            //    Belum selesai
+            if ($dataInput['is_complete']==0) {
+                $dataPreorder = [
+                    "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
+                    "jumlah" => $dataInput['jumlah'],
+                    "total_harga" => $totalHargaTanpaTitik,
+                    "keterangan" => $dataInput['keterangan'],
+                    'jumlah_dp' => $dataInput['jumlah_dp'],
+                ];
+                $preorder->update($dataPreorder);
+
+            } else {
+                // sudah selesai
+                $dataPreorder = [
+                    'is_complete' => '1',
+                    "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
+                    "jumlah" => $dataInput['jumlah'],
+                    "total_harga" => $totalHargaTanpaTitik,
+                    "keterangan" => $dataInput['keterangan'],
+                    "is_Preorder" => '0',
+                    'jumlah_dp' => $dataInput['jumlah_dp'],
+                ];
+                $preorder->update($dataPreorder);
+            }
+
+
+            DB::commit();
+            return response()->json(
+                [
+                    'success'=>true,
+                    'message'=>'Preorder has been updated',
+                    'data'=>[
+                        'id'=>$id,
+                        'product'=>$preorder->products,
+                        "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
+                        "jumlah" => $dataInput['jumlah'],
+                        "total_harga" => $totalHargaTanpaTitik,
+                        "keterangan" => $dataInput['keterangan'],
+                        'jumlah_dp' => $dataInput['jumlah_dp'],
+                        'is_complete' => $dataInput['is_complete'],
+                        "is_Preorder" => $preorder->is_Preorder,
+
+                        "nama" => $dataInput['nama'],
+                        "email" => $dataInput['email'],
+                        'alamat' => $dataInput['alamat'],
+                        "no_hp" => $dataInput['telepon'],
+                    ]
+                ]
+            );
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+            // return redirect()->back()->with('error', 'Failed to update transaksi data.');
+
+        }
     }
 
     /**

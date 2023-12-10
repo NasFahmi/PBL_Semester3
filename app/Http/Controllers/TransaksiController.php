@@ -19,17 +19,18 @@ class TransaksiController extends Controller
     // TransaksiController.php
     public function index()
     {
-        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
+        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran'])
             ->where('is_Preorder', 0)
             ->search(request('search'))
             ->get();
-
         return view('pages.admin.transaksi.index', compact('data'));
     }
 
     public function cetakTransaksi()
     {
-        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])->get();
+        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran']) 
+        ->where('is_complete',1)
+        ->get();
         return view('pages.admin.transaksi.cetak', compact('data'));
     }
     /**
@@ -223,5 +224,9 @@ class TransaksiController extends Controller
             // throw $th;
             return redirect()->back()->with('error', 'Failed to delete transaksi data.');
         }
+    }
+
+    public function cetakForm() {
+        return view('pages.admin.transaksi.cetak-transaksi-form') ;
     }
 }
