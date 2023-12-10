@@ -84,11 +84,10 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
             {{-- chart --}}
-            <div class=" w-full h-fit bg-white rounded-lg shadow-sm  p-4 md:p-6 col-span-1 md:col-span-2">
+            <div class=" w-full h-fit bg-white rounded-lg shadow-sm  p-4 md:p-6 col-span-1 lg:col-span-2">
                 <div class="flex justify-between">
                     <div>
-                        <h5 class="leading-none text-xl font-semibold text-gray-900 dark:text-white pb-2">Pendapatan 30 Hari
-                            Terakhir
+                        <h5 class="leading-none text-xl font-semibold text-gray-900 dark:text-white pb-2">Pendapatan 30 Hari Terakhir
                         </h5>
                     </div>
                 </div>
@@ -127,7 +126,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 col-span-1 md:col-span-2  shadow-sm">
+            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
                 <h1 class="text-gray-800 font-semibold mb-4">Preorder Recently</h1>
                 <div class="overflow-y-auto costumscroll  rounded-lg max-h-80">
                     {{-- card --}}
@@ -136,8 +135,8 @@
                             <div class="flex justify-start items-center gap-4 mb-2">
                                 <div class="w-10 h-10">
                                     @foreach ($foto->where('product_id', $preorder->transaksis->product_id) as $item)
-                                    <div class=" rounded-full bg-cover w-10 h-10" style="background-image: url('{{ asset('storage/' . $item->foto) }}')">
-                                    </div>
+                                        <img src="{{ asset('storage/' . $item->foto) }}" alt="" srcset=""
+                                            class="rounded-full">
                                     @endforeach
                                 </div>
                                 <div class="">
@@ -156,13 +155,15 @@
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:mt-8">
-            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 col-span-1 md:col-span-2  shadow-sm">
+            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
                 <h1 class="text-gray-800 font-semibold mb-4">Product Recently</h1>
                 <div class="overflow-y-auto costumscroll  rounded-lg max-h-96">
                     @foreach ($productRecently as $item)
                         <div class="bg-blue-100 rounded-md p-4 mb-4">
                             <div class="flex justify-start items-center gap-4 mb-2">
-                                <div class=" rounded-full bg-cover w-16 h-16" style="background-image: url('{{ asset('storage/' . $item->fotos->first()->foto) }}')">
+                                <div class=" w-16 h-16">
+                                    <img src="{{ asset('storage/' . $item->fotos->first()->foto) }}" alt=""
+                                        srcset="" class="rounded-full">
                                 </div>
                                 <div class="">
                                     <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">
@@ -176,7 +177,7 @@
                     @endforeach
                 </div>
             </div>
-            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 col-span-1 md:col-span-2  shadow-sm">
+            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
                 <div class="flex justify-between items-center mb-4">
                     <h1 class="text-gray-800 font-semibold ">Top Sales Product</h1>
                     <h1 class="text-gray-800 font-semibold ">30 Hari Terakhir</h1>
