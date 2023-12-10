@@ -81,7 +81,10 @@ class TransaksiController extends Controller
                 "no_hp" => $data['telepon'],
             ]);
             $idPembeli = $dataPembeli->id;
-
+            $dataKeterangan=null;
+            if(isset($data['keterangan'])){
+                $dataKeternagan = $data['keterangan'];
+            }
             Transaksi::create([
                 "tanggal" => $tanggal,
                 "pembeli_id" => $idPembeli,
@@ -89,7 +92,7 @@ class TransaksiController extends Controller
                 "methode_pembayaran_id" => $data['methode_pembayaran'],
                 "jumlah" => $data['jumlah'],
                 "total_harga" => $totalHargaTanpaTitik,
-                "keterangan" => $data['keterangan'],
+                "keterangan" => $dataKeterangan,
                 "is_Preorder" => '0',
                 "Preorder_id" => null,
                 "is_complete" => $data['is_complete'],
