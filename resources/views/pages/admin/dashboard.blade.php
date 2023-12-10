@@ -84,62 +84,50 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
             {{-- chart --}}
-            <div class=" w-full h-fit bg-white rounded-lg shadow-sm  p-4 md:p-6 col-span-1 lg:col-span-2">
+            <div class=" w-full h-fit bg-white rounded-lg shadow-sm  p-4 md:p-6 col-span-1 md:col-span-2">
                 <div class="flex justify-between">
                     <div>
-                        <h5 class="leading-none text-xl font-semibold text-gray-900 dark:text-white pb-2">Pendapatan
-                            Mingguan</h5>
+                        <h5 class="leading-none text-xl font-semibold text-gray-900 dark:text-white pb-2">Pendapatan 30 Hari
+                            Terakhir
+                        </h5>
                     </div>
                 </div>
                 <div id="area-chart"></div>
                 <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
                     <div class="flex justify-between items-center pt-5">
                         <!-- Button -->
-                        <button id="dropdownDefaultButton" data-dropdown-toggle="lastDaysdropdown"
-                            data-dropdown-placement="bottom"
+                        {{-- <button id="" data-dropdown-toggle="lastDaysdropdown" data-dropdown-placement="bottom"
                             class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
                             type="button">
-                            Last 7 days
+                            1 Bulan
                             <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="m1 1 4 4 4-4" />
                             </svg>
-                        </button>
+                        </button> --}}
                         <!-- Dropdown menu -->
-                        <div id="lastDaysdropdown"
+                        {{-- <div id="lastDaysdropdown"
                             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                 aria-labelledby="dropdownDefaultButton">
+
                                 <li>
                                     <a href="#"
-                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                        7 days</a>
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        3 Bulan</a>
                                 </li>
                                 <li>
                                     <a href="#"
                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                        30 days</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                        90 days</a>
+                                        1 years</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
+            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 col-span-1 md:col-span-2  shadow-sm">
                 <h1 class="text-gray-800 font-semibold mb-4">Preorder Recently</h1>
                 <div class="overflow-y-auto costumscroll  rounded-lg max-h-80">
                     {{-- card --}}
@@ -168,7 +156,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:mt-8">
-            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
+            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 col-span-1 md:col-span-2  shadow-sm">
                 <h1 class="text-gray-800 font-semibold mb-4">Product Recently</h1>
                 <div class="overflow-y-auto costumscroll  rounded-lg max-h-96">
                     @foreach ($productRecently as $item)
@@ -190,10 +178,10 @@
                     @endforeach
                 </div>
             </div>
-            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
+            <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 col-span-1 md:col-span-2  shadow-sm">
                 <div class="flex justify-between items-center mb-4">
                     <h1 class="text-gray-800 font-semibold ">Top Sales Product</h1>
-                    <h1 class="text-gray-800 font-semibold ">Last 30 Days</h1>
+                    <h1 class="text-gray-800 font-semibold ">30 Hari Terakhir</h1>
                     {{-- <a href="" class="text-sm hover:underline"><span>See Details</span></a> --}}
                 </div>
                 <div class="">
@@ -238,79 +226,8 @@
         </div>
 
         <script>
-            // ApexCharts options and config
-            window.addEventListener("load", function() {
-                let options = {
-                    chart: {
-                        height: "100%",
-                        maxWidth: "100%",
-                        type: "area",
-                        fontFamily: "Inter, sans-serif",
-                        dropShadow: {
-                            enabled: false,
-                        },
-                        toolbar: {
-                            show: false,
-                        },
-                    },
-                    tooltip: {
-                        enabled: true,
-                        x: {
-                            show: false,
-                        },
-                    },
-                    fill: {
-                        type: "gradient",
-                        gradient: {
-                            opacityFrom: 0.55,
-                            opacityTo: 0,
-                            shade: "#1C64F2",
-                            gradientToColors: ["#1C64F2"],
-                        },
-                    },
-                    dataLabels: {
-                        enabled: false,
-                    },
-                    stroke: {
-                        width: 6,
-                    },
-                    grid: {
-                        show: false,
-                        strokeDashArray: 4,
-                        padding: {
-                            left: 2,
-                            right: 2,
-                            top: 0
-                        },
-                    },
-                    series: [{
-                        name: "New users",
-                        data: [6500, 6418, 6456, 6526, 6356, 6456],
-                        color: "#1A56DB",
-                    }, ],
-                    xaxis: {
-                        categories: ['01 February', '02 February', '03 February', '04 February', '05 February',
-                            '06 February', '07 February'
-                        ],
-                        labels: {
-                            show: false,
-                        },
-                        axisBorder: {
-                            show: false,
-                        },
-                        axisTicks: {
-                            show: false,
-                        },
-                    },
-                    yaxis: {
-                        show: false,
-                    },
-                }
-
-                if (document.getElementById("area-chart") && typeof ApexCharts !== 'undefined') {
-                    const chart = new ApexCharts(document.getElementById("area-chart"), options);
-                    chart.render();
-                }
-            });
+            const dataPenjualan = @json($dataPenjualan);
+            const tanggalPenjualan = @json($formattedDates);
         </script>
+        <script src="{{ asset('js/chart.js') }}"></script>
     @endsection
