@@ -158,7 +158,23 @@ class PreorderController extends Controller
      */
     public function update(Request $request, Preorder $preorder)
     {
-        
+        $this->validate($request, [
+            'product' => 'required',
+            'methode_pembayaran' => 'required',
+            'jumlah' => 'required',
+            'total' => 'required',
+            'is_complete' => 'required',
+            'jumlah_dp'=>'required',
+            'nama' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+            'telepon' => 'required',
+        ]);
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**
