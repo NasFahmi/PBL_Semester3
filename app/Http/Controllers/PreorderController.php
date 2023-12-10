@@ -20,9 +20,9 @@ class PreorderController extends Controller
     public function index()
     {
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-        ->where('is_Preorder',1)
-        ->search(request('search'))
-        ->get();
+            ->where('is_Preorder', 1)
+            ->search(request('search'))
+            ->get();
         $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
         // dd($data);
         $totalDP = Preorder::whereIn('id', function ($query) {
@@ -31,15 +31,15 @@ class PreorderController extends Controller
                 ->where('is_complete', 0);
         })
             ->sum('down_payment');
-            
+
         $totalHargaBelumLunas = Transaksi::where('is_complete', 0)
-            ->where('is_Preorder',1)
+            ->where('is_Preorder', 1)
             ->sum('total_harga');
 
         $totalDPBelumLunas = $totalHargaBelumLunas - $totalDP;
         // dd($totalDPBelumLunas);
 
-        return view('pages.admin.preorder.index',compact('data','totalPreorder','totalDP','totalDPBelumLunas'));
+        return view('pages.admin.preorder.index', compact('data', 'totalPreorder', 'totalDP', 'totalDPBelumLunas'));
     }
 
     /**
@@ -48,7 +48,7 @@ class PreorderController extends Controller
     public function create()
     {
         $data = Product::get();
-        return view('pages.admin.preorder.create',compact('data'));
+        return view('pages.admin.preorder.create', compact('data'));
     }
 
     /**
@@ -68,8 +68,8 @@ class PreorderController extends Controller
             'alamat' => 'required',
             'telepon' => 'required',
             'tanggal_dp' => 'required',
-            'jumlah_dp'=>'required'
-             // bisa iya bisa tidak jika iya ada tanggal_dp dan jumlah_dp
+            'jumlah_dp' => 'required'
+            // bisa iya bisa tidak jika iya ada tanggal_dp dan jumlah_dp
             // opsional
             // tanggal_dp
             // jumlah_dp
@@ -88,11 +88,11 @@ class PreorderController extends Controller
 
             $jumlahDP = $request->jumlah_dp;
             $jumlahDPTanpaTitik = $jumlahDP ? str_replace(".", "", $jumlahDP) : 0;
-            
+
             $dataTanggalDP = $request->tanggal_dp;
             $dateTimeTanggalDp = DateTime::createFromFormat('d/m/Y', strval($dataTanggalDP));
             $tanggalDP = $dateTimeTanggalDp->format('Y-m-d');
-            
+
 
             $dataPembeli = Pembeli::create([
                 "nama" => $data['nama'],
@@ -130,7 +130,7 @@ class PreorderController extends Controller
             // return redirect()->back()->with('error', 'Failed to create transaksi data.');
 
         }
-        
+
     }
 
     /**
@@ -138,7 +138,7 @@ class PreorderController extends Controller
      */
     public function show(Preorder $preorder)
     {
-        
+
     }
 
     /**
@@ -156,24 +156,65 @@ class PreorderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Preorder $preorder)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'product' => 'required',
             'methode_pembayaran' => 'required',
             'jumlah' => 'required',
             'total' => 'required',
             'is_complete' => 'required',
-            'jumlah_dp'=>'required',
+            'jumlah_dp' => 'required',
             'nama' => 'required',
             'email' => 'required',
             'alamat' => 'required',
             'telepon' => 'required',
         ]);
         try {
-            //code...
+            DB::beginTransaction();
+            $dataInput = $request->all();
+            $preorder = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
+                ->findOrFail($id);
+            $dataPembeli = [
+                "nama" => $dataInput['nama'],
+                "email" => $dataInput['email'],
+                'alamat' => $dataInput['alamat'],
+                "no_hp" => $dataInput['telepon'],
+            ];
+
+            $preorder->pembelis->update($dataPembeli);
+            $totalharga = $request->input('total');
+            $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
+            //    Belum selesai
+            if ($dataInput['is_complete']==0) {
+                $dataPreorder = [
+                    "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
+                    "jumlah" => $dataInput['jumlah'],
+                    "total_harga" => $totalHargaTanpaTitik,
+                    "keterangan" => $dataInput['keterangan'],
+                    'jumlah_dp' => $dataInput['jumlah_dp'],
+                ];
+                $preorder->update($dataPreorder);
+
+            } else {
+                // sudah selesai
+                $dataPreorder = [
+                    'is_complete' => '1',
+                    "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
+                    "jumlah" => $dataInput['jumlah'],
+                    "total_harga" => $totalHargaTanpaTitik,
+                    "keterangan" => $dataInput['keterangan'],
+                    "is_Preorder" => '0',
+                    'jumlah_dp' => $dataInput['jumlah_dp'],
+                ];
+                $preorder->update($dataPreorder);
+            }
+            DB::commit();
+            return redirect()->route('preorder.index')->with('success', 'Preorder has been updated successfully');
+
         } catch (\Throwable $th) {
-            //throw $th;
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to update transaksi data.');
+
         }
     }
 
@@ -186,7 +227,7 @@ class PreorderController extends Controller
 
             DB::beginTransaction();
             $dataTransaksi = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-            ->findOrFail($preorder);
+                ->findOrFail($preorder);
 
             $dataPembeli = $dataTransaksi->pembelis;
 
