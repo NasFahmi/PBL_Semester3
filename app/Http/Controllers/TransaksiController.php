@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
-
+use App\Events\TransaksiSelesai;
 class TransaksiController extends Controller
 {
     /**
@@ -83,9 +83,9 @@ class TransaksiController extends Controller
             $idPembeli = $dataPembeli->id;
             $dataKeterangan=null;
             if(isset($data['keterangan'])){
-                $dataKeternagan = $data['keterangan'];
+                $dataKeterangan = $data['keterangan'];
             }
-            Transaksi::create([
+            $transaksi = Transaksi::create([
                 "tanggal" => $tanggal,
                 "pembeli_id" => $idPembeli,
                 "product_id" => $data['product'],
@@ -97,6 +97,13 @@ class TransaksiController extends Controller
                 "Preorder_id" => null,
                 "is_complete" => $data['is_complete'],
             ]);
+
+
+            if ($transaksi->is_complete == 1) {
+                event(new TransaksiSelesai($transaksi->id));
+            }
+
+
             DB::commit();
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
@@ -184,6 +191,9 @@ class TransaksiController extends Controller
 
             $transaksi->update($dataTransaksi);
 
+            if ($transaksi->is_complete == 1) {
+                event(new TransaksiSelesai($transaksi->id));
+            }
             DB::commit();
 
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been updated successfully');
