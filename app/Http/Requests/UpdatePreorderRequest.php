@@ -11,7 +11,8 @@ class UpdatePreorderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // return Auth::user() !== null;
+        return true;
     }
 
     /**

@@ -33,9 +33,11 @@ class PreorderController extends Controller
             ->sum('down_payment');
             
         $totalHargaBelumLunas = Transaksi::where('is_complete', 0)
+            ->where('is_Preorder',1)
             ->sum('total_harga');
 
         $totalDPBelumLunas = $totalHargaBelumLunas - $totalDP;
+        // dd($totalDPBelumLunas);
 
         return view('pages.admin.preorder.index',compact('data','totalPreorder','totalDP','totalDPBelumLunas'));
     }
@@ -65,6 +67,8 @@ class PreorderController extends Controller
             'email' => 'required',
             'alamat' => 'required',
             'telepon' => 'required',
+            'tanggal_dp' => 'required',
+            'jumlah_dp'=>'required'
              // bisa iya bisa tidak jika iya ada tanggal_dp dan jumlah_dp
             // opsional
             // tanggal_dp
@@ -152,9 +156,9 @@ class PreorderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePreorderRequest $request, Preorder $preorder)
+    public function update(Request $request, Preorder $preorder)
     {
-        //
+        
     }
 
     /**

@@ -2,7 +2,7 @@
 @section('title', 'Admin Transaksi')
 @section('content')
     <div class="container  px-6 pb-6 mx-auto">
-        <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Edit Transaksi</h1>
+        <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Edit Preorder</h1>
         {{-- <p>{{$dataTransaksi}}</p> --}}
         <div class="bg-white px-8 py-8 shadow-lg rounded-3xl">
             <form action="{{route('transaksi.update',$dataTransaksi->id)}}" method="post">
@@ -97,7 +97,7 @@
                                 {{-- Preorder --}}
                                 {{-- <p>{{$dataTransaksi}}</p> --}}
                                 
-                                <div class="w-full">
+                                {{-- <div class="w-full">
                                     <label for="is_dp"
                                         class="block text-sm font-medium  text-gray-800 ">Apakah DP?</label>
                                     <select id="is_dp" name="is_dp" 
@@ -106,9 +106,9 @@
                                         <option value="1" {{ $dataTransaksi->preorders->is_DP == 1 ? 'selected' : '' }} >Ya</option>
                                         <option value="0" {{ $dataTransaksi->preorders->is_DP == 0 ? 'selected' : '' }}>Tidak</option>
                                     </select>
-                                </div>
+                                </div> --}}
 
-                                <div class="w-full" id="tanggal_dp_container">
+                                {{-- <div class="w-full" id="tanggal_dp_container">
                                     <label for="" class="text-sm font-medium text-gray-800">Tanggal Pembayaran DP</label>
                                     <div class="relative max-w-lg">
                                         <div
@@ -124,10 +124,10 @@
                                             class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="Select date">
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="w-full" id="jumlah_dp_container">
-                                    <p class="text-sm font-medium text-gray-800">Jumlah DP</p>
+                                    <p class="text-sm font-medium text-gray-800">Jumlah Pelunasan</p>
                                     <div class="relative ">
                                         <div
                                             class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -138,6 +138,7 @@
                                             class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="0">
                                     </div>
+                                    <p class="text-xs italic">Isi nilai di atas untuk membayar sebagian (DP). Jika ingin melunaskan, edit jumlah pelunasan menjadi sama dengan total harga.</p>
                                 </div>
                                 
 

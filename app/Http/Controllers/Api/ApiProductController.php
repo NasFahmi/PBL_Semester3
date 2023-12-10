@@ -22,6 +22,7 @@ class ApiProductController extends Controller
     public function index()
     {
         $data = Product::with(['fotos', 'varians', 'beratJenis'])->get();
+        // return response()->json($data);
         $transformedData = $data->map(function ($product) {
             return new ProductResources($product);
         });
@@ -233,13 +234,19 @@ class ApiProductController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-    {
-        try {
-            $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
-            $data->delete();
-            return response()->json(['success' => true, 'message' => 'Product has deleted']);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['success' => false, 'message' => 'Something went wrong'], 404);
+{
+    try {
+        $data = Product::with(['fotos', 'varians', 'beratJenis'])->find($id);
+
+        if (!$data) {
+            return response()->json(['success' => false, 'message' => 'Product not found'], 404);
         }
+
+        $data->delete();
+        return response()->json(['success' => true, 'message' => 'Product has been deleted']);
+    } catch (ModelNotFoundException $e) {
+        return response()->json(['success' => false, 'message' => 'Something went wrong'], 404);
     }
+}
+
 }
