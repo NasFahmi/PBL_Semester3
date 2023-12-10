@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Preorder;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Events\TransaksiSelesai;
 use App\Models\MethodePembayaran;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -171,6 +172,7 @@ class ApiPreorderController extends Controller
                     "is_Preorder" => '0',
                     'jumlah_dp' => $dataInput['jumlah_dp'],
                 ];
+                event(new TransaksiSelesai($id));
                 $preorder->update($dataPreorder);
             }
 

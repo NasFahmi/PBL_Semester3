@@ -7,6 +7,7 @@ use App\Models\Pembeli;
 use App\Models\Product;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Events\TransaksiSelesai;
 use App\Models\MethodePembayaran;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -48,8 +49,6 @@ class ApiTransaksiController extends Controller
             $dateTime = DateTime::createFromFormat('m/d/Y', $dataTanggal);
             $tanggal = $dateTime->format('Y-m-d');
 
-
-
             $totalharga = $request->total;
             $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
 
@@ -75,7 +74,7 @@ class ApiTransaksiController extends Controller
             //     'methode_pembayaran' => $dataMethodePembayaran
             // ]);
 
-            Transaksi::create([
+            $transaksi = Transaksi::create([
                 "tanggal" => $tanggal,
                 "pembeli_id" => $idPembeli,
                 "product_id" => $data['product'],
@@ -88,6 +87,9 @@ class ApiTransaksiController extends Controller
                 "is_complete" => filter_var($data['is_complete'], FILTER_VALIDATE_BOOLEAN),
 
             ]);
+            if ($transaksi->is_complete == 1) {
+                event(new TransaksiSelesai($transaksi->id));
+            }
             DB::commit();
             return response()->json(
                 [
@@ -171,6 +173,9 @@ class ApiTransaksiController extends Controller
 
             $transaksi->update($dataTransaksi);
 
+            if ($transaksi->is_complete == 1) {
+                event(new TransaksiSelesai($transaksi->id));
+            }
             DB::commit();
 
             return response()->json([

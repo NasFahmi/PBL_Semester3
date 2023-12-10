@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Preorder;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Events\TransaksiSelesai;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StorePreorderRequest;
 use App\Http\Requests\UpdatePreorderRequest;
@@ -207,6 +208,8 @@ class PreorderController extends Controller
                     'jumlah_dp' => $dataInput['jumlah_dp'],
                 ];
                 $preorder->update($dataPreorder);
+                event(new TransaksiSelesai($id));
+        
             }
             DB::commit();
             return redirect()->route('preorder.index')->with('success', 'Preorder has been updated successfully');
