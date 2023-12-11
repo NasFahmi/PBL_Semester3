@@ -171,11 +171,12 @@ class ProductController extends Controller
                 ]);
             }
             // $product->beratJenis()->sync($beratJenisIds);
-    
-            // Update or create varians records
-            $product->varians()->delete(); // Delete existing varians
-            foreach ($request->varian as $varian) {
-                $product->varians()->create(['jenis_varian' => $varian]);
+            if(isset($request->varian)){
+                // Update or create varians records
+                $product->varians()->delete(); // Delete existing varians
+                foreach ($request->varian as $varian) {
+                    $product->varians()->create(['jenis_varian' => $varian]);
+                }
             }
     
             // Handle image updates
@@ -207,9 +208,9 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
             DB::rollBack();
-            // throw $e;
+            throw $e;
             // Handle the error as needed
-            return redirect()->back()->with('error', 'Failed to update product data.');
+            // return redirect()->back()->with('error', 'Failed to update product data.');
         }
     }
     
