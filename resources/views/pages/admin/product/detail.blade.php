@@ -79,7 +79,7 @@
                 @foreach ($berat_jenis as $items)
                     <li class="text-lg">{{ $items->berat_jenis }}</li>
                 @endforeach
-
+                <h1>Stok : {{ $data->stok }}</h1>
                 <a href="{{ $data->link_shopee }}"
                     class="flex items-center justify-center w-full md:w-32 px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700">
                     <img src="{{ asset('assets/images/shopee.png') }}" alt="Shopee Logo" class="w-8 h-8 mr-2">
