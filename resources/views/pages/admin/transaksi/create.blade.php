@@ -78,24 +78,23 @@
                                             
                                     </div>
                                     @error('total')
-                                                <small class="error" style="color: red">{{$message}}</small>
-                                            @enderror
+                                        <small class="error" style="color: red">{{$message}}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <p class="mb-1">Status</p>
-                                    <div class="flex items-center mb-2">
-                                        <input checked id="radio-btn-1" type="radio" value="1" name="is_complete"
-                                            class="w-4 h-4  text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
-                                        <label for="radio-btn-1"
-                                            class="ms-2 text-sm font-medium text-gray-900 ">Selesai</label>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <input id="radio-btn-2" type="radio" value="0" name="is_complete"
+                                     <div class="flex items-center">
+                                        <input checked id="radio-btn-2" type="radio" value="0" name="is_complete"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
                                         <label for="radio-btn-2" class="ms-2 text-sm font-medium text-gray-900 ">Belum
                                             Selesai</label>
                                     </div>
-
+                                    <div class="flex items-center mb-2">
+                                        <input  id="radio-btn-1" type="radio" value="1" name="is_complete"
+                                            class="w-4 h-4  text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                                        <label for="radio-btn-1"
+                                            class="ms-2 text-sm font-medium text-gray-900 ">Selesai</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
