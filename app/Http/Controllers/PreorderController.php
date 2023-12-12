@@ -60,20 +60,20 @@ class PreorderController extends Controller
         // dd($request->all());
         $this->validate($request, [
             'tanggal' => 'required',
-            'product' => 'required',
-            'methode_pembayaran' => 'required',
             'jumlah' => 'required',
             'total' => 'required',
             'nama' => 'required',
             'email' => 'required',
             'alamat' => 'required',
-            'telepon' => 'required',
+            'telepon' => 'required|digits:12',
             'tanggal_dp' => 'required',
             'jumlah_dp' => 'required'
             // bisa iya bisa tidak jika iya ada tanggal_dp dan jumlah_dp
             // opsional
             // tanggal_dp
             // jumlah_dp
+        ], [
+            'telepon.digits' => 'Nomor telepon harus terdiri dari 12 digit.',
         ]);
 
         try {
@@ -127,8 +127,8 @@ class PreorderController extends Controller
             return redirect()->route('preorder.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
-            // return redirect()->back()->with('error', 'Failed to create transaksi data.');
+            // throw $th;
+            return redirect()->back()->with('error', 'Failed to create transaksi data.');
 
         }
 
@@ -168,7 +168,9 @@ class PreorderController extends Controller
             'nama' => 'required',
             'email' => 'required',
             'alamat' => 'required',
-            'telepon' => 'required',
+            'telepon' => 'required|digits:12',
+        ], [
+            'telepon.digits' => 'Nomor telepon harus terdiri dari 12 digit.',
         ]);
         try {
             DB::beginTransaction();

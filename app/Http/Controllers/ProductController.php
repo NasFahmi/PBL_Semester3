@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Varian;
-use App\Models\BeratJenis;
 use App\Models\Foto;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Models\Varian;
+use App\Models\Product;
+use App\Models\BeratJenis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use App\Rules\BeratJenisValidationRule;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 
 class ProductController extends Controller
@@ -39,7 +40,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // dd($request->all()); 
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'nama_product' => 'required',
             'harga_rendah' => 'required',
             'harga_tinggi' => 'required',
@@ -49,7 +50,16 @@ class ProductController extends Controller
             'spesifikasi_product' => 'required',
             'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'beratjenis' => ['required'],
+        ], [
+            'image.*.required' => 'Setiap gambar wajib diunggah.',
+            'image.*.image' => 'File harus berupa gambar.',
+            'image.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
+            'image.*.max' => 'Ukuran gambar tidak boleh lebih dari 2 MB.',
         ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $data=$request->all();
         // dd($data['image']);
         try {
@@ -108,10 +118,10 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
-            throw $e;
+            // throw $e;
             // dd('gagal ');
             // Handle kesalahan sesuai kebutuhan Anda, misalnya:
-            // return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
+            return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
         }
 
     }

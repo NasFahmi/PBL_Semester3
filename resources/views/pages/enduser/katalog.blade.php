@@ -165,17 +165,17 @@
                     </div>
                     <div class="flex justify-start items-center mt-4 gap-2">
                         <div class="shopee w-10 h-10">
-                            <a href="">
+                            <a href="https://shopee.co.id/pawonkoe_bwi">
                                 <img src="{{ asset('assets/images/shopee.png') }}" alt="" srcset="">
                             </a>
                         </div>
                         <div class="instagram w-10 h-10">
-                            <a href="">
+                            <a href="https://www.instagram.com/pawonkoe.bwi_rambakcumi/">
                                 <img src="{{ asset('assets/images/ig.png') }}" alt="" srcset="">
                             </a>
                         </div>
                         <div class="wa w-10 h-10">
-                            <a href="">
+                            <a href="https://wa.me/+6281316869287" target='_blank'>
                                 <img src="{{ asset('assets/images/wa.png') }}" alt="" srcset="">
                             </a>
                         </div>
@@ -185,7 +185,7 @@
                             </a>
                         </div>
                         <div class="fb w-10 h-10">
-                            <a href="">
+                            <a href="https://www.facebook.com/pawonkoebanyuwangi">
                                 <img src="{{ asset('assets/images/fb.png') }}" alt="" srcset="">
                             </a>
                         </div>

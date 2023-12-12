@@ -14,7 +14,11 @@
                                 <span class="text-gray-700 dark:text-gray-400">Nama Product</span>
                             </label>
                             <input type="text" placeholder="nama product" name="nama_product"
+                                value="{{ old('nama_product') }}"
                                 class="input input-bordered input-info bg-slate-50 w-full max-w-4xl duration-50 mb-3" />
+                            @error('nama_product')
+                                <small class="error" style="color: red">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="">
                             <label class="block text-sm mb-1">
@@ -22,9 +26,17 @@
                             </label>
                             <div class="grid grid-cols-2 justify-start items-center gap-4 max-w-4xl mb-3">
                                 <input type="number" placeholder="Rendah" name="harga_rendah"
+                                    value="{{ old('harga_rendah') }}"
                                     class="input input-bordered input-info w-full bg-slate-50  duration-50 " />
                                 <input type="number" placeholder="Tinggi" name="harga_tinggi"
+                                    value="{{ old('harga_tinggi') }}"
                                     class="input input-bordered input-info w-fulll bg-slate-50  duration-50 " />
+                                @error('harga_rendah')
+                                    <small class="error" style="color: red">{{ $message }}</small>
+                                @enderror
+                                @error('harga_tinggi')
+                                    <small class="error" style="color: red">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="">
@@ -32,7 +44,10 @@
                                 <span class="text-gray-700 dark:text-gray-400">Deskripsi</span>
                             </label>
                             <textarea class="textarea textarea-info w-full max-w-4xl bg-slate-50" placeholder="Deskripsi Product" name="deskripsi"
-                                rows="4"></textarea>
+                                rows="4">{{ old('deskripsi') }}</textarea>
+                            @error('deskripsi')
+                                <small class="error" style="color: red">{{ $message }}</small>
+                            @enderror
                         </div>
 
                         <div class="">
@@ -40,21 +55,31 @@
                                 <span class="text-gray-700 dark:text-gray-400 ">Link Shopee</span>
                             </label>
                             <input type="text" placeholder="Link Shopee" name="link_shopee"
+                                value="{{ old('link_shopee') }}"
                                 class="input input-bordered input-info w-full max-w-4xl duration-50 bg-slate-50  mb-3" />
+                            @error('link_shopee')
+                                <small class="error" style="color: red">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="">
                             <label class="block text-sm mb-1">
                                 <span class="text-gray-700 dark:text-gray-400">Stok</span>
                             </label>
-                            <input type="number" placeholder="Jumlah Stok" name="stok"
+                            <input type="number" placeholder="Jumlah Stok" name="stok" value="{{ old('stok') }}"
                                 class="input input-bordered input-info w-full max-w-4xl duration-50 bg-slate-50 mb-3" />
+                            @error('stok')
+                                <small class="error" style="color: red">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="">
                             <label class="block text-sm mb-1">
                                 <span class="text-gray-700 dark:text-gray-400">Spesifikasi Product</span>
                             </label>
                             <textarea class="textarea textarea-info w-full max-w-4xl bg-slate-50" placeholder="Spesifikasi Product"
-                                name="spesifikasi_product" rows="4"></textarea>
+                                name="spesifikasi_product" rows="4">{{ old('spesifikasi_product') }}</textarea>
+                            @error('spesifikasi_product')
+                                <small class="error" style="color: red">{{ $message }}</small>
+                            @enderror
                         </div>
 
                     </div>
@@ -91,7 +116,8 @@
                                 </li>
                                 <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                                     <div class="flex items-center ps-3">
-                                        <input id="Sangat Besar" type="checkbox" value="Sangat Besar" name="beratjenis[3]"
+                                        <input id="Sangat Besar" type="checkbox" value="Sangat Besar"
+                                            name="beratjenis[3]"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                         <label for="Sangat Besar"
                                             class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sangat
@@ -120,40 +146,46 @@
                         <label for="gambar" class="block text-gray-700 font-semibold  mb-2">Pilih Gambar</label>
                         {{-- <input type="file" name="gambar" id="gambar" multiple class="border rounded-md px-4 py-2 w-full">
                         --}}
-                                                
+
                         <div class="flex items-center justify-center w-full relative">
-                            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-52 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <label for="dropzone-file"
+                                class="flex flex-col items-center justify-center w-full h-52 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                     </svg>
-                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                            class="font-semibold">Click to upload</span> or drag and drop</p>
                                     <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG</p>
                                 </div>
-                                <input required id="dropzone-file" type="file" class="absolute w-full h-full border opacity-0"  name="image[]" multiple onchange="previewImages()"/>
+                                <input id="dropzone-file" type="file" value="{{ old('image[]') }}"
+                                    class="absolute w-full h-full border opacity-0" name="image[]" multiple
+                                    onchange="previewImages()" />
                             </label>
-                        </div> 
+                            @error('image.*')
+                                <li>{{ $message }}</li>
+                            @enderror
+                        </div>
 
                     </div>
-        
-        
-                  
-        
                     <!-- Image Preview -->
                     <div id="imagePreviews" class="w-full rounded-lg  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-        
                     </div>
                 </div>
 
-                @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
+                {{-- @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            
+                        </ul>
+                    </div>
+                @endif --}}
 
                 <div class="flex justify-center items-center mt-3">
                     <button type="submit"
@@ -162,9 +194,8 @@
             </form>
         </div>
     </div>
-    <script src="{{asset('js/dropzone.js')}}"></script>
+    <script src="{{ asset('js/dropzone.js') }}"></script>
     <script>
-       
         let variantcount = 1;
 
         function addInput() {
