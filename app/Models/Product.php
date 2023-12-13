@@ -10,8 +10,7 @@ class Product extends Model
     use HasFactory;
     protected $fillable = [
         'nama_product',
-        'harga_rendah',
-        'harga_tinggi',
+        'harga',
         'deskripsi',
         'link_shopee',
         'stok',
@@ -27,11 +26,8 @@ class Product extends Model
         return $this->hasMany(Varian::class);
     }
 
-    public function beratJenis()
+    public function transaksis()
     {
-        return $this->hasMany(BeratJenis::class);
-    }
-    public function transaksis(){
         return $this->hasOne(Transaksi::class);
     }
     public function scopeSearch($query, $search)

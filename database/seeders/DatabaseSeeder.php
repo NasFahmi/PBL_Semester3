@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MethodePembayaranSeeder::class);
         $this->call(PreorderSeeder::class);
         $this->call(ProductSeeder::class);
-        $this->call(BeratJenisSeeder::class);
         $this->call(VarianSeeder::class);
         $this->call(FotoSeeder::class);
         $this->call(TransaksiSeeder::class);

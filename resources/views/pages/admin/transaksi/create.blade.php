@@ -25,11 +25,11 @@
                                         <input datepicker type="text" name="tanggal" value="{{ old('tanggal') }}"
                                             class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="Select date">
-                                        
+
                                     </div>
                                     @error('tanggal')
-                                            <small class="error" style="color: red">{{ $message }}</small>
-                                        @enderror
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="product" class="text-sm font-medium text-gray-800">Product</label>
@@ -56,8 +56,7 @@
                                 <div class="w-full">
                                     <label for="jumlah"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
-                                    <input type="number" id="jumlah" name="jumlah"
-                                    value="{{ old('jumlah') }}"
+                                    <input type="number" id="jumlah" name="jumlah" value="{{ old('jumlah') }}"
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="0">
                                     @error('jumlah')
@@ -66,34 +65,37 @@
                                 </div>
                                 <div class="w-full">
                                     <p class="text-sm font-medium text-gray-800 mb-1">Total Harga</p>
-                                    <div class="relative ">
+
+                                    <div class="relative">
                                         <div
                                             class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                                            <p>Rp.</p>
+                                            @foreach ($data as $items)
+                                                <p class="total-item"></p>
+                                            @endforeach
                                         </div>
-                                        <input type="text" name="total" id="total-harga"
-                                        value="{{ old('total') }}"
-                                            class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="0">
+                                        <span id="total-harga"
+                                            class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                             
+                                        </span>
                                     </div>
+
                                     @error('total')
-                                        <small class="error" style="color: red">{{$message}}</small>
+                                        <small class="error" style="color: red">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="w-full">
                                     <p class="mb-1">Status</p>
-                                     <div class="flex items-center">
+                                    <div class="flex items-center mb-4">
+                                        <input id="radio-btn-1" type="radio" value="1" name="is_complete"
+                                            class="w-4 h-4  text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
+                                        <label for="radio-btn-1"
+                                            class="ms-2 text-sm font-medium text-gray-900 ">Selesai</label>
+                                    </div>
+                                    <div class="flex items-center">
                                         <input checked id="radio-btn-2" type="radio" value="0" name="is_complete"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
                                         <label for="radio-btn-2" class="ms-2 text-sm font-medium text-gray-900 ">Belum
                                             Selesai</label>
-                                    </div>
-                                    <div class="flex items-center mb-2">
-                                        <input  id="radio-btn-1" type="radio" value="1" name="is_complete"
-                                            class="w-4 h-4  text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ">
-                                        <label for="radio-btn-1"
-                                            class="ms-2 text-sm font-medium text-gray-900 ">Selesai</label>
                                     </div>
                                 </div>
                             </div>
@@ -105,40 +107,39 @@
                             <div class="flex justify-start items-start flex-col gap-3">
                                 <div class="w-full">
                                     <label for="nama" class="text-sm font-medium text-gray-800">Nama</label>
-                                    <input type="text" id="nama" name="nama"
-                                    value="{{ old('nama') }}"
+                                    <input type="text" id="nama" name="nama" value="{{ old('nama') }}"
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Nama Pembeli">
-                                        @error('nama')
-                                                <small class="error" style="color: red">{{$message}}</small>
-                                            @enderror
+                                    @error('nama')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="email" class="text-sm font-medium text-gray-800">Email</label>
                                     <input type="email" id="email" name="email" value="{{ old('email') }}"
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="pembeli@pembeli.com">
-                                        @error('email')
-                                                <small class="error" style="color: red">{{$message}}</small>
-                                            @enderror
+                                    @error('email')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="alamat" class="text-sm font-medium text-gray-800">Alamat</label>
                                     <input type="text" id="alamat" name="alamat" value="{{ old('alamat') }}"
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Masukkan alamat Anda">
-                                        @error('alamat')
-                                                <small class="error" style="color: red">{{$message}}</small>
-                                            @enderror
+                                    @error('alamat')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="telepon" class="text-sm font-medium text-gray-800">Telepon</label>
                                     <input type="tel" id="telepon" name="telepon" value="{{ old('telepon') }}"
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="081234567890">
-                                        @error('telepon')
-                                                <small class="error" style="color: red">{{$message}}</small>
-                                            @enderror
+                                    @error('telepon')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="" class="text-sm font-medium text-gray-800">Keterangan</label>
@@ -160,11 +161,28 @@
     </div>
     <script>
         /* Tanpa Rupiah */
-        let total_harga = document.getElementById('total-harga');
-        total_harga.addEventListener('keyup', function(e) {
-            total_harga.value = formatRupiah(this.value);
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            let jumlahInput = document.getElementById('jumlah');
+            let totalItemElement = document.querySelector('.total-item');
+            let productData = {!! json_encode($data) !!};
 
+            jumlahInput.addEventListener('input', function() {
+                let jumlah = this.value;
+                let selectedProductId = document.getElementById('product').value;
+
+                // Cari objek produk berdasarkan id
+                let selectedProduct = productData.find(product => product.id == selectedProductId);
+
+                if (selectedProduct) {
+                    let hargaPerItem = selectedProduct.harga;
+                    let totalHarga = jumlah * hargaPerItem;
+                    totalItemElement.textContent = 'Rp. '+formatRupiah(totalHarga.toString());
+                } else {
+                    // Handle jika produk tidak ditemukan
+                    console.error('Produk tidak ditemukan');
+                }
+            });
+        })
 
         /* Fungsi */
         function formatRupiah(angka, prefix) {

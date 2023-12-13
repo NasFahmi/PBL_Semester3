@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = Product::with(['fotos', 'varians', 'beratJenis'])->search(request('search'))->get();
+        $data = Product::with(['fotos', 'varians', ])->search(request('search'))->get();
         return view('pages.admin.product.index', compact('data'));
     }
 
@@ -42,14 +42,12 @@ class ProductController extends Controller
         // dd($request->all()); 
         $validator = Validator::make($request->all(), [
             'nama_product' => 'required',
-            'harga_rendah' => 'required',
-            'harga_tinggi' => 'required',
+            'harga' => 'required',
             'deskripsi' => 'required',
             'link_shopee' => 'required',
             'stok' => 'required',
             'spesifikasi_product' => 'required',
             'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'beratjenis' => ['required'],
         ], [
             'image.*.required' => 'Setiap gambar wajib diunggah.',
             'image.*.image' => 'File harus berupa gambar.',
@@ -66,8 +64,7 @@ class ProductController extends Controller
             DB::beginTransaction();
             $product = Product::create([
                 'nama_product' =>$data['nama_product'],
-                'harga_rendah'=>$data['harga_rendah'],
-                'harga_tinggi'=>$data['harga_tinggi'],
+                'harga'=>$data['harga'],
                 'deskripsi'=>$data['deskripsi'],
                 'link_shopee'=>$data['link_shopee'],
                 'stok'=>$data['stok'],
@@ -87,15 +84,6 @@ class ProductController extends Controller
             }
             
 
-            $beratJenis = $data['beratjenis'];
-
-            foreach ($beratJenis as $berat) {
-                BeratJenis::create([
-                    "berat_jenis" => $berat,
-                    "product_id" => $productID
-                ]);
-            }
-
             // Proses setiap file yang diunggah
             $images = [];
             foreach ($request->file('image') as $file) {
@@ -113,7 +101,7 @@ class ProductController extends Controller
 
             DB::commit();
 
-            $request->session()->forget(['product_data', 'berat_jenis', 'varian', 'image_data']);
+            $request->session()->forget(['product_data', 'varian', 'image_data']);
             return redirect()->route('product.index')->with('success', 'Data Berhasil Disimpan');
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
@@ -129,14 +117,14 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
+        $data = Product::with(['fotos', 'varians'])->findOrFail($id);
         $berat_jenis = $data->beratJenis;
         return view('pages.admin.product.detail', compact('data', 'berat_jenis'));
     }
 
     public function edit($id)
     {
-        $data = Product::with(['fotos','varians', 'beratJenis'])->findOrFail($id);
+        $data = Product::with(['fotos','varians'])->findOrFail($id);
         // dd($data);
         return view('pages.admin.product.edit', compact('data'));
     }
@@ -146,8 +134,7 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'nama_product' => 'required',
-            'harga_rendah' => 'required',
-            'harga_tinggi' => 'required',
+            'harga' => 'required',
             'deskripsi' => 'required',
             'link_shopee' => 'required',
             'stok' => 'required',
@@ -165,21 +152,13 @@ class ProductController extends Controller
             // Update the product data
             $product->update([
                 'nama_product' => $request->nama_product,
-                'harga_rendah' => $request->harga_rendah,
-                'harga_tinggi' => $request->harga_tinggi,
+                'harga' => $request->harga,
                 'deskripsi' => $request->deskripsi,
                 'link_shopee' => $request->link_shopee,
                 'stok' => $request->stok,
                 'spesifikasi_product' => $request->spesifikasi_product,
             ]);
     
-            // Update or create beratJenis records
-            $product->beratJenis()->delete();
-            foreach ($request->beratjenis as $beratjenis) {
-                $product->beratJenis()->create([
-                    'berat_jenis'=> $beratjenis,
-                ]);
-            }
             // $product->beratJenis()->sync($beratJenisIds);
             if(isset($request->varian)){
                 // Update or create varians records
@@ -227,15 +206,13 @@ class ProductController extends Controller
     
     public function destroy(Product $product)
     {
-        $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($product->id);
+        $data = Product::with(['fotos', 'varians'])->findOrFail($product->id);
 
         DB::beginTransaction();
         try {
             // Delete related records
             $data->fotos()->delete();
             $data->varians()->delete();
-            $data->beratJenis()->delete();
-
             // Delete the data itself
             $data->delete();
             // Handle image deletion (if needed)

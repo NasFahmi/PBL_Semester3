@@ -17,8 +17,7 @@ class ProductSeeder extends Seeder
         Product::insert([
             [
                 'nama_product'=>'Product A',
-                'harga_rendah'=> '10000',
-                'harga_tinggi'=>'20000',
+                'harga'=> '10000',
                 'deskripsi'=> 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit eos ab voluptatem eaque animi. Neque nihil repudiandae officia vero sed!',
                 'link_shopee'=> 'link',
                 'stok'=> '40',

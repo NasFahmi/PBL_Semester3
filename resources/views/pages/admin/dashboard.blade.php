@@ -145,7 +145,11 @@
                                 </div>
                             </div>
 
-                            <p class="text-gray-700 font-medium">Nama : {{ $namaPembeli[$index] }}</p>
+                            @if (isset($namaPembeli[$index]))
+                                <p class="text-gray-700 font-medium">Nama : {{ $namaPembeli[$index] }}</p>
+                            @else
+                                <p class="text-gray-700 font-medium">Nama : Not Available</p>
+                            @endif
                             <p class="text-gray-500 text-sm mb-4">Keterangan : {{ $preorder->transaksis->keterangan }}</p>
                             <p class="text-sm text-right">{{ $preorder->created_at }}</p>
                         </div>

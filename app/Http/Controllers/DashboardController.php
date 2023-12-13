@@ -24,8 +24,11 @@ class DashboardController extends Controller
         $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
         $dataJumlahOrder = $data->count();
         $namaPembeli = $data->where('is_complete', 0)
+            ->whereNotNull('pembelis.nama') 
             ->sortByDesc('created_at')
             ->pluck('pembelis.nama');
+
+            // dd($namaPembeli);
 
         $topSalesProducts = Transaksi::where('is_complete', 1)
             ->whereNotNull('product_id')
@@ -36,7 +39,12 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        $preorderRecently = Preorder::latest()->limit(3)->get();
+        $preorderRecently = Preorder::whereHas('transaksis', function ($query) {
+            $query->where('is_complete', 0);
+        })
+            ->latest()
+            ->limit(3)
+            ->get();        
         $productRecently = Product::with('fotos', 'transaksis')
             ->latest()->limit(5)->get();
 

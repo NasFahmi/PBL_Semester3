@@ -82,7 +82,6 @@ class TransaksiController extends Controller
             $totalharga = $request->total;
             $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
 
-
             $dataPembeli = Pembeli::create([
                 "nama" => $data['nama'],
                 "email" => $data['email'],
@@ -94,6 +93,8 @@ class TransaksiController extends Controller
             if(isset($data['keterangan'])){
                 $dataKeterangan = $data['keterangan'];
             }
+
+
             $transaksi = Transaksi::create([
                 "tanggal" => $tanggal,
                 "pembeli_id" => $idPembeli,

@@ -67,17 +67,12 @@
 
             <div class="w-full md:w-1/2">
                 <h1 class="text-3xl font-semibold mb-2">{{ $data->nama_product }}</h1>
-                <h1 class="text-2xl font-semibold mb-1">{{ $data->harga_rendah }} - {{ $data->harga_tinggi }}</h1>
+                <h1 class="text-2xl font-semibold mb-1">Rp. {{ number_format($data->harga, 0, ',', '.') }}</h1>
                 <p class="text-lg">{{ $data->deskripsi }}</p>
 
                 <h1>Varian : </h1>
                 @foreach ($data->varians as $varian)
                     <li class="text-lg">{{ $varian->jenis_varian }}</li>
-                @endforeach
-                <p>{{ $data->berat_jenis }}</p>
-                <h1>Berat Jenis :</h1>
-                @foreach ($berat_jenis as $items)
-                    <li class="text-lg">{{ $items->berat_jenis }}</li>
                 @endforeach
                 @if ($data->stok <= 0)
                     <h1>Stok: Sedang Kosong</h1>

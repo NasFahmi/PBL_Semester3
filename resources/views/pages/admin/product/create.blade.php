@@ -24,17 +24,12 @@
                             <label class="block text-sm mb-1">
                                 <span class="text-gray-700 dark:text-gray-400">Harga</span>
                             </label>
-                            <div class="grid grid-cols-2 justify-start items-center gap-4 max-w-4xl mb-3">
-                                <input type="number" placeholder="Rendah" name="harga_rendah"
-                                    value="{{ old('harga_rendah') }}"
+                            <div class="grid grid-cols-2 justify-start items-center  max-w-4xl mb-3">
+                                <input type="number" placeholder="Harga" name="harga"
+                                    value="{{ old('harga') }}"
                                     class="input input-bordered input-info w-full bg-slate-50  duration-50 " />
-                                <input type="number" placeholder="Tinggi" name="harga_tinggi"
-                                    value="{{ old('harga_tinggi') }}"
-                                    class="input input-bordered input-info w-fulll bg-slate-50  duration-50 " />
-                                @error('harga_rendah')
-                                    <small class="error" style="color: red">{{ $message }}</small>
-                                @enderror
-                                @error('harga_tinggi')
+                                
+                                @error('harga')
                                     <small class="error" style="color: red">{{ $message }}</small>
                                 @enderror
                             </div>
@@ -50,6 +45,9 @@
                             @enderror
                         </div>
 
+                        
+                    </div>
+                    <div class="right">
                         <div class="">
                             <label class="block text-sm mb-1">
                                 <span class="text-gray-700 dark:text-gray-400 ">Link Shopee</span>
@@ -82,9 +80,7 @@
                             @enderror
                         </div>
 
-                    </div>
-                    <div class="right">
-                        <div class="">
+                        {{-- <div class="">
                             <label class="block text-sm mb-1">
                                 <span class="text-gray-700 dark:text-gray-400">Berat Jenis Product</span>
                             </label>
@@ -125,7 +121,7 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                         <div class="">
                             <label class="block text-sm mb-1">
                                 <span class="text-gray-700 dark:text-gray-400">Varian Product</span>

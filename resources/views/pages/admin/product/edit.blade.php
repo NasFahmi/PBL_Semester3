@@ -23,13 +23,10 @@
                             <span class="text-gray-700 dark:text-gray-400">Harga</span>
                         </label>
                         <div class="grid grid-cols-2 justify-start items-center gap-4 max-w-4xl mb-3">
-                            <input type="text" placeholder="Rendah" name="harga_rendah"
-                                value="{{ old('harga_rendah', $data->harga_rendah) }}"
+                            <input type="number" placeholder="Harga" name="harga"
+                                value="{{ old('harga', $data->harga) }}"
                                 class="input input-bordered input-info w-full bg-slate-50  duration-50 " />
-                            <input type="text" placeholder="Tinggi" name="harga_tinggi"
-                                value="{{ old('harga_tinggi', $data->harga_tinggi) }}"
-                                class="input input-bordered input-info w-fulll bg-slate-50  duration-50 " />
-                        </div>
+                            </div>
                     </div>
                     <div class="">
                         <label class="block text-sm mb-1">
@@ -66,7 +63,7 @@
 
                 </div>
                 <div class="right">
-                    <div class="">
+                    {{-- <div class="">
                         <label class="block text-sm mb-1">
                             <span class="text-gray-700 dark:text-gray-400">Berat Jenis Product</span>
                         </label>
@@ -89,7 +86,7 @@
                             </li>
                             @endforeach
                         </ul>
-                    </div>
+                    </div> --}}
                     <!-- Prefill Varians input fields -->
                     <div id="form-container">
                         @foreach ($data->varians as $index => $varian)
