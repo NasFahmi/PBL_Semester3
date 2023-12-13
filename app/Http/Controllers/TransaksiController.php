@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
 use App\Events\TransaksiSelesai;
+use Illuminate\Support\Facades\Validator;
+
 class TransaksiController extends Controller
 {
     /**
@@ -48,8 +50,8 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'tanggal' => 'required',
+        $validator = Validator::make($request->all(), [
+            'tanggal' => 'required|date',
             'product' => 'required',
             'methode_pembayaran' => 'required',
             'jumlah' => 'required',
@@ -58,10 +60,16 @@ class TransaksiController extends Controller
             'nama' => 'required',
             'email' => 'required',
             'alamat' => 'required',
-            'telepon' => 'required',
-
+            'telepon' => 'required|numeric|digits:12',
+        ], [
+            'telepon.numeric' => 'Nomor telepon harus berupa angka.',
+            'telepon.digits' => 'Nomor telepon harus terdiri dari 12 digit.',
         ]);
 
+        if ($validator->fails()) {
+            // dd($validator->errors() ); // Mencetak pesan kesalahan
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         // dd($request->all());
         try {
             DB::beginTransaction();
@@ -149,17 +157,21 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, Transaksi $transaksi)
     {
-        $this->validate($request, [
-            'product' => 'required',
-            'methode_pembayaran' => 'required',
+        $validator = Validator::make($request->all(), [
             'jumlah' => 'required',
             'total' => 'required',
-            'is_complete' => 'required',
             'nama' => 'required',
             'email' => 'required',
             'alamat' => 'required',
-            'telepon' => 'required',
+            'telepon' => 'required|numeric|digits:12',
+        ], [
+            'telepon.numeric' => 'Nomor telepon harus berupa angka.',
+            'telepon.digits' => 'Nomor telepon harus terdiri dari 12 digit.',
         ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         try {
             DB::beginTransaction();
@@ -202,7 +214,7 @@ class TransaksiController extends Controller
             DB::rollBack();
             // throw $th;
             return redirect()->back()->with('error', 'Failed to update transaksi data.');
-        }
+        }    
     }
 
 

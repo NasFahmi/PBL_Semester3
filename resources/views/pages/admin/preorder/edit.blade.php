@@ -56,6 +56,9 @@
                                         placeholder="0" required value="{{ $dataTransaksi->jumlah }}">
 
                                 </div>
+                                @error('jumlah')
+                                    <small class="error" style="color: red">{{ $message }}</small>
+                                @enderror
                                 <div class="w-full">
                                     <p class="text-sm font-medium text-gray-800">Total Harga</p>
                                     <div class="relative mb-6">
@@ -68,6 +71,9 @@
                                             placeholder="0"
                                             value="{{ number_format($dataTransaksi->total_harga, 0, ',', '.') }}">
                                     </div>
+                                    @error('total')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <p>Status</p>
@@ -148,7 +154,9 @@
                                     <p class="text-xs italic">Isi nilai di atas untuk membayar sebagian (DP). Jika ingin
                                         melunaskan, edit jumlah pelunasan menjadi sama dengan total harga.</p>
                                 </div>
-
+                                @error('jumlah_dp')
+                                    <small class="error" style="color: red">{{ $message }}</small>
+                                @enderror
 
                             </div>
                         </div>
@@ -162,12 +170,18 @@
                                     <input type="text" id="nama" name="nama"
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Nama Pembeli" value="{{ $dataTransaksi->pembelis->nama }}">
+                                    @error('nama')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="email" class="text-sm font-medium text-gray-800">Email</label>
                                     <input type="email" id="email" name="email"
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="pembeli@pembeli.com" value="{{ $dataTransaksi->pembelis->email }}">
+                                    @error('email')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="alamat" class="text-sm font-medium text-gray-800">Alamat</label>
@@ -175,12 +189,18 @@
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Masukkan alamat Anda"
                                         value="{{ $dataTransaksi->pembelis->alamat }}">
+                                    @error('alamat')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="telepon" class="text-sm font-medium text-gray-800">Telepon</label>
                                     <input type="tel" id="telepon" name="telepon"
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="081234567890" value="{{ $dataTransaksi->pembelis->no_hp }}">
+                                    @error('telepon')
+                                        <small class="error" style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="" class="text-sm font-medium text-gray-800">Keterangan</label>

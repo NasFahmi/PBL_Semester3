@@ -71,26 +71,29 @@
         <h1 class="text-3xl font-semibold text-center mb-10">Produk Kami</h1>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center">
             @foreach ($data as $items)
-                <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
-                    <figure class="w-full h-96">
-                        <img src="{{ asset('storage/' . $items->fotos->first()->foto) }}" alt="Product"
-                            class="h-auto w-full" />
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">{{ $items->nama_product }}</h2>
-                        <p class="line-clamp-2">{{ $items->deskripsi }}</p>
-                        <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
-                            <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp.
-                                {{ number_format($items->harga_rendah, 0, ',', '.') }}</p>
-                            <div class="card-actions justify-end w-full md:w-auto">
-                                <a href="{{ route('detail_product', $items->id) }}"
-                                    class="btn btn-primary w-full md:w-auto">Details</a>
+                @if ($items->stok > 0)
+                    <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
+                        <figure class="w-full h-96">
+                            <img src="{{ asset('storage/' . $items->fotos->first()->foto) }}" alt="Product"
+                                class="h-auto w-full" />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">{{ $items->nama_product }}</h2>
+                            <p class="line-clamp-2">{{ $items->deskripsi }}</p>
+                            <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
+                                <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp.
+                                    {{ number_format($items->harga_rendah, 0, ',', '.') }}</p>
+                                <div class="card-actions justify-end w-full md:w-auto">
+                                    <a href="{{ route('detail_product', $items->id) }}"
+                                        class="btn btn-primary w-full md:w-auto">Details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             @endforeach
-            {{-- 
+        </div>
+        {{-- 
         <div class="card card-compact w-full md:w-60 h-96  bg-base-100 shadow-xl">
             <figure  class="w-full h-96"><img src="{{asset('assets/images/product/rambak.jpg')}}" alt="Shoes" class="h-auto w-full"/></figure>
             <div class="card-body">
@@ -132,7 +135,7 @@
               </div>
             </div>
         </div> --}}
-        </div>
+
     </div>
     <div class="bg-gray-800 mt-20">
         <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
@@ -165,17 +168,17 @@
                     </div>
                     <div class="flex justify-start items-center mt-4 gap-2">
                         <div class="shopee w-10 h-10">
-                            <a href="">
+                            <a href="https://shopee.co.id/pawonkoe_bwi">
                                 <img src="{{ asset('assets/images/shopee.png') }}" alt="" srcset="">
                             </a>
                         </div>
                         <div class="instagram w-10 h-10">
-                            <a href="">
+                            <a href="https://www.instagram.com/pawonkoe.bwi_rambakcumi/">
                                 <img src="{{ asset('assets/images/ig.png') }}" alt="" srcset="">
                             </a>
                         </div>
                         <div class="wa w-10 h-10">
-                            <a href="">
+                            <a href="https://wa.me/+6281316869287" target='_blank'>
                                 <img src="{{ asset('assets/images/wa.png') }}" alt="" srcset="">
                             </a>
                         </div>
@@ -185,7 +188,7 @@
                             </a>
                         </div>
                         <div class="fb w-10 h-10">
-                            <a href="">
+                            <a href="https://www.facebook.com/pawonkoebanyuwangi">
                                 <img src="{{ asset('assets/images/fb.png') }}" alt="" srcset="">
                             </a>
                         </div>
