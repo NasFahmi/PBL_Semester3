@@ -28,6 +28,7 @@ class DashboardResources extends JsonResource
                         'id'=> $product->id,
                         'nama_product'=> $product->nama_product,
                         'harga'=>$product->harga_rendah,
+                        'fotos' => FotoResources::collection($product->fotos),
                         'deskripsi'=>$product->deskripsi,
                     ];
                 }),
