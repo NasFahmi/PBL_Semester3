@@ -199,7 +199,7 @@
             newFormGroup.className = 'form-group';
             newFormGroup.innerHTML = ' <div class="form-group flex justify-center items-center gap-2">' +
                 '<input type="text" name="varian[' + variantcount + ']" placeholder="Varian ' + variantcount + '" ' +
-                'class="input input-bordered input-info w-full max-w-sm duration-50 bg-slate-50  mb-3" />' +
+                'class="input input-bordered input-info w-full max-w-md duration-50 bg-slate-50  mb-3" />' +
                 '<div class="w-8 h-8 cursor-pointer" onclick="removeInput(this)" >' +
                 '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
                 '<g id="SVGRepo_bgCarrier" stroke-width="0"></g>' +
