@@ -55,7 +55,7 @@ class TransaksiController extends Controller
             'product' => 'required',
             'methode_pembayaran' => 'required',
             'jumlah' => 'required',
-            'total' => 'required',
+            // 'total' => 'required',
             'is_complete' => 'required',
             'nama' => 'required',
             'email' => 'required',
@@ -74,7 +74,7 @@ class TransaksiController extends Controller
         try {
             DB::beginTransaction();
             $data = $request->all();
-
+            // dd($data);
             $dataTanggal = $request->tanggal;
             $dateTime = DateTime::createFromFormat('d/m/Y', $dataTanggal);
             $tanggal = $dateTime->format('Y-m-d');
@@ -94,7 +94,7 @@ class TransaksiController extends Controller
                 $dataKeterangan = $data['keterangan'];
             }
 
-
+            // dd($totalharga);
             $transaksi = Transaksi::create([
                 "tanggal" => $tanggal,
                 "pembeli_id" => $idPembeli,
@@ -118,8 +118,8 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // throw $th;
-            return redirect()->back()->with('error', 'Failed to create transaksi data.');
+            throw $th;
+            // return redirect()->back()->with('error', 'Failed to create transaksi data.');
 
         }
     }

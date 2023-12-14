@@ -66,19 +66,17 @@
                                 <div class="w-full">
                                     <p class="text-sm font-medium text-gray-800 mb-1">Total Harga</p>
 
-                                    <div class="relative">
+                                    <div class="relative ">
                                         <div
                                             class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                                            @foreach ($data as $items)
-                                                <p class="total-item"></p>
-                                            @endforeach
+                                            <p>Rp.</p>
                                         </div>
-                                        <span id="total-harga"
-                                            class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            
-                                        </span>
-                                    </div>
+                                        <input type="text" name="total" id="total-harga" readonly
+                                            value="{{ old('total') }}"
+                                            class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="0">
 
+                                    </div>
                                     @error('total')
                                         <small class="error" style="color: red">{{ $message }}</small>
                                     @enderror
@@ -161,28 +159,54 @@
     </div>
     <script>
         /* Tanpa Rupiah */
+        // let total_harga = document.getElementById('total-harga');
+
+
         document.addEventListener('DOMContentLoaded', function() {
             let jumlahInput = document.getElementById('jumlah');
-            let totalItemElement = document.querySelector('.total-item');
+            let totalHargaInput = document.getElementById('total-harga');
             let productData = {!! json_encode($data) !!};
 
-            jumlahInput.addEventListener('input', function() {
-                let jumlah = this.value;
+            // Function to format the total price with Rupiah
+            
+            totalHargaInput.addEventListener('keyup', function(e) {
+                totalHargaInput.value = formatRupiah(this.value);
+        });
+            // Function to calculate and update the total price
+            function updateTotalHarga() {
+                let jumlah = jumlahInput.value;
                 let selectedProductId = document.getElementById('product').value;
 
-                // Cari objek produk berdasarkan id
+                // Find the selected product by ID
                 let selectedProduct = productData.find(product => product.id == selectedProductId);
 
                 if (selectedProduct) {
                     let hargaPerItem = selectedProduct.harga;
+
+                    // Ensure jumlah is not negative
+                    if (jumlah < 0) {
+                        jumlah = 0;
+                        jumlahInput.value = 0; // Set the input value to 0 if negative
+                    }
+
                     let totalHarga = jumlah * hargaPerItem;
-                    totalItemElement.textContent = 'Rp. '+formatRupiah(totalHarga.toString());
+                    totalHargaInput.value = totalHarga;
+                    totalHargaInput.value = formatTotalHarga(totalHarga);
                 } else {
-                    // Handle jika produk tidak ditemukan
-                    console.error('Produk tidak ditemukan');
+                    // Handle if the product is not found
+                    console.error('Product not found');
                 }
-            });
-        })
+            }
+
+            function formatTotalHarga(totalHarga) {
+                return  formatRupiah(totalHarga.toString());
+            }
+
+            // Attach the 'input' event listener to the jumlahInput
+            jumlahInput.addEventListener('input', updateTotalHarga);
+            // formatRupiah(updateTotalHarga,'Rp')
+        });
+
 
         /* Fungsi */
         function formatRupiah(angka, prefix) {
