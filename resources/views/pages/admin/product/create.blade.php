@@ -3,11 +3,11 @@
 @section('content')
     <div class="container  px-6 pb-6 mx-auto">
         <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Create Product</h1>
-        <div class="bg-white flex justify-center items-center px-8 py-8 shadow-lg rounded-3xl">
+        <div class="bg-white  px-8 py-8 shadow-lg rounded-3xl">
 
             <form action="{{ route('product.store') }}" method="post" class="" enctype="multipart/form-data">
                 @csrf
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 ">
                     <div class="left">
                         <div class="">
                             <label class="block text-sm mb-1">
@@ -24,7 +24,6 @@
                             <label class="block text-sm mb-1">
                                 <span class="text-gray-700 dark:text-gray-400">Harga</span>
                             </label>
-                            <div class="grid grid-cols-2 justify-start items-center  max-w-4xl mb-3">
                                 <input type="number" placeholder="Harga" name="harga"
                                     value="{{ old('harga') }}"
                                     class="input input-bordered input-info w-full bg-slate-50  duration-50 " />
@@ -32,7 +31,7 @@
                                 @error('harga')
                                     <small class="error" style="color: red">{{ $message }}</small>
                                 @enderror
-                            </div>
+                            
                         </div>
                         <div class="">
                             <label class="block text-sm mb-1">
