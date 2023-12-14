@@ -133,8 +133,10 @@
                     @foreach ($preorderRecently as $index => $preorder)
                         <div class="bg-teal-100 rounded-md p-4 mb-4">
                             <div class="flex justify-start items-center gap-4 mb-2">
-                                <div class="w-10 h-10">
+                                <div class="w-10 h-10 ">
                                     @foreach ($foto->where('product_id', $preorder->transaksis->product_id) as $item)
+                                    <div class="rounded-full bg-cover bg-no-repeat bg-center" style="background-image: url('{{ asset('storage/' . $item->foto) }}')">
+                                    </div>
                                         <img src="{{ asset('storage/' . $item->foto) }}" alt="" srcset=""
                                             class="rounded-full">
                                     @endforeach
@@ -165,9 +167,7 @@
                     @foreach ($productRecently as $item)
                         <div class="bg-blue-100 rounded-md p-4 mb-4">
                             <div class="flex justify-start items-center gap-4 mb-2">
-                                <div class=" w-16 h-16">
-                                    <img src="{{ asset('storage/' . $item->fotos->first()->foto) }}" alt=""
-                                        srcset="" class="rounded-full">
+                                <div class="rounded-full w-16 h-16 bg-cover bg-no-repeat bg-center" style="background-image: url('{{ asset('storage/' . $item->fotos->first()->foto) }}')">
                                 </div>
                                 <div class="">
                                     <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">
