@@ -20,7 +20,7 @@ class ProductSeeder extends Seeder
                 'harga'=> '10000',
                 'deskripsi'=> 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit eos ab voluptatem eaque animi. Neque nihil repudiandae officia vero sed!',
                 'link_shopee'=> 'link',
-                'stok'=> '40',
+                'stok'=> '1000',
                 'tersedia' => true,
                 'spesifikasi_product'=> 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit eos ab voluptatem eaque animi. Neque nihil repudiandae officia vero sed!',
                 'created_at'=>Carbon::now(),

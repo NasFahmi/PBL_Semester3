@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
 use App\Events\TransaksiSelesai;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class TransaksiController extends Controller
@@ -78,9 +79,9 @@ class TransaksiController extends Controller
             $data = $request->all();
             // dd($data);
             $dataTanggal = $request->tanggal;
-            $dateTime = DateTime::createFromFormat('d/m/Y', $dataTanggal);
+            $dateTime = Carbon::parse($dataTanggal, 'Asia/Jakarta'); // Ganti 'Asia/Jakarta' sesuai dengan timezone yang sesuai
             $tanggal = $dateTime->format('Y-m-d');
-
+            // dd($tanggal);
             $totalharga = $request->total;
             $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
 
@@ -120,7 +121,7 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // throw $th;
+            throw $th;
             return redirect()->back()->with('error', 'Failed to create transaksi data.');
 
         }

@@ -15,7 +15,7 @@ class Transaksi30Day extends Seeder
     {
         // Ganti 'pembeli_id', 'product_id', 'methode_pembayaran_id', dll, sesuai dengan kebutuhan
         $pembeli_id = 1;
-        $product_id = 3;
+        $product_id = 1;
         $methode_pembayaran_id = 1;
         $jumlah = 1;
         $keterangan = "test keterangan";

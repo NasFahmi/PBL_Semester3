@@ -61,11 +61,11 @@ class DashboardController extends Controller
             ->get();
 
         $dataPenjualan = Transaksi::where('is_complete', 1)
-            ->whereBetween('tanggal', ['2023-12-20', '2024-01-10'])
+            ->whereBetween('tanggal', [$startDate, $endDate])
             ->pluck('total_harga');
         
         $tanggalPenjualan = Transaksi::where('is_complete', 1)
-            ->whereBetween('tanggal', ['2023-12-20', '2024-01-10'])
+            ->whereBetween('tanggal', [$startDate, $endDate])
             ->pluck('tanggal');
 
         $dates = $tanggalPenjualan->map(function ($dateString) {
