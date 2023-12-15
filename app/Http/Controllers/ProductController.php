@@ -144,7 +144,6 @@ class ProductController extends Controller
             'stok' => 'required',
             'spesifikasi_product' => 'required',
             'image.*' => 'image|mimes:jpeg,png,jpg|max:2048', // Allow empty image updates
-            'beratjenis' => ['required'],
         ]);
 
         try {

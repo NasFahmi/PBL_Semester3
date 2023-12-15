@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryProduct;
 use DateTime;
 use App\Models\Pembeli;
 use App\Models\Product;
@@ -41,8 +42,9 @@ class TransaksiController extends Controller
     public function create()
     {
         $data = Product::get();
+        $dataHistory = HistoryProduct::get();
         // dd($data);
-        return view('pages.admin.transaksi.create', compact('data'));
+        return view('pages.admin.transaksi.create', compact('data','dataHistory'));
     }
 
     /**
@@ -118,8 +120,8 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
-            // return redirect()->back()->with('error', 'Failed to create transaksi data.');
+            // throw $th;
+            return redirect()->back()->with('error', 'Failed to create transaksi data.');
 
         }
     }

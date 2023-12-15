@@ -166,23 +166,39 @@
         document.addEventListener('DOMContentLoaded', function() {
             let jumlahInput = document.getElementById('jumlah');
             let totalHargaInput = document.getElementById('total-harga');
+            let productSelectedInput = document.getElementById('product');
             let productData = {!! json_encode($data) !!};
-
+            let productDataHistory = {!! json_encode($dataHistory) !!};
+            console.log(productDataHistory)
+            console.log(productData)
             // Function to format the total price with Rupiah
-
             totalHargaInput.addEventListener('keyup', function(e) {
                 totalHargaInput.value = formatRupiah(this.value);
             });
             // Function to calculate and update the total price
             function updateTotalHarga() {
                 let jumlah = jumlahInput.value;
-                let selectedProductId = document.getElementById('product').value;
+                let selectedProductId = productSelectedInput.value;
+                console.log(selectedProductId)
 
                 // Find the selected product by ID
                 let selectedProduct = productData.find(product => product.id == selectedProductId);
 
                 if (selectedProduct) {
-                    let hargaPerItem = selectedProduct.harga;
+                    let hargaPerItem;
+
+                    // Check if there is a corresponding history product
+                    let historyProduct = productDataHistory.find(history => history.product_id ==
+                        selectedProductId);
+                    // print($historyProduct)
+
+                    if (historyProduct && historyProduct.harga != selectedProduct.harga) {
+                        // If there is a history product and the price is different, use the history price
+                        hargaPerItem = historyProduct.harga;
+                    } else {
+                        // Otherwise, use the current product price
+                        hargaPerItem = selectedProduct.harga;
+                    }
 
                     // Ensure jumlah is not negative
                     if (jumlah < 0) {
@@ -191,7 +207,6 @@
                     }
 
                     let totalHarga = jumlah * hargaPerItem;
-                    totalHargaInput.value = totalHarga;
                     totalHargaInput.value = formatTotalHarga(totalHarga);
                 } else {
                     // Handle if the product is not found
