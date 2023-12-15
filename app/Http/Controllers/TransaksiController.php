@@ -60,11 +60,10 @@ class TransaksiController extends Controller
             'nama' => 'required',
             'email' => 'required',
             'alamat' => 'required',
-            'telepon' => 'required|numeric|min:11|max:13',
+            'telepon' => 'required|numeric|digits:12',
         ], [
             'telepon.numeric' => 'Nomor telepon harus berupa angka.',
-            'telepon.min' => 'Nomor telepon minimal terdiri dari 11 digit.',
-            'telepon.max' => 'Nomor telepon maksimal terdiri dari 13 digit.',
+            'telepon.digits' => 'Nomor telepon minimal terdiri dari 11 digit.',
         ]);
 
         if ($validator->fails()) {

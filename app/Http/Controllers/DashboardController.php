@@ -23,6 +23,12 @@ class DashboardController extends Controller
         $totalProductTerjual = Transaksi::where('is_complete', 1)->sum('jumlah');
         $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
         $dataJumlahOrder = $data->count();
+
+        $startDate = Carbon::now()->subDays(30)->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+        $startDateTest = '2023-12-01';
+        $endDateTest = '2024-12-30';
+
         $namaPembeli = $data->where('is_complete', 0)
             ->whereNotNull('pembelis.nama') 
             ->sortByDesc('created_at')
@@ -54,10 +60,14 @@ class DashboardController extends Controller
             ->groupBy('fotos.product_id')
             ->get();
 
-        $dataPenjualan = $data->where('is_complete', 1)
+        $dataPenjualan = Transaksi::where('is_complete', 1)
+            ->whereBetween('tanggal', ['2023-12-20', '2024-01-10'])
             ->pluck('total_harga');
-        $tanggalPenjualan = $data->where('is_complete', 1)
-            ->pluck('created_at');
+        
+        $tanggalPenjualan = Transaksi::where('is_complete', 1)
+            ->whereBetween('tanggal', ['2023-12-20', '2024-01-10'])
+            ->pluck('tanggal');
+
         $dates = $tanggalPenjualan->map(function ($dateString) {
             return Carbon::parse($dateString);
         });
