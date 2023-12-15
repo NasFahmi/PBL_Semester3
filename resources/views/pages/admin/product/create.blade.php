@@ -34,7 +34,7 @@
                             
                         </div>
                         <div class="">
-                            <label class="block text-sm mb-1">
+                            <label class="block text-sm mb-1 mt-3">
                                 <span class="text-gray-700 dark:text-gray-400">Deskripsi</span>
                             </label>
                             <textarea class="textarea textarea-info w-full max-w-4xl bg-slate-50" placeholder="Deskripsi Product" name="deskripsi"

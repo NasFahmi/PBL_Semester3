@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = Product::with(['fotos', 'varians', ])->search(request('search'))->get();
+        $data = Product::with(['fotos', 'varians',])->search(request('search'))->get();
         return view('pages.admin.product.index', compact('data'));
     }
 
@@ -33,7 +33,7 @@ class ProductController extends Controller
     {
         return view('pages.admin.product.create');
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -58,31 +58,32 @@ class ProductController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $data=$request->all();
+        $data = $request->all();
         // dd($data['image']);
         try {
             DB::beginTransaction();
             $product = Product::create([
-                'nama_product' =>$data['nama_product'],
-                'harga'=>$data['harga'],
-                'deskripsi'=>$data['deskripsi'],
-                'link_shopee'=>$data['link_shopee'],
-                'stok'=>$data['stok'],
-                'spesifikasi_product'=>$data['spesifikasi_product'],
+                'nama_product' => $data['nama_product'],
+                'harga' => $data['harga'],
+                'deskripsi' => $data['deskripsi'],
+                'link_shopee' => $data['link_shopee'],
+                'stok' => $data['stok'],
+                'spesifikasi_product' => $data['spesifikasi_product'],
+                'tersedia' => '1',
             ]);
             $productID = $product->id;
             if (isset($data['$varian'])) {
-               
-                $varians= $data['varian'];
 
-            foreach ($varians as $varian) {
-                Varian::create([
-                    'jenis_varian' => $varian,
-                    'product_id' => $productID,
-                ]);
+                $varians = $data['varian'];
+
+                foreach ($varians as $varian) {
+                    Varian::create([
+                        'jenis_varian' => $varian,
+                        'product_id' => $productID,
+                    ]);
+                }
             }
-            }
-            
+
 
             // Proses setiap file yang diunggah
             $images = [];
@@ -124,7 +125,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $data = Product::with(['fotos','varians'])->findOrFail($id);
+        $data = Product::with(['fotos', 'varians'])->findOrFail($id);
         // dd($data);
         return view('pages.admin.product.edit', compact('data'));
     }
@@ -142,13 +143,13 @@ class ProductController extends Controller
             'image.*' => 'image|mimes:jpeg,png,jpg|max:2048', // Allow empty image updates
             'beratjenis' => ['required'],
         ]);
-    
+
         try {
             DB::beginTransaction();
-    
+
             // Find the product by ID
             $product = Product::findOrFail($id);
-    
+
             // Update the product data
             $product->update([
                 'nama_product' => $request->nama_product,
@@ -157,29 +158,30 @@ class ProductController extends Controller
                 'link_shopee' => $request->link_shopee,
                 'stok' => $request->stok,
                 'spesifikasi_product' => $request->spesifikasi_product,
+                'tersedia' => '1',
             ]);
-    
+
             // $product->beratJenis()->sync($beratJenisIds);
-            if(isset($request->varian)){
+            if (isset($request->varian)) {
                 // Update or create varians records
                 $product->varians()->delete(); // Delete existing varians
                 foreach ($request->varian as $varian) {
                     $product->varians()->create(['jenis_varian' => $varian]);
                 }
             }
-    
+
             // Handle image updates
             if ($request->hasFile('image')) {
                 $this->validate($request, [
                     'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
                 ]);
-    
+
                 // Delete existing images
                 foreach ($product->fotos as $foto) {
                     Storage::delete($foto->foto);
                     $foto->delete();
                 }
-    
+
                 // Process each uploaded file
                 foreach ($request->file('image') as $file) {
                     $img = $file->store("images");
@@ -190,9 +192,9 @@ class ProductController extends Controller
                     ]);
                 }
             }
-    
+
             DB::commit();
-    
+
             return redirect()->route('product.index')->with('success', 'Product has been updated successfully');
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
@@ -202,35 +204,21 @@ class ProductController extends Controller
             // return redirect()->back()->with('error', 'Failed to update product data.');
         }
     }
-    
-    
+
+
     public function destroy(Product $product)
     {
-        $data = Product::with(['fotos', 'varians'])->findOrFail($product->id);
-
-        DB::beginTransaction();
         try {
-            // Delete related records
-            $data->fotos()->delete();
-            $data->varians()->delete();
-            // Delete the data itself
-            $data->delete();
-            // Handle image deletion (if needed)
-            if ($data->fotos) {
-                foreach ($data->fotos as $foto) {
-                    Storage::delete($foto['foto']);
-                }
-            }
+            // Find the product with its related photos and variants
+            $data = Product::with(['fotos', 'varians'])->findOrFail($product->id);
 
-            DB::commit();
+            // Update the 'tersedia' column to false
+            $data->update(['tersedia' => false]);
+
+            return redirect()->route('product.index')->with('success', 'Product has been deleted successfully');
         } catch (\Exception $e) {
-            // If there is an error, rollback the transaction
-            DB::rollBack();
-            // throw $e;
-            // Handle the error as needed
-            return redirect()->back()->with('error', 'Failed to delete the product.');
+            // Handle any exceptions that may occur
+            return redirect()->route('product.index')->with('error', 'Error deleting product: ' . $e->getMessage());
         }
-
-        return redirect()->route('product.index')->with('success', 'Product has been deleted successfully');
     }
 }

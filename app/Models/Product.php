@@ -15,6 +15,7 @@ class Product extends Model
         'link_shopee',
         'stok',
         'spesifikasi_product',
+        'tersedia'
     ];
     public function fotos()
     {

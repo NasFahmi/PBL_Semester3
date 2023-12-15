@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('link_shopee', 255);
             $table->string('stok', 100);
             $table->longText('spesifikasi_product');
+            $table->boolean('tersedia');
             $table->timestamps();
         });
     }
