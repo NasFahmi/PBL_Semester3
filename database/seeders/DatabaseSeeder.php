@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(VarianSeeder::class);
         $this->call(FotoSeeder::class);
         $this->call(TransaksiSeeder::class);
+        $this->call(HistoryProductSeeder::class);
     }
 }

@@ -36,9 +36,10 @@
                                     {{-- {{$data}} --}}
                                     <select id="product" name="product"
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        @foreach ($data as $product)
+                                        @foreach ($data->where('tersedia', 1) as $product)
                                             <option value="{{ $product->id }}">{{ $product->nama_product }}</option>
                                         @endforeach
+
 
                                     </select>
                                 </div>
@@ -168,10 +169,10 @@
             let productData = {!! json_encode($data) !!};
 
             // Function to format the total price with Rupiah
-            
+
             totalHargaInput.addEventListener('keyup', function(e) {
                 totalHargaInput.value = formatRupiah(this.value);
-        });
+            });
             // Function to calculate and update the total price
             function updateTotalHarga() {
                 let jumlah = jumlahInput.value;
@@ -199,7 +200,7 @@
             }
 
             function formatTotalHarga(totalHarga) {
-                return  formatRupiah(totalHarga.toString());
+                return formatRupiah(totalHarga.toString());
             }
 
             // Attach the 'input' event listener to the jumlahInput

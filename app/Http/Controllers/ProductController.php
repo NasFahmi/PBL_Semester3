@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-
+use App\Events\ProductCreated;
 
 class ProductController extends Controller
 {
@@ -72,6 +72,9 @@ class ProductController extends Controller
                 'tersedia' => '1',
             ]);
             $productID = $product->id;
+            
+            event(new ProductCreated($product));
+
             if (isset($data['$varian'])) {
 
                 $varians = $data['varian'];

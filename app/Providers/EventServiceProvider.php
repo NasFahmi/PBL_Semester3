@@ -7,7 +7,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use App\Events\TransaksiSelesai;
-
+use App\Events\ProductCreated;
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         TransaksiSelesai::class => [
             \App\Listeners\KurangiStokProduk::class,
+        ],
+        ProductCreated::class => [
+            \App\Listeners\ProductCreatedListener::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,
