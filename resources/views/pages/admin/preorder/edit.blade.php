@@ -66,7 +66,7 @@
                                             class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                             <p>Rp.</p>
                                         </div>
-                                        <input type="text" name="total" id="total-harga"
+                                        <input type="text" name="total" id="total-harga" readonly
                                             class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="0"
                                             value="{{ number_format($dataTransaksi->total_harga, 0, ',', '.') }}">
@@ -151,8 +151,8 @@
                                             class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="0">
                                     </div>
-                                    <p class="text-xs italic">Isi nilai di atas untuk membayar sebagian (DP). Jika ingin
-                                        melunaskan, edit jumlah pelunasan menjadi sama dengan total harga.</p>
+                                    <p class="text-xs italic">Nilai di atas adalah (DP). Jika ingin
+                                        melunaskan, edit status menjadi selesai</p>
                                 </div>
                                 @error('jumlah_dp')
                                     <small class="error" style="color: red">{{ $message }}</small>
@@ -222,48 +222,63 @@
     </div>
     <script>
         /* Tanpa Rupiah */
-        let total_harga = document.getElementById('total-harga');
-        let jumlah_dp = document.getElementById('jumlah_dp');
-        let is_dp = document.getElementById('is_dp');
+        document.addEventListener('DOMContentLoaded', function() {
+            let isCompleteRadios = document.getElementsByName('is_complete');
+            let jumlahDpInput = document.getElementById('jumlah_dp');
+            let totalHargaInput = document.getElementById('total-harga');
+            let is_dp = document.getElementById('is_dp');
 
-        jumlah_dp.addEventListener('keyup', function(e) {
-            jumlah_dp.value = formatRupiah(this.value);
-        })
+            jumlahDpInput.addEventListener('keyup', function(e) {
+                jumlahDpInput.value = formatRupiah(this.value);
+            });
 
-        total_harga.addEventListener('keyup', function(e) {
-            total_harga.value = formatRupiah(this.value);
-        });
+            totalHargaInput.addEventListener('keyup', function(e) {
+                totalHargaInput.value = formatRupiah(this.value);
+            });
 
+            isCompleteRadios.forEach(function(radio) {
+                radio.addEventListener('change', function() {
+                    if (this.value === '1') {
+                        // When "Selesai" is selected, set jumlah_dp to total_harga
+                        jumlahDpInput.value = totalHargaInput.value;
+                    } else {
+                        // When "Belum Selesai" is selected, reset jumlah_dp
+                        jumlahDpInput.value = formatRupiah(0);
+                    }
+                });
+            });
 
-        /* Fungsi */
-        function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                split = number_string.split(','),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+            /* Fungsi */
+            function formatRupiah(angka, prefix) {
+                var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                    split = number_string.split(','),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-            if (ribuan) {
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
+                if (ribuan) {
+                    separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
             }
 
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-        }
+            is_dp.addEventListener('change', function() {
+                console.log(this.value);
+                let tanggalContainer = document.getElementById('tanggal_dp_container');
+                let jumlahContainer = document.getElementById('jumlah_dp_container');
 
-        is_dp.addEventListener('change', function() {
-            console.log(this.value);
-            let tanggalContainer = document.getElementById('tanggal_dp_container');
-            let jumlahContainer = document.getElementById('jumlah_dp_container');
-
-            if (this.value === '1') {
-                tanggalContainer.style.display = 'block';
-                jumlahContainer.style.display = 'block';
-            } else {
-                tanggalContainer.style.display = 'none';
-                jumlahContainer.style.display = 'none';
-            }
+                if (this.value === '1') {
+                    tanggalContainer.style.display = 'block';
+                    jumlahContainer.style.display = 'block';
+                } else {
+                    tanggalContainer.style.display = 'none';
+                    jumlahContainer.style.display = 'none';
+                }
+            });
         });
     </script>
+
 @endsection

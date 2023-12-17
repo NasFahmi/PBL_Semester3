@@ -80,6 +80,7 @@
                                             <p>Rp.</p>
                                         </div>
                                         <input type="text" name="total" id="total-harga" value="{{ old('total') }}"
+                                            readonly
                                             class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="0">
 
@@ -219,18 +220,67 @@
     </div>
     <script>
         /* Tanpa Rupiah */
-        let total_harga = document.getElementById('total-harga');
-        let jumlah_dp = document.getElementById('jumlah_dp');
-        let is_dp = document.getElementById('is_dp');
+        document.addEventListener('DOMContentLoaded', function() {
+            let jumlahInput = document.getElementById('jumlah');
+            let totalHargaInput = document.getElementById('total-harga');
+            let productSelectedInput = document.getElementById('product');
+            let productData = {!! json_encode($data) !!};
+            let productDataHistory = {!! json_encode($dataHistory) !!};;
+            let jumlah_dp = document.getElementById('jumlah_dp');
+            let is_dp = document.getElementById('is_dp');
 
-        jumlah_dp.addEventListener('keyup', function(e) {
-            jumlah_dp.value = formatRupiah(this.value);
-        })
+            jumlah_dp.addEventListener('keyup', function(e) {
+                jumlah_dp.value = formatRupiah(this.value);
+            })
 
-        total_harga.addEventListener('keyup', function(e) {
-            total_harga.value = formatRupiah(this.value);
+            totalHargaInput.addEventListener('keyup', function(e) {
+                totalHargaInput.value = formatRupiah(this.value);
+            });
+
+            // Function to calculate and update the total price
+            function updateTotalHarga() {
+                let jumlah = jumlahInput.value;
+                let selectedProductId = productSelectedInput.value;
+
+                // Find the selected product by ID
+                let selectedProduct = productData.find(product => product.id == selectedProductId);
+
+                if (selectedProduct) {
+                    let hargaPerItem;
+
+                    // Check if there is a corresponding history product
+                    let historyProduct = productDataHistory.find(history => history.product_id ==
+                        selectedProductId);
+
+                    if (historyProduct && historyProduct.harga != selectedProduct.harga) {
+                        // If there is a history product and the price is different, use the history price
+                        hargaPerItem = historyProduct.harga;
+                    } else {
+                        // Otherwise, use the current product price
+                        hargaPerItem = selectedProduct.harga;
+                    }
+
+                    // Ensure jumlah is not negative
+                    if (jumlah < 0) {
+                        jumlah = 0;
+                        jumlahInput.value = 0; // Set the input value to 0 if negative
+                    }
+
+                    let totalHarga = jumlah * hargaPerItem;
+                    totalHargaInput.value = formatTotalHarga(totalHarga);
+                } else {
+                    // Handle if the product is not found
+                    console.error('Product not found');
+                }
+            }
+
+            function formatTotalHarga(totalHarga) {
+                return formatRupiah(totalHarga.toString());
+            }
+
+            // Attach the 'input' event listener to the jumlahInput
+            jumlahInput.addEventListener('input', updateTotalHarga);
         });
-
 
         /* Fungsi */
         function formatRupiah(angka, prefix) {
