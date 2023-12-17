@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use App\Events\TransaksiSelesai;
 use App\Models\MethodePembayaran;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TransaksiResources;
 use App\Http\Requests\StoreTransaksiRequest;
@@ -38,82 +39,60 @@ class ApiTransaksiController extends Controller
     {
         $startDate = Carbon::now()->subDays(30)->startOfDay();
         $endDate = Carbon::now()->endOfDay();
-        $transaksiData = Transaksi::where('is_complete', 1)
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->orderBy('tanggal', 'asc')
-            ->get();
     
-        // Inisialisasi variabel untuk menyimpan data
-        $groupedData = [];
-        $interval = 0;
-        $daysInInterval = 5;
-    
-        foreach ($transaksiData as $index => $transaksi) {
-            $totalHarga = $transaksi->total_harga;
-            $tanggal = Carbon::parse($transaksi->tanggal)->format('j F Y');
-    
-            // Inisialisasi elemen array jika belum ada
-            if (!isset($groupedData[$interval]['total_harga'])) {
-                $groupedData[$interval]['total_harga'] = 0;
-            }
-    
-            // Menambahkan total_harga ke dalam interval saat ini
-            $groupedData[$interval]['total_harga'] += $totalHarga;
-    
-            // Inisialisasi elemen array jika belum ada
-            if (!isset($groupedData[$interval]['tanggal'])) {
-                $groupedData[$interval]['tanggal'] = [];
-            }
-    
-            // Menambahkan tanggal ke dalam interval saat ini
-            $groupedData[$interval]['tanggal'][] = $tanggal;
-    
-            // Jika sudah mencapai jumlah hari dalam interval atau sudah mencapai data terakhir, pindah ke interval berikutnya
-            if ((count($groupedData[$interval]['tanggal']) % $daysInInterval === 0) || $index === count($transaksiData) - 1) {
-                $interval++;
-            }
-        }
-    
-        // $groupedData sekarang berisi total_harga dan tanggal per interval 5 data
-    
-        // Format data untuk mengembalikan response
-        $formattedData = array_map(function ($data) {
-            return [
-                'total_harga' => $data['total_harga'],
-                'tanggal' => $data['tanggal'],
-            ];
-        }, $groupedData);
-    
-        return response()->json(['success' => true, 'data' => $formattedData], 200);
-    }
-    
-
-
-    public function chartAsli()
-    {
-
-        $startDate = Carbon::now()->subDays(30)->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
         $dataPenjualan = Transaksi::where('is_complete', 1)
             ->whereBetween('tanggal', [$startDate, $endDate])
             ->orderBy('tanggal', 'asc')
             ->selectRaw('tanggal, sum(total_harga) as total_penjualan')
             ->groupBy('tanggal')
             ->pluck('total_penjualan', 'tanggal');
-// Mendapatkan daftar tanggal
-// $tanggalPenjualan = array_keys($dataPenjualan);
-
-        // });
-        return response()->json(
-            [
-                'success' => true,
-                'data' => [
-                    'data_penjualan' => $dataPenjualan,
-                ],
+    
+        // Mendapatkan daftar tanggal
+        $tanggalPenjualan = array_keys($dataPenjualan->toArray());
+    
+        // Format tanggal
+        $tanggalPenjualanFormatted = collect($tanggalPenjualan)->map(function ($tanggal) {
+            $carbonDate = Carbon::parse($tanggal);
+            $carbonDate->setLocale(App::getLocale());
+            return $carbonDate->formatLocalized('%d %B %Y');
+        });
+    
+        // Hitung jumlah total penjualan dan keterangan tanggal dalam interval 5 hari
+        $result = [];
+        $interval = 5;
+    
+        for ($i = 0; $i < count($dataPenjualan); $i += $interval) {
+            $endDateInterval = min($i + $interval - 1, count($dataPenjualan) - 1);
+    
+            $intervalDates = array_slice($tanggalPenjualan, $i, $interval);
+            $totalPenjualan = 0;
+    
+            foreach ($intervalDates as $date) {
+                if (isset($dataPenjualan[$date])) {
+                    $totalPenjualan += $dataPenjualan[$date];
+                }
+            }
+    
+            $result[] = [
+                'jumlah_penjualan' => $totalPenjualan,
+                'tanggal_awal' => $intervalDates[0],
+                'tanggal_akhir' => end($intervalDates),
+            ];
+        }
+    
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'data_penjualan' => $result,
             ],
-            200
-        );
+        ], 200);
     }
+
+
+
+
+
+
     /**
      * Store a newly created resource in storage.
      */
