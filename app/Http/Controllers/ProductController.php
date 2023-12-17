@@ -59,7 +59,7 @@ class ProductController extends Controller
         }
 
         $data = $request->all();
-        // dd($data['image']);
+        // dd($data);
         try {
             DB::beginTransaction();
             $product = Product::create([
@@ -75,7 +75,7 @@ class ProductController extends Controller
             
             event(new ProductCreated($product));
 
-            if (isset($data['$varian'])) {
+            if (isset($data['varian'])) {
 
                 $varians = $data['varian'];
 
