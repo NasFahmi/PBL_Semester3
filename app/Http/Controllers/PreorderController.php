@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Preorder;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Models\HistoryProduct;
 use App\Events\TransaksiSelesai;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StorePreorderRequest;
@@ -49,7 +50,8 @@ class PreorderController extends Controller
     public function create()
     {
         $data = Product::get();
-        return view('pages.admin.preorder.create', compact('data'));
+        $dataHistory = HistoryProduct::get();
+        return view('pages.admin.preorder.create', compact('data','dataHistory'));
     }
 
     /**
