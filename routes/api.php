@@ -39,3 +39,5 @@ Route::get('/dashboard',[ApiDashboardController::class,'index']);
 Route::resource('/product',ApiProductController::class);
 Route::resource('/preorder',ApiPreorderController::class);
 Route::resource('/transaksi',ApiTransaksiController::class);
+Route::get('/chart/transaksi',[ApiTransaksiController::class,'chart']);
+Route::get('/chartasli/transaksi',[ApiTransaksiController::class,'chartAsli']);

@@ -23,9 +23,8 @@ class TransaksiResources extends JsonResource
             'is_Preorder'=>$this->is_Preorder,
             'is_complete'=>$this->is_complete,
             'pembeli'=> new PembeliResources($this->whenLoaded('pembelis')),
-            'methode_pembayaran'=>new MethodePembayaranResources($this->whenLoaded('methode_pembayaran')),
             'products'=>new ProductResources($this->whenLoaded('products')),
-            'preorders'=>new PreorderResources($this->whenLoaded('preorders')),
+
         ];
     }
 }

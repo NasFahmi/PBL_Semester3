@@ -7,6 +7,7 @@ use App\Models\Pembeli;
 use App\Models\Product;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Events\TransaksiSelesai;
 use App\Models\MethodePembayaran;
 use Illuminate\Support\Facades\DB;
@@ -23,16 +24,96 @@ class ApiTransaksiController extends Controller
      */
     public function index()
     {
-        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
-        ->where('is_Preorder', 0)
-        ->get();
+
+        $data = Transaksi::with(['pembelis', 'products', 'products.fotos'])
+            ->where('is_Preorder', 0)
+            ->get();
         $transformedData = $data->map(function ($transaksi) {
             return new TransaksiResources($transaksi);
         });
         // dd($transformedData);
         return response()->json(['success' => true, 'data' => $transformedData], 200);
     }
+    public function chart()
+    {
+        $startDate = Carbon::now()->subDays(30)->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+        $transaksiData = Transaksi::where('is_complete', 1)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->orderBy('tanggal', 'asc')
+            ->get();
+    
+        // Inisialisasi variabel untuk menyimpan data
+        $groupedData = [];
+        $interval = 0;
+        $daysInInterval = 5;
+    
+        foreach ($transaksiData as $index => $transaksi) {
+            $totalHarga = $transaksi->total_harga;
+            $tanggal = Carbon::parse($transaksi->tanggal)->format('j F Y');
+    
+            // Inisialisasi elemen array jika belum ada
+            if (!isset($groupedData[$interval]['total_harga'])) {
+                $groupedData[$interval]['total_harga'] = 0;
+            }
+    
+            // Menambahkan total_harga ke dalam interval saat ini
+            $groupedData[$interval]['total_harga'] += $totalHarga;
+    
+            // Inisialisasi elemen array jika belum ada
+            if (!isset($groupedData[$interval]['tanggal'])) {
+                $groupedData[$interval]['tanggal'] = [];
+            }
+    
+            // Menambahkan tanggal ke dalam interval saat ini
+            $groupedData[$interval]['tanggal'][] = $tanggal;
+    
+            // Jika sudah mencapai jumlah hari dalam interval atau sudah mencapai data terakhir, pindah ke interval berikutnya
+            if ((count($groupedData[$interval]['tanggal']) % $daysInInterval === 0) || $index === count($transaksiData) - 1) {
+                $interval++;
+            }
+        }
+    
+        // $groupedData sekarang berisi total_harga dan tanggal per interval 5 data
+    
+        // Format data untuk mengembalikan response
+        $formattedData = array_map(function ($data) {
+            return [
+                'total_harga' => $data['total_harga'],
+                'tanggal' => $data['tanggal'],
+            ];
+        }, $groupedData);
+    
+        return response()->json(['success' => true, 'data' => $formattedData], 200);
+    }
+    
 
+
+    public function chartAsli()
+    {
+
+        $startDate = Carbon::now()->subDays(30)->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+        $dataPenjualan = Transaksi::where('is_complete', 1)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->orderBy('tanggal', 'asc')
+            ->selectRaw('tanggal, sum(total_harga) as total_penjualan')
+            ->groupBy('tanggal')
+            ->pluck('total_penjualan', 'tanggal');
+// Mendapatkan daftar tanggal
+// $tanggalPenjualan = array_keys($dataPenjualan);
+
+        // });
+        return response()->json(
+            [
+                'success' => true,
+                'data' => [
+                    'data_penjualan' => $dataPenjualan,
+                ],
+            ],
+            200
+        );
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -60,8 +141,8 @@ class ApiTransaksiController extends Controller
                 "no_hp" => $data['telepon'],
             ]);
             $idPembeli = $dataPembeli->id;
-            $dataKeterangan=null;
-            if(isset($data['keterangan'])){
+            $dataKeterangan = null;
+            if (isset($data['keterangan'])) {
                 $dataKeternagan = $data['keterangan'];
             }
 
@@ -93,19 +174,21 @@ class ApiTransaksiController extends Controller
             DB::commit();
             return response()->json(
                 [
-                    'success' => true, 
-                    'message'=> 'Transaction has been created',
+                    'success' => true,
+                    'message' => 'Transaction has been created',
                     'data' => [
-                        'tangal'=>$tanggal,
-                 
-                        'product'=>$dataProduct,
-                        'methode_pembauaran'=>$dataMethodePembayaran,
-                        'jumlah'=>$data['jumlah'],
-                        'total_harga'=>$totalHargaTanpaTitik,
-                        'is_complete'=>$data['is_complete'],
-                        'pembeli'=>$dataPembeli,
+                        'tangal' => $tanggal,
+
+                        'product' => $dataProduct,
+                        'methode_pembauaran' => $dataMethodePembayaran,
+                        'jumlah' => $data['jumlah'],
+                        'total_harga' => $totalHargaTanpaTitik,
+                        'is_complete' => $data['is_complete'],
+                        'pembeli' => $dataPembeli,
                     ]
-                ], 200);
+                ],
+                200
+            );
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
@@ -124,10 +207,11 @@ class ApiTransaksiController extends Controller
             $transformedData = new TransaksiResources($data);
             return response()->json(
                 [
-                    'success'=>true,
-                    'data'=>$transformedData
-                ]
-            ,200);
+                    'success' => true,
+                    'data' => $transformedData
+                ],
+                200
+            );
         } catch (\Throwable $th) {
             return response()->json(['success' => false, 'message' => 'Transaksi not found.'], 404);
         }
@@ -143,7 +227,7 @@ class ApiTransaksiController extends Controller
         try {
             DB::beginTransaction();
             $dataInput = $request->all();
-           
+
             $dataPembeli = [
                 "nama" => $dataInput['nama'],
                 "email" => $dataInput['email'],
@@ -179,18 +263,18 @@ class ApiTransaksiController extends Controller
             DB::commit();
 
             return response()->json([
-                'success'=>true,
-                'message'=>'Transaksi has been updated successfully',
-                'data'=>[
+                'success' => true,
+                'message' => 'Transaksi has been updated successfully',
+                'data' => [
                     "nama" => $dataInput['nama'],
                     "email" => $dataInput['email'],
                     'alamat' => $dataInput['alamat'],
                     "no_hp" => $dataInput['telepon'],
-                    'product'=>$dataProduct,
-                    'methode_pembauaran'=>$dataMethodePembayaran,
-                    'jumlah'=>$dataInput['jumlah'],
-                    'total_harga'=>$totalHargaTanpaTitik,
-                    'is_complete'=>$dataInput['is_complete'],
+                    'product' => $dataProduct,
+                    'methode_pembauaran' => $dataMethodePembayaran,
+                    'jumlah' => $dataInput['jumlah'],
+                    'total_harga' => $totalHargaTanpaTitik,
+                    'is_complete' => $dataInput['is_complete'],
                 ]
             ]);
         } catch (\Throwable $th) {
@@ -198,10 +282,11 @@ class ApiTransaksiController extends Controller
             // throw $th;
             return response()->json(
                 [
-                    'success'=>false,
-                    'message'=>'something went wrong',
-                ]
-        ,404);
+                    'success' => false,
+                    'message' => 'something went wrong',
+                ],
+                404
+            );
             // return redirect()->back()->with('error', 'Failed to update transaksi data.');
         }
     }

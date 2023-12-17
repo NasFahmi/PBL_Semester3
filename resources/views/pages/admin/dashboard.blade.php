@@ -229,8 +229,8 @@
         </div>
 
         <script>
-            const dataPenjualan = @json($dataPenjualan);
-            const tanggalPenjualan = @json($formattedDates);
+            const dataPenjualan = @json($dataPenjualanFormatted);
+            const tanggalPenjualan = @json($tanggalPenjualanFormatted);
         </script>
         <script src="{{ asset('js/chart.js') }}"></script>
     @endsection

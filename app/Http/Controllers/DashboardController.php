@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Foto;
-use App\Models\Preorder;
 use App\Models\Product;
+use App\Models\Preorder;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 
 
 class DashboardController extends Controller
@@ -30,11 +31,11 @@ class DashboardController extends Controller
         $endDateTest = '2024-12-30';
 
         $namaPembeli = $data->where('is_complete', 0)
-            ->whereNotNull('pembelis.nama') 
+            ->whereNotNull('pembelis.nama')
             ->sortByDesc('created_at')
             ->pluck('pembelis.nama');
 
-            // dd($namaPembeli);
+        // dd($namaPembeli);
 
         $topSalesProducts = Transaksi::where('is_complete', 1)
             ->whereNotNull('product_id')
@@ -50,7 +51,7 @@ class DashboardController extends Controller
         })
             ->latest()
             ->limit(3)
-            ->get();        
+            ->get();
         $productRecently = Product::with('fotos', 'transaksis')
             ->latest()->limit(5)->get();
 
@@ -60,23 +61,34 @@ class DashboardController extends Controller
             ->groupBy('fotos.product_id')
             ->get();
 
+        // Mengambil data total penjualan
         $dataPenjualan = Transaksi::where('is_complete', 1)
             ->whereBetween('tanggal', [$startDate, $endDate])
-            ->pluck('total_harga');
+            ->orderBy('tanggal', 'asc')
+            ->selectRaw('tanggal, sum(total_harga) as total_penjualan')
+            ->groupBy('tanggal')
+            ->pluck('total_penjualan', 'tanggal');
+        $dataPenjualanFormatted = array_values($dataPenjualan->toArray());
+        // dd($dataPenjualanFormatted);
+
+        // Mendapatkan daftar tanggal
+        $tanggalPenjualan = array_keys($dataPenjualan->toArray());
+
+
+
+        // // Format the dates as desired (e.g., "2023-12-03 10:39:37" will be converted to "3 December 2023")
+        $tanggalPenjualanFormatted = collect($tanggalPenjualan)->map(function ($tanggal) {
+            // Menggunakan Carbon untuk memanipulasi format tanggal
+            $carbonDate = Carbon::parse($tanggal);
         
-        $tanggalPenjualan = Transaksi::where('is_complete', 1)
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->pluck('tanggal');
-
-        $dates = $tanggalPenjualan->map(function ($dateString) {
-            return Carbon::parse($dateString);
+            // Set lokal untuk format bulan dalam bahasa Indonesia
+            $carbonDate->setLocale(App::getLocale());
+        
+            // Format tanggal dengan nama bulan
+            return $carbonDate->formatLocalized('%d %B %Y'); // Sesuaikan format sesuai kebutuhan
         });
 
-        // Format the dates as desired (e.g., "2023-12-03 10:39:37" will be converted to "3 December 2023")
-        $formattedDates = $dates->map(function ($date) {
-            return $date->format('j F Y H:i:s');
-        });
-
+        // dd($tanggalPenjualanFormatted);
         // Print the results
 
         // dd($salesData);
@@ -91,9 +103,8 @@ class DashboardController extends Controller
             'namaPembeli',
             'foto',
             'productRecently',
-            'dataPenjualan',
-            'formattedDates'
+            'dataPenjualanFormatted',
+            'tanggalPenjualanFormatted'
         ));
     }
-
 }
