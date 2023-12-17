@@ -87,7 +87,8 @@
             <div class=" w-full h-fit bg-white rounded-lg shadow-sm  p-4 md:p-6 col-span-1 lg:col-span-2">
                 <div class="flex justify-between">
                     <div>
-                        <h5 class="leading-none text-xl font-semibold text-gray-900 dark:text-white pb-2">Pendapatan 30 Hari Terakhir
+                        <h5 class="leading-none text-xl font-semibold text-gray-900 dark:text-white pb-2">Pendapatan 30 Hari
+                            Terakhir
                         </h5>
                     </div>
                 </div>
@@ -135,8 +136,9 @@
                             <div class="flex justify-start items-center gap-4 mb-2">
                                 <div class="w-10 h-10 ">
                                     @foreach ($foto->where('product_id', $preorder->transaksis->product_id) as $item)
-                                    <div class="rounded-full bg-cover bg-no-repeat bg-center" style="background-image: url('{{ asset('storage/' . $item->foto) }}')">
-                                    </div>
+                                        <div class="rounded-full bg-cover bg-no-repeat bg-center"
+                                            style="background-image: url('{{ asset('storage/' . $item->foto) }}')">
+                                        </div>
                                         <img src="{{ asset('storage/' . $item->foto) }}" alt="" srcset=""
                                             class="rounded-full">
                                     @endforeach
@@ -167,13 +169,14 @@
                     @foreach ($productRecently as $item)
                         <div class="bg-blue-100 rounded-md p-4 mb-4">
                             <div class="flex justify-start items-center gap-4 mb-2">
-                                <div class="rounded-full w-16 h-16 bg-cover bg-no-repeat bg-center" style="background-image: url('{{ asset('storage/' . $item->fotos->first()->foto) }}')">
+                                <div class="rounded-full w-16 h-16 bg-cover bg-no-repeat bg-center"
+                                    style="background-image: url('{{ asset('storage/' . $item->fotos->first()->foto) }}')">
                                 </div>
                                 <div class="">
                                     <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">
                                         {{ $item->nama_product }}</h1>
                                     <p class="text-gray-700 text-sm">Stok : {{ $item->stok }}</p>
-                                    <p class="text-gray-700">Harga : {{ $item->harga_rendah }}</p>
+                                    <p class="text-gray-700">Harga : {{ $item->harga }}</p>
 
                                 </div>
                             </div>
