@@ -27,7 +27,7 @@ class DashboardResources extends JsonResource
                     return [
                         'id'=> $product->id,
                         'nama_product'=> $product->nama_product,
-                        'harga'=>$product->harga_rendah,
+                        'harga'=>$product->harga,
                         'fotos' => FotoResources::collection($product->fotos),
                         'deskripsi'=>$product->deskripsi,
                     ];

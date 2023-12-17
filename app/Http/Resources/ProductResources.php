@@ -17,15 +17,13 @@ class ProductResources extends JsonResource
         return [
                 "id"=> $this->id,
                 'nama_product'=>$this->nama_product,
-                'harga_rendah'=>$this->harga_rendah,
-                'harga_tinggi'=>$this->harga_tinggi,
+                'harga_rendah'=>$this->harga,
                 'deskripsi'=>$this->deskripsi,
                 'link_shopee'=> $this->link_shopee,
                 'stok'=>$this->stok,
                 'spesifikasi_product'=>$this->spesifikasi_product,
                 'fotos' => FotoResources::collection($this->whenLoaded('fotos')),
                 'varians' => VarianResources::collection($this->whenLoaded('varians')),
-                'berat_jenis' => BeratJenisResources::collection($this->whenLoaded('beratJenis')),
         ];
     }
 }

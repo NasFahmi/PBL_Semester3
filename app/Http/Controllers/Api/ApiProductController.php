@@ -21,7 +21,9 @@ class ApiProductController extends Controller
      */
     public function index()
     {
-        $data = Product::with(['fotos', 'varians', 'beratJenis'])->get();
+        $data = Product::with(['fotos', 'varians'])
+        ->where('tersedia', 1)
+        ->get();
         // return response()->json($data);
         $transformedData = $data->map(function ($product) {
             return new ProductResources($product);
@@ -59,15 +61,6 @@ class ApiProductController extends Controller
                 ]);
             }
 
-            $beratJenis = $data['beratjenis'];
-
-            foreach ($beratJenis as $berat) {
-                BeratJenis::create([
-                    "berat_jenis" => $berat,
-                    "product_id" => $productID
-                ]);
-            }
-
             // Proses setiap file yang diunggah
             $images = [];
             foreach ($request->file('image') as $file) {
@@ -99,7 +92,6 @@ class ApiProductController extends Controller
                         'link_shopee'=>$data['link_shopee'],
                         'stok'=>$data['stok'],
                         'spesifikasi_product'=>$data['spesifikasi_product'],
-                        'berat_jenis'=>$beratJenis,
                         'varian'=>$varians,
                         'image'=>$images,
                         
@@ -126,7 +118,7 @@ class ApiProductController extends Controller
     public function show($id)
     {
         try {
-            $data = Product::with(['fotos', 'varians', 'beratJenis'])->findOrFail($id);
+            $data = Product::with(['fotos', 'varians'])->findOrFail($id);
             $transformedData = new ProductResources($data);
             return response()->json(['success' => true, 'data' => $transformedData]);
         } catch (ModelNotFoundException $e) {

@@ -20,10 +20,14 @@ class ApiDashboardController extends Controller
         $totalPendapatan = Transaksi::where('is_complete', 1)->sum('total_harga');
         $totalProductTerjual = Transaksi::where('is_complete', 1)->sum('jumlah');
         $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
-        $product = Product::with(['fotos'])->limit(5)->get();
+        $product = Product::with(['fotos'])
+        ->where('tersedia', 1)
+        ->limit(5)
+        ->get();
         
         $topSalesProducts = Transaksi::where('is_complete', 1)
             ->whereNotNull('product_id')
+
             ->groupBy('product_id')
             ->select('product_id', DB::raw('SUM(jumlah) as totalJumlah'))
             ->orderByDesc('totalJumlah')
