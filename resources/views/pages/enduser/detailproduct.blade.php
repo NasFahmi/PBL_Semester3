@@ -124,19 +124,18 @@
 
             <div class="w-full md:w-1/2">
                 <h1 class="text-3xl font-semibold mb-2">{{ $data->nama_product }}</h1>
-                <h1 class="text-2xl font-semibold mb-1">{{ $data->harga_rendah }} - {{ $data->harga_tinggi }}</h1>
+                <h1 class="text-2xl font-semibold mb-1">{{ $data->harga }}</h1>
                 <p class="text-lg">{{ $data->deskripsi }}</p>
 
-                <h1>Varian : </h1>
+                <h1 class="font-semibold">Varian : </h1>
                 @foreach ($data->varians as $varian)
                     <li class="text-lg">{{ $varian->jenis_varian }}</li>
                 @endforeach
-                <p>{{ $data->berat_jenis }}</p>
-                <h1>Berat Jenis :</h1>
-                @foreach ($berat_jenis as $items)
-                    <li class="text-lg">{{ $items->berat_jenis }}</li>
-                @endforeach
 
+                <div class="mt-2">
+                    <h1 class="text-2xl font-medium" >Product Spesifikasi</h1>
+                    <p class="text-lg">{{ $data->spesifikasi_product }}</p>
+                </div>
                 <a href="{{ $data->link_shopee }}"
                     class="block w-full md:w-fit px-8 py-2 mt-4 text-sm font-medium text-center text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700">
                     <div class="flex justify-center items-center">
@@ -148,10 +147,7 @@
 
         </div>
     </div>
-    <div class="mt-10 px-4 md:px-20">
-        <h1 class="text-3xl">Product Spesifikasi</h1>
-        <p class="text-lg">{{ $data->spesifikasi_product }}</p>
-    </div>
+
     <div class="bg-gray-800 mt-20">
         <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
         <div class="mx-auto max-w-screen-lg flex justify-center items-start">

@@ -70,25 +70,27 @@
                 <h1 class="text-2xl font-semibold mb-1">Rp. {{ number_format($data->harga, 0, ',', '.') }}</h1>
                 <p class="text-lg">{{ $data->deskripsi }}</p>
 
-                <h1>Varian : </h1>
+                <h1 class="font-semibold">Varian : </h1>
                 @foreach ($data->varians as $varian)
                     <li class="text-lg">{{ $varian->jenis_varian }}</li>
                 @endforeach
                 @if ($data->stok <= 0)
-                    <h1>Stok: Sedang Kosong</h1>
+                    <h1 class="font-semibold" style="color: red">Stok: Sedang Kosong</h1>
                 @else
-                    <h1>Stok: {{ $data->stok }}</h1>
+                    <h1 class="font-semibold">Stok: {{ $data->stok }}</h1>
                 @endif
+
+                <div class="mt-2 ">
+                    <h1 class="text-2xl font-medium">Product Spesifikasi</h1>
+                    <p class="text-lg">{{ $data->spesifikasi_product }}</p>
+                </div>
+                
                 <a href="{{ $data->link_shopee }}"
                     class="flex items-center justify-center w-full md:w-32 px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700">
                     <img src="{{ asset('assets/images/shopee.png') }}" alt="Shopee Logo" class="w-8 h-8 mr-2">
                     <span>Shopee</span>
                 </a>
             </div>
-        </div>
-        <div class="mt-10 ">
-            <h1 class="text-3xl">Product Spesifikasi</h1>
-            <p class="text-lg">{{ $data->spesifikasi_product }}</p>
         </div>
         <div class="flex justify-center md:justify-start gap-4 mb-20 items-center mt-4 ">
             <a href="{{ route('product.edit', $data->id) }}"

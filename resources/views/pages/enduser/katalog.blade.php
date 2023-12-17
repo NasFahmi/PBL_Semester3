@@ -82,7 +82,7 @@
                             <p class="line-clamp-2">{{ $items->deskripsi }}</p>
                             <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
                                 <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp.
-                                    {{ number_format($items->harga_rendah, 0, ',', '.') }}</p>
+                                    {{ number_format($items->harga, 0, ',', '.') }}</p>
                                 <div class="card-actions justify-end w-full md:w-auto">
                                     <a href="{{ route('detail_product', $items->id) }}"
                                         class="btn btn-primary w-full md:w-auto">Details</a>
