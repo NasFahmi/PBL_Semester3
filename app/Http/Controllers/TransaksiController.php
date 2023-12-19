@@ -132,10 +132,19 @@ class TransaksiController extends Controller
      */
     public function edit(Transaksi $transaksi)
     {
-        $data = Product::get();
         $dataTransaksi = Transaksi::with(['products', 'methode_pembayaran', 'preorders'])
             ->findOrFail($transaksi->id);
-        return view('pages.admin.transaksi.edit', compact('data', 'dataTransaksi'));
+        $data = Product::get();
+        
+
+        $productId = $transaksi->product_id;
+        // dd($productId);
+
+        $datafotoProduct = Product::with('fotos')->findOrFail($productId);
+        // dd($datafotoProduct);
+
+        
+        return view('pages.admin.transaksi.edit', compact('data', 'dataTransaksi','datafotoProduct'));
     }
 
     /**
