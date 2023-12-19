@@ -44,12 +44,12 @@ class ApiProductController extends Controller
             DB::beginTransaction();
             $product = Product::create([
                 'nama_product' =>$data['nama_product'],
-                'harga_rendah'=>$data['harga_rendah'],
-                'harga_tinggi'=>$data['harga_tinggi'],
+                'harga'=>$data['harga'],
                 'deskripsi'=>$data['deskripsi'],
                 'link_shopee'=>$data['link_shopee'],
                 'stok'=>$data['stok'],
                 'spesifikasi_product'=>$data['spesifikasi_product'],
+                'tersedia'=>'1',
             ]);
             $productID = $product->id;
             $varians= $data['varian'];
@@ -86,8 +86,7 @@ class ApiProductController extends Controller
                     'data'=>[
                         'id'=>$productID,
                         'nama_product'=>$data['nama_product'],
-                        'harga_rendah'=>$data['harga_rendah'],
-                        'harga_tinggi'=>$data['harga_tinggi'],
+                        'harga'=>$data['harga'],
                         'deskripsi'=>$data['deskripsi'],
                         'link_shopee'=>$data['link_shopee'],
                         'stok'=>$data['stok'],
@@ -144,21 +143,14 @@ class ApiProductController extends Controller
             // Update the product data
             $product->update([
                 'nama_product' => $request->nama_product,
-                'harga_rendah' => $request->harga_rendah,
-                'harga_tinggi' => $request->harga_tinggi,
+                'harga' => $request->harga,
                 'deskripsi' => $request->deskripsi,
                 'link_shopee' => $request->link_shopee,
                 'stok' => $request->stok,
                 'spesifikasi_product' => $request->spesifikasi_product,
             ]);
     
-            // Update or create beratJenis records
-            $product->beratJenis()->delete();
-            foreach ($request->beratjenis as $beratjenis) {
-                $product->beratJenis()->create([
-                    'berat_jenis'=> $beratjenis,
-                ]);
-            }
+            
             // $product->beratJenis()->sync($beratJenisIds);
     
             // Update or create varians records
@@ -199,8 +191,7 @@ class ApiProductController extends Controller
                     'data'=>[
                         'id'=>$id,
                         'nama_product'=>$request->nama_product,
-                        'harga_rendah'=>$request->harga_rendah,
-                        'harga_tinggi'=>$request->harga_tinggi,
+                        'harga'=>$request->harga_tinggi,
                         'deskripsi'=>$request->deskripsi,
                         'link_shopee'=>$request->link_shopee,
                         'stok'=>$request->stok,
@@ -228,7 +219,7 @@ class ApiProductController extends Controller
     public function destroy($id)
 {
     try {
-        $data = Product::with(['fotos', 'varians', 'beratJenis'])->find($id);
+        $data = Product::with(['fotos', 'varians'])->find($id);
 
         if (!$data) {
             return response()->json(['success' => false, 'message' => 'Product not found'], 404);

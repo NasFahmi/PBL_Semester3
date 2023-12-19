@@ -27,14 +27,12 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'nama_product' => 'required',
-            'harga_rendah' => 'required',
-            'harga_tinggi' => 'required',
+            'harga' => 'required',
             'deskripsi' => 'required',
             'link_shopee' => 'required',
             'stok' => 'required',
             'spesifikasi_product' => 'required',
             'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'beratjenis' => ['required'],
         ];
     }
 

@@ -25,7 +25,7 @@ class ApiTransaksiController extends Controller
     public function index()
     {
 
-        $data = Transaksi::with(['pembelis', 'products', 'products.fotos'])
+        $data = Transaksi::with(['products', 'products.fotos'])
             ->where('is_Preorder', 0)
             ->get();
         $transformedData = $data->map(function ($transaksi) {
@@ -38,82 +38,91 @@ class ApiTransaksiController extends Controller
     {
         $startDate = Carbon::now()->subDays(30)->startOfDay();
         $endDate = Carbon::now()->endOfDay();
-        $transaksiData = Transaksi::where('is_complete', 1)
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->orderBy('tanggal', 'asc')
-            ->get();
-    
-        // Inisialisasi variabel untuk menyimpan data
-        $groupedData = [];
-        $interval = 0;
-        $daysInInterval = 5;
-    
-        foreach ($transaksiData as $index => $transaksi) {
-            $totalHarga = $transaksi->total_harga;
-            $tanggal = Carbon::parse($transaksi->tanggal)->format('j F Y');
-    
-            // Inisialisasi elemen array jika belum ada
-            if (!isset($groupedData[$interval]['total_harga'])) {
-                $groupedData[$interval]['total_harga'] = 0;
-            }
-    
-            // Menambahkan total_harga ke dalam interval saat ini
-            $groupedData[$interval]['total_harga'] += $totalHarga;
-    
-            // Inisialisasi elemen array jika belum ada
-            if (!isset($groupedData[$interval]['tanggal'])) {
-                $groupedData[$interval]['tanggal'] = [];
-            }
-    
-            // Menambahkan tanggal ke dalam interval saat ini
-            $groupedData[$interval]['tanggal'][] = $tanggal;
-    
-            // Jika sudah mencapai jumlah hari dalam interval atau sudah mencapai data terakhir, pindah ke interval berikutnya
-            if ((count($groupedData[$interval]['tanggal']) % $daysInInterval === 0) || $index === count($transaksiData) - 1) {
-                $interval++;
-            }
-        }
-    
-        // $groupedData sekarang berisi total_harga dan tanggal per interval 5 data
-    
-        // Format data untuk mengembalikan response
-        $formattedData = array_map(function ($data) {
-            return [
-                'total_harga' => $data['total_harga'],
-                'tanggal' => $data['tanggal'],
-            ];
-        }, $groupedData);
-    
-        return response()->json(['success' => true, 'data' => $formattedData], 200);
-    }
-    
 
-
-    public function chartAsli()
-    {
-
-        $startDate = Carbon::now()->subDays(30)->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
         $dataPenjualan = Transaksi::where('is_complete', 1)
             ->whereBetween('tanggal', [$startDate, $endDate])
             ->orderBy('tanggal', 'asc')
             ->selectRaw('tanggal, sum(total_harga) as total_penjualan')
             ->groupBy('tanggal')
-            ->pluck('total_penjualan', 'tanggal');
-// Mendapatkan daftar tanggal
-// $tanggalPenjualan = array_keys($dataPenjualan);
+            ->pluck('total_penjualan', 'tanggal')
+            ->toArray();
 
-        // });
+        $groupedData = array_chunk($dataPenjualan, 5, true);
+
+        // Separate dates and values within each group and calculate sum
+        $separatedGroupedData = [];
+
+        foreach ($groupedData as $group) {
+            $dates = array_keys($group);
+            $values = array_values($group);
+            $sum = array_sum($values); // Calculate the sum
+
+            $separatedGroupedData[] = [
+                'dates' => $dates,
+                'values' => $values,
+                'sum' => $sum, // Include the sum in the result
+            ];
+        }
+
         return response()->json(
             [
                 'success' => true,
                 'data' => [
-                    'data_penjualan' => $dataPenjualan,
+                    'data_penjualan' => $separatedGroupedData,
+                    'start_date' => $startDate,
+                    'endDay' => $endDate,
                 ],
             ],
             200
         );
     }
+
+
+
+    public function chartAsli()
+    {
+        $startDate = Carbon::now()->subDays(30)->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+
+        $dataPenjualan = Transaksi::where('is_complete', 1)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->orderBy('tanggal', 'asc')
+            ->selectRaw('tanggal, sum(total_harga) as total_penjualan')
+            ->groupBy('tanggal')
+            ->pluck('total_penjualan', 'tanggal')
+            ->toArray();
+
+        $groupedData = array_chunk($dataPenjualan, 5, true);
+
+        // Separate dates and values within each group and calculate sum
+        $separatedGroupedData = [];
+
+        foreach ($groupedData as $group) {
+            $dates = array_keys($group);
+            $values = array_values($group);
+            $sum = array_sum($values); // Calculate the sum
+
+            $separatedGroupedData[] = [
+                'dates' => $dates,
+                'values' => $values,
+                'sum' => $sum, // Include the sum in the result
+            ];
+        }
+
+        return response()->json(
+            [
+                'success' => true,
+                'data' => [
+                    'data_penjualan' => $separatedGroupedData,
+                    'start_date' => $startDate,
+                    'endDay' => $endDate,
+                ],
+            ],
+            200
+        );
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */
