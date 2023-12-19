@@ -18,11 +18,7 @@ class TransaksiResources extends JsonResource
             'id'=>$this->id,
             'tanggal'=>$this->tanggal,
             'jumlah'=>$this->jumlah,
-            'total_harga'=>$this->total_harga,
-            'keterangan'=>$this->keterangan,
-            'is_Preorder'=>$this->is_Preorder,
             'is_complete'=>$this->is_complete,
-            'pembeli'=> new PembeliResources($this->whenLoaded('pembelis')),
             'products'=>new ProductResources($this->whenLoaded('products')),
 
         ];
