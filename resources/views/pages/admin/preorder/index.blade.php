@@ -207,7 +207,7 @@
             <div class= "h-fit bg-white col-span-1 rounded-3xl shadow-lg p-8">
                 <p class="text-gray-500 mb-2 font-medium">Informasi</p>
                 <div class="mb-2">
-                    <p class="text-gray-600 text-sm">Total Preorder</p>
+                    <p class="text-gray-600 text-sm">Preorder Belum Selesai</p>
                     <p class="text-gray-800 text-xl font-medium ">{{ $totalPreorder }}</p>
                 </div>
                 <div class="mb-2">
