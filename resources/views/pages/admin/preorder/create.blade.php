@@ -229,9 +229,28 @@
             let jumlah_dp = document.getElementById('jumlah_dp');
             let is_dp = document.getElementById('is_dp');
 
+
             jumlah_dp.addEventListener('keyup', function(e) {
-                jumlah_dp.value = formatRupiah(this.value);
-            })
+                console.log(this.value)
+                // let enteredAmount = unformatRupiah(this.value);
+                let totalHarga = unformatCurrency(totalHargaInput.value);
+                console.log(totalHarga.toString());
+                let hargaInt = parseInt(totalHarga.replace(/[^\d]/g, ''));
+                console.log(hargaInt)
+
+                if (enteredAmount > totalHarga) {
+                    this.value = formatRupiah(totalHarga);
+                } else {
+                    this.value = formatRupiah(enteredAmount);
+                }
+            });
+
+            function unformatCurrency(currencyString) {
+                return parseFloat(currencyString.replace(/[^0-9.]/g, ''));
+            }
+            // function unformatRupiah(rupiah) {
+            //     return parseInt(rupiah.replace.value(/[^0-9]/g, ''), 10);
+            // }
 
             totalHargaInput.addEventListener('keyup', function(e) {
                 totalHargaInput.value = formatRupiah(this.value);

@@ -39,7 +39,7 @@ class PreorderController extends Controller
             ->sum('total_harga');
 
         $totalDPBelumLunas = $totalHargaBelumLunas - $totalDP;
-        // dd($totalDPBelumLunas);
+        // dd($data);
 
         return view('pages.admin.preorder.index', compact('data', 'totalPreorder', 'totalDP', 'totalDPBelumLunas'));
     }
@@ -52,6 +52,18 @@ class PreorderController extends Controller
         $data = Product::get();
         $dataHistory = HistoryProduct::get();
         return view('pages.admin.preorder.create', compact('data','dataHistory'));
+    }
+
+
+    public function show( $id)
+    {
+
+        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
+            ->findOrFail($id);
+        // dd($data->methode_pembayaran->methode_pembayaran);
+
+        // dd($data); // Uncomment this line for debugging
+        return view('pages.admin.preorder.detail', compact('data'));
     }
 
     /**
@@ -136,13 +148,6 @@ class PreorderController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Preorder $preorder)
-    {
-
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -162,14 +167,8 @@ class PreorderController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'methode_pembayaran' => 'required',
-            'jumlah' => 'required',
-            'total' => 'required',
             'is_complete' => 'required',
             'jumlah_dp' => 'required',
-            'nama' => 'required',
-            'email' => 'required',
-            'alamat' => 'required',
             'telepon' => 'required|digits:12',
         ], [
             'telepon.digits' => 'Nomor telepon harus terdiri dari 12 digit.',
@@ -180,9 +179,6 @@ class PreorderController extends Controller
             $preorder = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
                 ->findOrFail($id);
             $dataPembeli = [
-                "nama" => $dataInput['nama'],
-                "email" => $dataInput['email'],
-                'alamat' => $dataInput['alamat'],
                 "no_hp" => $dataInput['telepon'],
             ];
 
@@ -192,11 +188,7 @@ class PreorderController extends Controller
             //    Belum selesai
             if ($dataInput['is_complete']==0) {
                 $dataPreorder = [
-                    "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
-                    "jumlah" => $dataInput['jumlah'],
-                    "total_harga" => $totalHargaTanpaTitik,
                     "keterangan" => $dataInput['keterangan'],
-                    'jumlah_dp' => $dataInput['jumlah_dp'],
                 ];
                 $preorder->update($dataPreorder);
 
@@ -204,11 +196,8 @@ class PreorderController extends Controller
                 // sudah selesai
                 $dataPreorder = [
                     'is_complete' => '1',
-                    "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
-                    "jumlah" => $dataInput['jumlah'],
-                    "total_harga" => $totalHargaTanpaTitik,
                     "keterangan" => $dataInput['keterangan'],
-                    "is_Preorder" => '0',
+                    "is_Preorder" => '1',
                     'jumlah_dp' => $dataInput['jumlah_dp'],
                 ];
                 $preorder->update($dataPreorder);
@@ -219,7 +208,9 @@ class PreorderController extends Controller
             return redirect()->route('preorder.index')->with('success', 'Preorder has been updated successfully');
 
         } catch (\Throwable $th) {
+
             DB::rollBack();
+            // throw $th;
             return redirect()->back()->with('error', 'Failed to update transaksi data.');
 
         }
@@ -246,8 +237,8 @@ class PreorderController extends Controller
             return redirect()->route('preorder.index')->with('success', 'Transaksi has been deleted successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
-            // return redirect()->back()->with('error', 'Failed to delete transaksi data.');
+            // throw $th;
+            return redirect()->back()->with('error', 'Failed to delete transaksi data.');
         }
     }
 }

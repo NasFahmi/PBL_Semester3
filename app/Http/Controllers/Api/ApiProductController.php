@@ -9,8 +9,10 @@ use App\Models\BeratJenis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductResources;
+use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\StoreProductRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -36,7 +38,10 @@ class ApiProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreProductRequest $request)
-    {   
+    {
+        $manager = new ImageManager(
+            new Driver()
+        );
         $request->validated();
         $data = $request->all();
         // return response()->json($data);

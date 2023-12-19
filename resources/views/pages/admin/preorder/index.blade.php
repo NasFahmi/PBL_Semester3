@@ -65,9 +65,11 @@
                     <div class="w-full bg-white flex items-start justify-between p-8 rounded-3xl shadow-lg">
                         <div class="kiri">
                             <p class="text-xl font-medium text-gray-800 mb-1">{{ $preorder->pembelis->nama }}</p>
+                            
                             <div class="grid grid-cols-2 gap-4 mb-1">
                                 <p class=" text-gray-400">Product</p>
                                 <p class="font-medium text-gray-800">: {{ $preorder->products->nama_product }}</p>
+                                
                             </div>
                             <div class="grid grid-cols-2 gap-4 mb-1">
                                 <p class=" text-gray-400">Jumlah</p>
@@ -75,15 +77,18 @@
                             </div>
                             <div class="grid grid-cols-2 gap-4 mb-1">
                                 <p class=" text-gray-400">Total Harga</p>
-                                <p class="font-medium text-gray-800">: {{ number_format($preorder->total_harga, 0, ',', '.') }}</p>
+                                <p class="font-medium text-gray-800">:
+                                    {{ number_format($preorder->total_harga, 0, ',', '.') }}</p>
                             </div>
                             <div class="grid grid-cols-2 gap-4 mb-1">
                                 <p class=" text-gray-400">Down Payment</p>
-                                <p class="font-medium text-gray-800">: {{ number_format($preorder->preorders->down_payment, 0, ',', '.') }}</p>
+                                <p class="font-medium text-gray-800">:
+                                    {{ number_format($preorder->preorders->down_payment, 0, ',', '.') }}</p>
                             </div>
+                            
                         </div>
                         <div class="kanan flex justify-center items-center gap-4">
-                            <a href="{{ route('transaksi.show', $preorder->id) }}"
+                            <a href="{{ route('preorder.show', $preorder->id) }}"
                                 class="flex justify-center items-center gap-1 cursor-pointer ">
                                 <div class="w-4 h-4 ">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -119,8 +124,15 @@
                                 </div>
                                 <p class="text-sm text-lime-500 font-medium">Edit</p>
                             </a>
+                            <div>
+                                @if ($preorder->is_complete == true)
+                                    <p class="text-base col-span-3 text-green-400 font-medium">Selesai</p>
+                                @elseif ($preorder->is_complete == false)
+                                    <p class="text-base col-span-3 text-red-400 font-medium">Belum Selesai</p>
+                                @endif
+                            </div>
                             {{-- delete --}}
-                            <form action="{{ route('preorder.destroy', $preorder->id) }}" method="post">
+                            {{-- <form action="{{ route('preorder.destroy', $preorder->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <a class="flex justify-center items-center gap-1 cursor-pointer">
@@ -142,46 +154,45 @@
                                     <button type="button" class="text-sm text-red-500 font-medium"
                                         data-modal-target="popup-modal" data-modal-toggle="popup-modal">
                                         Delete</button>
-                                </a>
+                                </a> --}}
 
-                                <div id="popup-modal" tabindex="-1"
-                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                    <div class="relative p-4 w-full max-w-md max-h-full">
-                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                            <button type="button"
-                                                class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                data-modal-hide="popup-modal">
-                                                <svg class="w-3 h-3" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 14 14">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2"
-                                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                                </svg>
-                                                <span class="sr-only">Close modal</span>
+                            <div id="popup-modal" tabindex="-1"
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                <div class="relative p-4 w-full max-w-md max-h-full">
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                        <button type="button"
+                                            class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                            data-modal-hide="popup-modal">
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                        <div class="p-4 md:p-5 text-center">
+                                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 20 20">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                Are you sure you want
+                                                to delete this PreOrder?</h3>
+                                            <button data-modal-hide="popup-modal" type="submit" id="submitDeleted"
+                                                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
+                                                Yes, I'm sure
                                             </button>
-                                            <div class="p-4 md:p-5 text-center">
-                                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 20 20">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2"
-                                                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                </svg>
-                                                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                    Are you sure you want
-                                                    to delete this PreOrder?</h3>
-                                                <button data-modal-hide="popup-modal" type="submit" id="submitDeleted"
-                                                    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
-                                                    Yes, I'm sure
-                                                </button>
-                                                <button data-modal-hide="popup-modal" type="button"
-                                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
-                                                    Cancel</button>
-                                            </div>
+                                            <button data-modal-hide="popup-modal" type="button"
+                                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                                                Cancel</button>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </form>
 
                         </div>
@@ -197,16 +208,16 @@
                 <p class="text-gray-500 mb-2 font-medium">Informasi</p>
                 <div class="mb-2">
                     <p class="text-gray-600 text-sm">Total Preorder</p>
-                    <p class="text-gray-800 text-xl font-medium ">{{$totalPreorder}}</p>
+                    <p class="text-gray-800 text-xl font-medium ">{{ $totalPreorder }}</p>
                 </div>
                 <div class="mb-2">
                     <p class="text-gray-600 text-sm">Total Saldo Preorder Terbayar</p>
-                    <p class="text-gray-800 text-xl font-medium ">Rp.{{number_format($totalDP,0,',','.')}}</p>
+                    <p class="text-gray-800 text-xl font-medium ">Rp.{{ number_format($totalDP, 0, ',', '.') }}</p>
                     <p class="text-xs italic text-gray-400">(Total dari Preorder yang Sudah Membayar DP)</p>
                 </div>
                 <div class="">
                     <p class="text-gray-600 text-sm">Total Saldo Prorder Belum Terbayar</p>
-                    <p class="text-gray-800 text-xl font-medium ">Rp.{{number_format($totalDPBelumLunas,0,',','.')}}</p>
+                    <p class="text-gray-800 text-xl font-medium ">Rp.{{ number_format($totalDPBelumLunas, 0, ',', '.') }}</p>
                     <p class="text-xs italic text-gray-400">(Total Saldo yang Masih Dibutuhkan dari Transaksi Preorder yang
                         Belum Lunas)</p>
                 </div>

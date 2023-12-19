@@ -11,13 +11,12 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div class="left">
                         <div class="max-w-lg">
-                            <label for="" class="">Product</label>
-                            <div class="flex justify-start items-start flex-col gap-3">
+                            <div class="flex justify-start items-s  tart flex-col gap-3">
 
                                 <div class="w-full">
                                     <label for="product" class="text-sm font-medium text-gray-800">Product</label>
                                     {{-- {{$data}} --}}
-                                    <select id="product" name="product"
+                                    <select id="product" name="product" disabled
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         @foreach ($data as $product)
                                             <option value="{{$product->id}}" {{$product->id == $dataTransaksi->product_id ? 'selected':''}}>{{$product->nama_product}}</option>
@@ -29,7 +28,7 @@
                                     <label for="methode_pembayaran"
                                         class="block mb-2 text-sm font-medium  text-gray-800 ">Methode Pembayaran</label>
                                         {{-- <p>{{$dataTransaksi->methode_pembayaran_id}}</p> --}}
-                                        <select id="methode_pembayaran" name="methode_pembayaran"
+                                        <select id="methode_pembayaran" name="methode_pembayaran" disabled
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="1" {{ $dataTransaksi->methode_pembayaran_id == 1 ? 'selected' : '' }}>Transfer</option>
                                         <option value="2" {{ $dataTransaksi->methode_pembayaran_id == 2 ? 'selected' : '' }}>Shopee</option>
@@ -41,7 +40,7 @@
                                 <div class="w-full">
                                     <label for="jumlah"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
-                                    <input type="number" id="jumlah" name="jumlah"
+                                    <input type="number" id="jumlah" name="jumlah" readonly
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="0" required
                                         value="{{$dataTransaksi->jumlah}}"
@@ -55,7 +54,7 @@
                                             class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                             <p>Rp.</p>
                                         </div>
-                                        <input type="text" name="total" id="total-harga"
+                                        <input type="text" name="total" id="total-harga" readonly
                                         class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="0"
                                         value="{{ number_format($dataTransaksi->total_harga, 0, ',', '.') }}"
@@ -96,7 +95,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="right">
+                    {{-- <div class="right">
                         <div class="max-w-lg">
                             <Label>Pembeli</Label>
                             <div class="flex justify-start items-start flex-col gap-3">
@@ -138,7 +137,7 @@
                                         rows="5">{{$dataTransaksi->keterangan}}</textarea>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
