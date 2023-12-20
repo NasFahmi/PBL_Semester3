@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 use App\Models\Foto;
 use App\Models\Varian;
@@ -40,7 +42,31 @@ class ApiProductController extends Controller
         $request->validated();
         $data = $request->all();
         // return response()->json($data);
+        // $file = $data['image'];
+        // // // dd($file);
+        // // // if (isset($file)) {
+        //     $img = $file->store("images"); //images/F0Rz0AKultyXDoTikIbygvKhsFJU0mSnINrpUUSd.jpg
+        //     // dd($img);
+        //     // dd($img);
+        //     $filePath = storage_path('app/public/'.$img);
+        //     // $fileSize = filesize($filePath);
+        //         // dd('true');
+        //         // dd($fileSize / 1024); //covert to Kb, memroy->2730.4306640625
+        //         $manager = new ImageManager(new Driver());
+        //         $image = $manager->read('storage/'.$img);
+        //         $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
+                
+        //         $encoded->save($filePath);                
+        //         $filePath = storage_path('app/public/'.$img);
+        //         $fileSize = filesize($filePath);
+        //         dd($fileSize / 1024);
+        // // }
+
+
+
         try {
+            // $image = $manager->read('images/example.jpg');
+            
             DB::beginTransaction();
             $product = Product::create([
                 'nama_product' =>$data['nama_product'],
@@ -64,9 +90,19 @@ class ApiProductController extends Controller
             // Proses setiap file yang diunggah
             $images = [];
             foreach ($request->file('image') as $file) {
+                // dd($file);
                 $img = $file->store("images");
+                // dd($img); // images/kYu4iKIXFVEypwYb1lp0UfZuH1ST5E5nDoUVgbYx.jpg"
+                $filePath = storage_path('app/public/'.$img); 
+                $manager = new ImageManager(new Driver());
+                // dd($manager);
+                $image = $manager->read('storage/'.$img);
+                $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
+                $encoded->save($filePath);
+
                 $images[] = $img;
             }
+            // dd($images);
 
             // Simpan informasi gambar ke dalam tabel Foto
             foreach ($images as $image) {
@@ -219,13 +255,15 @@ class ApiProductController extends Controller
     public function destroy($id)
 {
     try {
-        $data = Product::with(['fotos', 'varians'])->find($id);
+        // Find the product with its related photos and variants
+        $data = Product::with(['fotos', 'varians'])->findOrFail($id);
+
+        // Update the 'tersedia' column to false
+        $data->update(['tersedia' => false]);
 
         if (!$data) {
             return response()->json(['success' => false, 'message' => 'Product not found'], 404);
         }
-
-        $data->delete();
         return response()->json(['success' => true, 'message' => 'Product has been deleted']);
     } catch (ModelNotFoundException $e) {
         return response()->json(['success' => false, 'message' => 'Something went wrong'], 404);
