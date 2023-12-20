@@ -24,17 +24,17 @@ class TransaksiController extends Controller
     public function index()
     {
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran'])
-            ->where('is_Preorder', 0)
             ->search(request('search'))
             ->get();
+            // dd($data);
         return view('pages.admin.transaksi.index', compact('data'));
     }
 
     public function cetakTransaksi()
     {
-        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran']) 
-        ->where('is_complete',1)
-        ->get();
+        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran'])
+            ->where('is_complete', 1)
+            ->get();
         return view('pages.admin.transaksi.cetak', compact('data'));
     }
     /**
@@ -45,7 +45,7 @@ class TransaksiController extends Controller
         $data = Product::get();
         $dataHistory = HistoryProduct::get();
         // dd($data);
-        return view('pages.admin.transaksi.create', compact('data','dataHistory'));
+        return view('pages.admin.transaksi.create', compact('data', 'dataHistory'));
     }
 
     /**
@@ -60,13 +60,6 @@ class TransaksiController extends Controller
             'jumlah' => 'required',
             // 'total' => 'required',
             'is_complete' => 'required',
-            'nama' => 'required',
-            'email' => 'required',
-            'alamat' => 'required',
-            'telepon' => 'required|numeric|digits:12',
-        ], [
-            'telepon.numeric' => 'Nomor telepon harus berupa angka.',
-            'telepon.digits' => 'Nomor telepon minimal terdiri dari 11 digit.',
         ]);
 
         if ($validator->fails()) {
@@ -85,22 +78,14 @@ class TransaksiController extends Controller
             $totalharga = $request->total;
             $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
 
-            $dataPembeli = Pembeli::create([
-                "nama" => $data['nama'],
-                "email" => $data['email'],
-                'alamat' => $data['alamat'],
-                "no_hp" => $data['telepon'],
-            ]);
-            $idPembeli = $dataPembeli->id;
-            $dataKeterangan=null;
-            if(isset($data['keterangan'])){
+            $dataKeterangan = null;
+            if (isset($data['keterangan'])) {
                 $dataKeterangan = $data['keterangan'];
             }
 
             // dd($totalharga);
             $transaksi = Transaksi::create([
                 "tanggal" => $tanggal,
-                "pembeli_id" => $idPembeli,
                 "product_id" => $data['product'],
                 "methode_pembayaran_id" => $data['methode_pembayaran'],
                 "jumlah" => $data['jumlah'],
@@ -121,7 +106,7 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
+            // throw $th;
             return redirect()->back()->with('error', 'Failed to create transaksi data.');
 
         }
@@ -133,7 +118,7 @@ class TransaksiController extends Controller
     public function show(Transaksi $transaksi)
     {
 
-        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
+        $data = Transaksi::with(['products', 'methode_pembayaran', 'preorders'])
             ->findOrFail($transaksi->id);
         // dd($data->methode_pembayaran->methode_pembayaran);
 
@@ -147,10 +132,19 @@ class TransaksiController extends Controller
      */
     public function edit(Transaksi $transaksi)
     {
-        $data = Product::get();
-        $dataTransaksi = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
+        $dataTransaksi = Transaksi::with(['products', 'methode_pembayaran', 'preorders'])
             ->findOrFail($transaksi->id);
-        return view('pages.admin.transaksi.edit', compact('data', 'dataTransaksi'));
+        $data = Product::get();
+        
+
+        $productId = $transaksi->product_id;
+        // dd($productId);
+
+        $datafotoProduct = Product::with('fotos')->findOrFail($productId);
+        // dd($datafotoProduct);
+
+        
+        return view('pages.admin.transaksi.edit', compact('data', 'dataTransaksi','datafotoProduct'));
     }
 
     /**
@@ -161,46 +155,15 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, Transaksi $transaksi)
     {
-        $validator = Validator::make($request->all(), [
-            'jumlah' => 'required',
-            'total' => 'required',
-            'nama' => 'required',
-            'email' => 'required',
-            'alamat' => 'required',
-            'telepon' => 'required|numeric|digits:12',
-        ], [
-            'telepon.numeric' => 'Nomor telepon harus berupa angka.',
-            'telepon.digits' => 'Nomor telepon harus terdiri dari 12 digit.',
-        ]);
-        
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
 
         try {
             DB::beginTransaction();
             $dataInput = $request->all();
             // dd($request->all());
             // Update Pembeli information
-            $dataPembeli = [
-                "nama" => $dataInput['nama'],
-                "email" => $dataInput['email'],
-                'alamat' => $dataInput['alamat'],
-                "no_hp" => $dataInput['telepon'],
-            ];
 
-            $transaksi->pembelis->update($dataPembeli);
-
-
-            $totalharga = $request->input('total');
-            $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
 
             $dataTransaksi = [
-                "product_id" => $dataInput['product'],
-                "methode_pembayaran_id" => $dataInput['methode_pembayaran'],
-                "jumlah" => $dataInput['jumlah'],
-                "total_harga" => $totalHargaTanpaTitik,
-                "keterangan" => $dataInput['keterangan'],
                 "is_Preorder" => '0',
                 "Preorder_id" => null,
                 "is_complete" => $dataInput['is_complete'],
@@ -218,7 +181,7 @@ class TransaksiController extends Controller
             DB::rollBack();
             // throw $th;
             return redirect()->back()->with('error', 'Failed to update transaksi data.');
-        }    
+        }
     }
 
 
@@ -242,7 +205,8 @@ class TransaksiController extends Controller
         }
     }
 
-    public function cetakForm() {
-        return view('pages.admin.transaksi.cetak-transaksi-form') ;
+    public function cetakForm()
+    {
+        return view('pages.admin.transaksi.cetak-transaksi-form');
     }
 }

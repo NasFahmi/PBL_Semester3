@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])->get();
         $totalPendapatan = Transaksi::where('is_complete', 1)->sum('total_harga');
         $totalProductTerjual = Transaksi::where('is_complete', 1)->sum('jumlah');
-        $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
+        $totalPreorder = Transaksi::where('is_complete', 1)->sum('is_Preorder');
         $dataJumlahOrder = $data->count();
 
         $startDate = Carbon::now()->subDays(30)->startOfDay();
@@ -30,7 +30,7 @@ class DashboardController extends Controller
         $startDateTest = '2023-12-01';
         $endDateTest = '2024-12-30';
 
-        $namaPembeli = $data->where('is_complete', 0)
+        $namaPembeli = $data->where('is_Preorder', 1)
             ->whereNotNull('pembelis.nama')
             ->sortByDesc('created_at')
             ->pluck('pembelis.nama');
@@ -47,7 +47,7 @@ class DashboardController extends Controller
             ->get();
 
         $preorderRecently = Preorder::whereHas('transaksis', function ($query) {
-            $query->where('is_complete', 0);
+            $query->where('is_preorder', 1);
         })
             ->latest()
             ->limit(3)

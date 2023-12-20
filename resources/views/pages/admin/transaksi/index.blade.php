@@ -84,13 +84,7 @@
                                 Product
                             </th>
                             <th scope="col" class=" px-4 py-2 whitespace-nowrap">
-                                Pembeli
-                            </th>
-                            <th scope="col" class=" px-4 py-2 whitespace-nowrap">
-                                Jumlah
-                            </th>
-                            <th scope="col" class=" px-4 py-2 whitespace-nowrap">
-                                Total Harga
+                                Harga
                             </th>
                             <th scope="col" class=" px-4 py-2 whitespace-nowrap">
                                 Tanggal
@@ -110,14 +104,9 @@
                                 <th scope="row" class=" font-medium pl-3  lg:whitespace-nowrap  text-sm">
                                     <span class="text-sm">{{ $items->products->nama_product }}</span>
                                 </th>
-                                <td cope="row" class="w-10 h-16  px-4 py-2  lg:whitespace-nowrap">
-                                    <span class="text-sm">{{ $items->pembelis->nama }}</span>
-                                </td>
-                                <td cope="row" class="w-10 h-16  px-4 py-2  lg:whitespace-nowrap">
-                                    <span class="text-sm">{{ $items->jumlah }}</span>
-                                </td>
+                               
                                 <td cope="row" class="w-10 h-16   px-4 py-2 lg:whitespace-nowrap">
-                                    <span>Rp. {{ number_format($items->total_harga, 0, ',', '.') }}</span>
+                                    <span>Rp. {{ number_format($items->products->harga, 0, ',', '.') }}</span>
                                 </td>
                                 <td cope="row" class="w-10 h-16  px-4 py-2 lg:whitespace-nowrap">
                                     <span>{{ $items->tanggal }}</span>
@@ -223,7 +212,7 @@
                                                     </a>
                                                 </li>
                                             @endif
-                                            <li>
+                                            {{-- <li>
                                                 <form action="{{ route('transaksi.destroy', $items->id) }}"
                                                     class="bg-red-50 w-full" method="post">
                                                     @csrf
@@ -251,7 +240,7 @@
                                                         </div>
                                                     </button>
                                                 </form>
-                                            </li>
+                                            </li> --}}
 
                                         </ul>
                                     </div>

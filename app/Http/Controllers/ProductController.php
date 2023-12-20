@@ -8,12 +8,11 @@ use App\Models\Product;
 use App\Models\BeratJenis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Rules\BeratJenisValidationRule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Events\ProductCreated;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
 
 class ProductController extends Controller
 {

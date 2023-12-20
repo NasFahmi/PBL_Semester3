@@ -2,7 +2,16 @@
 @section('title', 'Admin Transaksi')
 @section('content')
     <div class="container  px-6 pb-6 mx-auto">
-        <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Edit Preorder</h1>
+        <div class="flex gap-4">
+            <a href="{{ route('preorder.index') }}" class="flex items-center text-gray-500 hover:text-gray-700">
+                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                    </path>
+                </svg>
+            </a>
+            <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Edit PreOrder</h1>
+        </div>
         {{-- <p>{{$dataTransaksi}}</p> --}}
         <div class="bg-white px-8 py-8 shadow-lg rounded-3xl">
             <form action="{{ route('preorder.update', $dataTransaksi->id) }}" method="post">
@@ -31,7 +40,7 @@
                                     <label for="methode_pembayaran"
                                         class="block mb-2 text-sm font-medium  text-gray-800 ">Methode Pembayaran</label>
                                     {{-- <p>{{$dataTransaksi->methode_pembayaran_id}}</p> --}}
-                                    <select id="methode_pembayaran" name="methode_pembayaran"
+                                    <select id="methode_pembayaran" name="methode_pembayaran" disabled
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="1"
                                             {{ $dataTransaksi->methode_pembayaran_id == 1 ? 'selected' : '' }}>Transfer
@@ -51,7 +60,7 @@
                                 <div class="w-full">
                                     <label for="jumlah"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
-                                    <input type="number" id="jumlah" name="jumlah"
+                                    <input type="number" id="jumlah" name="jumlah" readonly
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="0" required value="{{ $dataTransaksi->jumlah }}">
 
@@ -146,7 +155,7 @@
                                             class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                             <p>Rp.</p>
                                         </div>
-                                        <input type="text" name="jumlah_dp" id="jumlah_dp"
+                                        <input type="text" name="jumlah_dp" id="jumlah_dp" readonly
                                             value="{{ $dataTransaksi->preorders->down_payment }}"
                                             class="max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="0">
@@ -167,7 +176,7 @@
                             <div class="flex justify-start items-start flex-col gap-3">
                                 <div class="w-full">
                                     <label for="nama" class="text-sm font-medium text-gray-800">Nama</label>
-                                    <input type="text" id="nama" name="nama"
+                                    <input type="text" id="nama" name="nama" readonly
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Nama Pembeli" value="{{ $dataTransaksi->pembelis->nama }}">
                                     @error('nama')
@@ -176,7 +185,7 @@
                                 </div>
                                 <div class="w-full">
                                     <label for="email" class="text-sm font-medium text-gray-800">Email</label>
-                                    <input type="email" id="email" name="email"
+                                    <input type="email" id="email" name="email" readonly
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="pembeli@pembeli.com" value="{{ $dataTransaksi->pembelis->email }}">
                                     @error('email')
@@ -194,7 +203,7 @@
                                     @enderror
                                 </div>
                                 <div class="w-full">
-                                    <label for="telepon" class="text-sm font-medium text-gray-800">Telepon</label>
+                                    <label for="telepon" class="text-sm font-medium text-gray-800">Telepon / WhatsApp</label>
                                     <input type="tel" id="telepon" name="telepon"
                                         class="  w-full max-w-4xl bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="081234567890" value="{{ $dataTransaksi->pembelis->no_hp }}">

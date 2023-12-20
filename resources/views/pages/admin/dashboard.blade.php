@@ -19,7 +19,7 @@
                 </div>
                 <div>
                     <p class="mb-2 text-sm font-medium text-gray-600 ">
-                        Jumlah Order
+                        Jumlah Transaksi
                     </p>
                     <p class="text-lg font-semibold text-gray-700 ">
                         {{ $dataJumlahOrder }}
