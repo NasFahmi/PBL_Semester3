@@ -47,7 +47,7 @@ class ApiTransaksiController extends Controller
             ->pluck('total_penjualan', 'tanggal')
             ->toArray();
 
-        $groupedData = array_chunk($dataPenjualan, 5, true);
+        $groupedData = array_chunk($dataPenjualan, 2, true);
 
         // Separate dates and values within each group and calculate sum
         $separatedGroupedData = [];
