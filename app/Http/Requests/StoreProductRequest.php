@@ -32,7 +32,7 @@ class StoreProductRequest extends FormRequest
             'link_shopee' => 'required',
             'stok' => 'required',
             'spesifikasi_product' => 'required',
-            'image.*' => 'required|image|mimes:jpeg,png,jpg',
+            // 'image.*' => 'required|image|mimes:jpeg,png,jpg',
         ];
     }
 
