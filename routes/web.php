@@ -32,10 +32,35 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::resource('/admin/product', ProductController::class);
-    Route::resource('/admin/transaksi', TransaksiController::class);
+
     Route::resource('/admin/preorder', PreorderController::class);
+    //Transaksi
+    Route::middleware(['permission:edit-transaksi|cetak-transaksi'])->group(function () {
+        Route::get('/admin/transaksi/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksis.edit');
+        Route::get('/admin/cetak/transaksi', [TransaksiController::class, 'cetakTransaksi'])->name('cetak.transaksi');
+    });
+    Route::get('/admin/transaksi', [TransaksiController::class, 'index'])->name('transaksis.index');
+    Route::get('/admin/transaksi/create', [TransaksiController::class, 'create'])->name('transaksis.create');
+    Route::post('/admin/transaksi', [TransaksiController::class, 'store'])->name('transaksis.store');
+    Route::get('/admin/transaksi/{transaksi}', [TransaksiController::class, 'show'])->name('transaksis.detail');
+    Route::patch('/admin/transaksi/{transaksi}', [TransaksiController::class, 'update'])->name('transaksis.update');
 
-    Route::get('/admin/cetak/transaksi',[TransaksiController::class,'cetakTransaksi'])->name('cetak.transaksi');
-    // Route::get('/admin/cetak-transaksi-form/transaksi',[TransaksiController::class,'cetakForm'])->name('cetak.transaksi.form');
-
+    //Produk
+    Route::middleware(['permission:edit-product'])->group(function () {
+        Route::get('/admin/product/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    });
+    Route::get('/admin/product', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/admin/product/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/admin/product', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/admin/product/{product}', [ProductController::class, 'show'])->name('products.detail');
+    Route::patch('/admin/product/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/admin/product/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
+
+
+
+
+// Route::group(['middleware' => ['role:superadmin']], function () {
+//     Route::get('/admin/transksi/{id}/edit',[TransaksiController::class,'edit']);
+//     //
+// });

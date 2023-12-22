@@ -26,7 +26,7 @@ class TransaksiController extends Controller
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran'])
             ->search(request('search'))
             ->get();
-            // dd($data);
+        // dd($data);
         return view('pages.admin.transaksi.index', compact('data'));
     }
 
@@ -103,7 +103,7 @@ class TransaksiController extends Controller
 
 
             DB::commit();
-            return redirect()->route('transaksi.index')->with('success', 'Transaksi has been created successfully');
+            return redirect()->route('transaksis.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
             // throw $th;
@@ -135,7 +135,7 @@ class TransaksiController extends Controller
         $dataTransaksi = Transaksi::with(['products', 'methode_pembayaran', 'preorders'])
             ->findOrFail($transaksi->id);
         $data = Product::get();
-        
+
 
         $productId = $transaksi->product_id;
         // dd($productId);
@@ -143,8 +143,8 @@ class TransaksiController extends Controller
         $datafotoProduct = Product::with('fotos')->findOrFail($productId);
         // dd($datafotoProduct);
 
-        
-        return view('pages.admin.transaksi.edit', compact('data', 'dataTransaksi','datafotoProduct'));
+
+        return view('pages.admin.transaksi.edit', compact('data', 'dataTransaksi', 'datafotoProduct'));
     }
 
     /**
@@ -176,7 +176,7 @@ class TransaksiController extends Controller
             }
             DB::commit();
 
-            return redirect()->route('transaksi.index')->with('success', 'Transaksi has been updated successfully');
+            return redirect()->route('transaksis.index')->with('success', 'Transaksi has been updated successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
             // throw $th;
@@ -197,7 +197,7 @@ class TransaksiController extends Controller
 
             DB::commit();
 
-            return redirect()->route('transaksi.index')->with('success', 'Transaksi has been deleted successfully');
+            return redirect()->route('transaksis.index')->with('success', 'Transaksi has been deleted successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
             // throw $th;

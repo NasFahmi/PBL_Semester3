@@ -93,11 +93,14 @@
             </div>
         </div>
         <div class="flex justify-center md:justify-start gap-4 mb-20 items-center mt-4 ">
-            <a href="{{ route('product.edit', $data->id) }}"
+            @if(auth()->check() &&
+                            (auth()->user()->hasRole('superadmin') ||
+                                auth()->user()->can('edit-transaksi')))
+            <a href="{{ route('products.edit', $data->id) }}"
                 class="flex items-center justify-center w-32 h-12 px-4 py-2 text-sm font-medium text-white transition-colors duration-150 bg-blue-500 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700">
                 <span>Edit</span>
             </a>
-            <form action="{{ route('product.destroy', $data->id) }}" method="POST">
+            <form action="{{ route('products.destroy', $data->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
 
@@ -106,7 +109,7 @@
                     <span>Hapus</span>
                 </button>
 
-
+                @endif
                 <div id="popup-modal" tabindex="-1"
                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                     <div class="relative p-4 w-full max-w-md max-h-full">

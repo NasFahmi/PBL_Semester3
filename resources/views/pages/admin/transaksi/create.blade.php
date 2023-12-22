@@ -4,7 +4,7 @@
     <div class="container  px-6 pb-6 mx-auto">
         <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Tambah Transaksi</h1>
         <div class="bg-white px-8 py-8 shadow-lg rounded-3xl">
-            <form action="{{ route('transaksi.store') }}" method="post">
+            <form action="{{ route('transaksis.store') }}" method="post">
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div class="left">

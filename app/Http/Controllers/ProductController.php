@@ -105,11 +105,11 @@ class ProductController extends Controller
             DB::commit();
 
             $request->session()->forget(['product_data', 'varian', 'image_data']);
-            return redirect()->route('product.index')->with('success', 'Data Berhasil Disimpan');
+            return redirect()->route('products.index')->with('success', 'Data Berhasil Disimpan');
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
-            throw $e;
+            // throw $e;
             // dd('gagal ');
             // Handle kesalahan sesuai kebutuhan Anda, misalnya:
             return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
@@ -196,7 +196,7 @@ class ProductController extends Controller
 
             DB::commit();
 
-            return redirect()->route('product.index')->with('success', 'Product has been updated successfully');
+            return redirect()->route('products.index')->with('success', 'Product has been updated successfully');
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
             DB::rollBack();
@@ -216,10 +216,10 @@ class ProductController extends Controller
             // Update the 'tersedia' column to false
             $data->update(['tersedia' => false]);
 
-            return redirect()->route('product.index')->with('success', 'Product has been deleted successfully');
+            return redirect()->route('products.index')->with('success', 'Product has been deleted successfully');
         } catch (\Exception $e) {
             // Handle any exceptions that may occur
-            return redirect()->route('product.index')->with('error', 'Error deleting product: ' . $e->getMessage());
+            return redirect()->route('products.index')->with('error', 'Error deleting product: ' . $e->getMessage());
         }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
@@ -24,8 +25,8 @@ class ApiProductController extends Controller
     public function index()
     {
         $data = Product::with(['fotos', 'varians'])
-        ->where('tersedia', 1)
-        ->get();
+            ->where('tersedia', 1)
+            ->get();
         // return response()->json($data);
         $transformedData = $data->map(function ($product) {
             return new ProductResources($product);
@@ -44,7 +45,10 @@ class ApiProductController extends Controller
         );
         $request->validated();
         $data = $request->all();
-        // return response()->json($data);
+        // dd($data);
+        $images = $request->file('image');
+        return response()->json($images);
+
         // $file = $data['image'];
         // // // dd($file);
         // // // if (isset($file)) {
@@ -58,7 +62,7 @@ class ApiProductController extends Controller
         //         $manager = new ImageManager(new Driver());
         //         $image = $manager->read('storage/'.$img);
         //         $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
-                
+
         //         $encoded->save($filePath);                
         //         $filePath = storage_path('app/public/'.$img);
         //         $fileSize = filesize($filePath);
@@ -69,19 +73,19 @@ class ApiProductController extends Controller
 
         try {
             // $image = $manager->read('images/example.jpg');
-            
+
             DB::beginTransaction();
             $product = Product::create([
-                'nama_product' =>$data['nama_product'],
-                'harga'=>$data['harga'],
-                'deskripsi'=>$data['deskripsi'],
-                'link_shopee'=>$data['link_shopee'],
-                'stok'=>$data['stok'],
-                'spesifikasi_product'=>$data['spesifikasi_product'],
-                'tersedia'=>'1',
+                'nama_product' => $data['nama_product'],
+                'harga' => $data['harga'],
+                'deskripsi' => $data['deskripsi'],
+                'link_shopee' => $data['link_shopee'],
+                'stok' => $data['stok'],
+                'spesifikasi_product' => $data['spesifikasi_product'],
+                'tersedia' => '1',
             ]);
             $productID = $product->id;
-            $varians= $data['varian'];
+            $varians = $data['varian'];
 
             foreach ($varians as $varian) {
                 Varian::create([
@@ -96,10 +100,10 @@ class ApiProductController extends Controller
                 // dd($file);
                 $img = $file->store("images");
                 // dd($img); // images/kYu4iKIXFVEypwYb1lp0UfZuH1ST5E5nDoUVgbYx.jpg"
-                $filePath = storage_path('app/public/'.$img); 
+                $filePath = storage_path('app/public/' . $img);
                 $manager = new ImageManager(new Driver());
                 // dd($manager);
-                $image = $manager->read('storage/'.$img);
+                $image = $manager->read('storage/' . $img);
                 $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
                 $encoded->save($filePath);
 
@@ -120,32 +124,32 @@ class ApiProductController extends Controller
             // $request->session()->forget(['product_data', 'berat_jenis', 'varian', 'image_data']);
             return response()->json(
                 [
-                    'success'=>true,
-                    'message'=>'Product Created',
-                    'data'=>[
-                        'id'=>$productID,
-                        'nama_product'=>$data['nama_product'],
-                        'harga'=>$data['harga'],
-                        'deskripsi'=>$data['deskripsi'],
-                        'link_shopee'=>$data['link_shopee'],
-                        'stok'=>$data['stok'],
-                        'spesifikasi_product'=>$data['spesifikasi_product'],
-                        'varian'=>$varians,
-                        'image'=>$images,
-                        
+                    'success' => true,
+                    'message' => 'Product Created',
+                    'data' => [
+                        'id' => $productID,
+                        'nama_product' => $data['nama_product'],
+                        'harga' => $data['harga'],
+                        'deskripsi' => $data['deskripsi'],
+                        'link_shopee' => $data['link_shopee'],
+                        'stok' => $data['stok'],
+                        'spesifikasi_product' => $data['spesifikasi_product'],
+                        'varian' => $varians,
+                        'image' => $images,
+
                     ]
-                
+
                 ]
-                ,201);
+                , 201);
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
             // throw $e;
             $errorMessage = $e instanceof \Illuminate\Database\QueryException ?
-            'Database error. Something went wrong.' :
-            'An unexpected error occurred.';
+                'Database error. Something went wrong.' :
+                'An unexpected error occurred.';
 
-        return response()->json(['success' => false, 'message' => $errorMessage], 500);
+            return response()->json(['success' => false, 'message' => $errorMessage], 500);
         }
 
     }
@@ -169,16 +173,16 @@ class ApiProductController extends Controller
      */
     public function update(StoreProductRequest $request, $id)
     {
-        
+
         $request->validated();
         $data = $request->all();
         // dd($data);
         try {
             DB::beginTransaction();
-    
+
             // Find the product by ID
             $product = Product::findOrFail($id);
-    
+
             // Update the product data
             $product->update([
                 'nama_product' => $request->nama_product,
@@ -188,28 +192,28 @@ class ApiProductController extends Controller
                 'stok' => $request->stok,
                 'spesifikasi_product' => $request->spesifikasi_product,
             ]);
-    
-            
+
+
             // $product->beratJenis()->sync($beratJenisIds);
-    
+
             // Update or create varians records
             $product->varians()->delete(); // Delete existing varians
             foreach ($request->varian as $varian) {
                 $product->varians()->create(['jenis_varian' => $varian]);
             }
-    
+
             // Handle image updates
             if ($request->hasFile('image')) {
                 $this->validate($request, [
                     'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
                 ]);
-    
+
                 // Delete existing images
                 foreach ($product->fotos as $foto) {
                     Storage::delete($foto->foto);
                     $foto->delete();
                 }
-    
+
                 // Process each uploaded file
                 foreach ($request->file('image') as $file) {
                     $img = $file->store("images");
@@ -220,29 +224,29 @@ class ApiProductController extends Controller
                     ]);
                 }
             }
-    
+
             DB::commit();
-    
+
             return response()->json(
                 [
-                    'success'=>true,
-                    'message'=>'Product Edited',
-                    'data'=>[
-                        'id'=>$id,
-                        'nama_product'=>$request->nama_product,
-                        'harga'=>$request->harga_tinggi,
-                        'deskripsi'=>$request->deskripsi,
-                        'link_shopee'=>$request->link_shopee,
-                        'stok'=>$request->stok,
-                        'spesifikasi_product'=>$request->spesifikasi_product,
-                        'berat_jenis'=>$request->beratjenis,
-                        'varian'=>$request->varian,
-                        'image'=>$request->image,
-                        
+                    'success' => true,
+                    'message' => 'Product Edited',
+                    'data' => [
+                        'id' => $id,
+                        'nama_product' => $request->nama_product,
+                        'harga' => $request->harga_tinggi,
+                        'deskripsi' => $request->deskripsi,
+                        'link_shopee' => $request->link_shopee,
+                        'stok' => $request->stok,
+                        'spesifikasi_product' => $request->spesifikasi_product,
+                        'berat_jenis' => $request->beratjenis,
+                        'varian' => $request->varian,
+                        'image' => $request->image,
+
                     ]
-                
+
                 ]
-                ,200);
+                , 200);
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
             DB::rollBack();
@@ -256,21 +260,21 @@ class ApiProductController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-{
-    try {
-        // Find the product with its related photos and variants
-        $data = Product::with(['fotos', 'varians'])->findOrFail($id);
+    {
+        try {
+            // Find the product with its related photos and variants
+            $data = Product::with(['fotos', 'varians'])->findOrFail($id);
 
-        // Update the 'tersedia' column to false
-        $data->update(['tersedia' => false]);
+            // Update the 'tersedia' column to false
+            $data->update(['tersedia' => false]);
 
-        if (!$data) {
-            return response()->json(['success' => false, 'message' => 'Product not found'], 404);
+            if (!$data) {
+                return response()->json(['success' => false, 'message' => 'Product not found'], 404);
+            }
+            return response()->json(['success' => true, 'message' => 'Product has been deleted']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['success' => false, 'message' => 'Something went wrong'], 404);
         }
-        return response()->json(['success' => true, 'message' => 'Product has been deleted']);
-    } catch (ModelNotFoundException $e) {
-        return response()->json(['success' => false, 'message' => 'Something went wrong'], 404);
     }
-}
 
 }
