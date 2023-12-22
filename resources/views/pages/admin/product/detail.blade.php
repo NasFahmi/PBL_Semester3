@@ -95,7 +95,7 @@
         <div class="flex justify-center md:justify-start gap-4 mb-20 items-center mt-4 ">
             @if(auth()->check() &&
                             (auth()->user()->hasRole('superadmin') ||
-                                auth()->user()->can('edit-transaksi')))
+                                auth()->user()->can('edit-product')))
             <a href="{{ route('products.edit', $data->id) }}"
                 class="flex items-center justify-center w-32 h-12 px-4 py-2 text-sm font-medium text-white transition-colors duration-150 bg-blue-500 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700">
                 <span>Edit</span>
