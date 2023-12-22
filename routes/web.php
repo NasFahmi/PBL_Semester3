@@ -27,20 +27,29 @@ Route::get('/login', [AuthController::class, 'loginview'])->name('loginview');
 Route::post('/login', [AuthController::class, 'Authlogin'])->name('login');
 Route::get('/katalog/product/{id}', [HomeController::class, 'detailProduct'])->name('detail_product');
 
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'indexDashboard'])->name('admin.dashboard');
     Route::get('/admin/dashboard/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::resource('/admin/product', ProductController::class);
+    Route::get('/admin/transaksi/create', [TransaksiController::class, 'create'])
+        ->middleware('role_or_permission:superadmin|tambah-product')
+        ->name('transaksis.create');
 
-    Route::resource('/admin/preorder', PreorderController::class);
+    Route::get('/admin/product/create', [ProductController::class, 'create'])
+        ->middleware('role_or_permission:superadmin|tambah-product')
+        ->name('products.create');
+
+    Route::get('/admin/preorder/create', [PreorderController::class, 'create'])
+        ->middleware('role_or_permission:superadmin|tambah-preorder')
+        ->name('preorders.create');
     //Transaksi
     Route::middleware(['permission:edit-transaksi|cetak-transaksi'])->group(function () {
         Route::get('/admin/transaksi/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksis.edit');
         Route::get('/admin/cetak/transaksi', [TransaksiController::class, 'cetakTransaksi'])->name('cetak.transaksi');
     });
     Route::get('/admin/transaksi', [TransaksiController::class, 'index'])->name('transaksis.index');
-    Route::get('/admin/transaksi/create', [TransaksiController::class, 'create'])->name('transaksis.create');
     Route::post('/admin/transaksi', [TransaksiController::class, 'store'])->name('transaksis.store');
     Route::get('/admin/transaksi/{transaksi}', [TransaksiController::class, 'show'])->name('transaksis.detail');
     Route::patch('/admin/transaksi/{transaksi}', [TransaksiController::class, 'update'])->name('transaksis.update');
@@ -49,13 +58,31 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['permission:edit-product'])->group(function () {
         Route::get('/admin/product/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     });
+
     Route::get('/admin/product', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/admin/product/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/admin/product', [ProductController::class, 'store'])->name('products.store');
     Route::get('/admin/product/{product}', [ProductController::class, 'show'])->name('products.detail');
     Route::patch('/admin/product/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/admin/product/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    //Preorder
+    Route::middleware(['permission:edit-preorder'])->group(function () {
+        Route::get('/admin/preorder/{preorder}/edit', [PreorderController::class, 'edit'])->name('preorders.edit');
+    });
+    Route::get('/admin/preorder', [PreorderController::class, 'index'])->name('preorders.index');
+    Route::post('/admin/preorder', [PreorderController::class, 'store'])->name('preorders.store');
+    Route::get('/admin/preorder/{preorder}', [PreorderController::class, 'show'])->name('preorders.detail');
+    Route::patch('/admin/preorder/{preorder}', [PreorderController::class, 'update'])->name('preorders.update');
+
+
+
 });
+
+
+
+
+
+
 
 
 
