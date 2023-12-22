@@ -44,26 +44,8 @@ class ApiProductController extends Controller
         );
         $request->validated();
         $data = $request->all();
-        // return response()->json($data);
-        // $file = $data['image'];
-        // // // dd($file);
-        // // // if (isset($file)) {
-        //     $img = $file->store("images"); //images/F0Rz0AKultyXDoTikIbygvKhsFJU0mSnINrpUUSd.jpg
-        //     // dd($img);
-        //     // dd($img);
-        //     $filePath = storage_path('app/public/'.$img);
-        //     // $fileSize = filesize($filePath);
-        //         // dd('true');
-        //         // dd($fileSize / 1024); //covert to Kb, memroy->2730.4306640625
-        //         $manager = new ImageManager(new Driver());
-        //         $image = $manager->read('storage/'.$img);
-        //         $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
-                
-        //         $encoded->save($filePath);                
-        //         $filePath = storage_path('app/public/'.$img);
-        //         $fileSize = filesize($filePath);
-        //         dd($fileSize / 1024);
-        // // }
+        return response()->json($data);
+    
 
 
 
@@ -83,37 +65,37 @@ class ApiProductController extends Controller
             $productID = $product->id;
             $varians= $data['varian'];
 
-            foreach ($varians as $varian) {
-                Varian::create([
-                    'jenis_varian' => $varian,
-                    'product_id' => $productID,
-                ]);
-            }
+            // foreach ($varians as $varian) {
+            //     Varian::create([
+            //         'jenis_varian' => $varian,
+            //         'product_id' => $productID,
+            //     ]);
+            // }
 
             // Proses setiap file yang diunggah
-            $images = [];
-            foreach ($request->file('image') as $file) {
-                // dd($file);
-                $img = $file->store("images");
-                // dd($img); // images/kYu4iKIXFVEypwYb1lp0UfZuH1ST5E5nDoUVgbYx.jpg"
-                $filePath = storage_path('app/public/'.$img); 
-                $manager = new ImageManager(new Driver());
-                // dd($manager);
-                $image = $manager->read('storage/'.$img);
-                $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
-                $encoded->save($filePath);
+            // $images = [];
+            // foreach ($request->file('image') as $file) {
+            //     // dd($file);
+            //     $img = $file->store("images");
+            //     // dd($img); // images/kYu4iKIXFVEypwYb1lp0UfZuH1ST5E5nDoUVgbYx.jpg"
+            //     $filePath = storage_path('app/public/'.$img); 
+            //     $manager = new ImageManager(new Driver());
+            //     // dd($manager);
+            //     $image = $manager->read('storage/'.$img);
+            //     $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
+            //     $encoded->save($filePath);
 
-                $images[] = $img;
-            }
-            // dd($images);
+            //     $images[] = $img;
+            // }
+            // // dd($images);
 
-            // Simpan informasi gambar ke dalam tabel Foto
-            foreach ($images as $image) {
-                Foto::create([
-                    'foto' => $image,
-                    'product_id' => $productID
-                ]);
-            }
+            // // Simpan informasi gambar ke dalam tabel Foto
+            // foreach ($images as $image) {
+            //     Foto::create([
+            //         'foto' => $image,
+            //         'product_id' => $productID
+            //     ]);
+            // }
 
             DB::commit();
 
@@ -131,7 +113,7 @@ class ApiProductController extends Controller
                         'stok'=>$data['stok'],
                         'spesifikasi_product'=>$data['spesifikasi_product'],
                         'varian'=>$varians,
-                        'image'=>$images,
+                        // 'image'=>$images,
                         
                     ]
                 
@@ -140,12 +122,12 @@ class ApiProductController extends Controller
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
-            // throw $e;
-            $errorMessage = $e instanceof \Illuminate\Database\QueryException ?
-            'Database error. Something went wrong.' :
-            'An unexpected error occurred.';
+            throw $e;
+            // $errorMessage = $e instanceof \Illuminate\Database\QueryException ?
+            // 'Database error. Something went wrong.' :
+            // 'An unexpected error occurred.';
 
-        return response()->json(['success' => false, 'message' => $errorMessage], 500);
+        // return response()->json(['success' => false, 'message' => $errorMessage], 500);
         }
 
     }
@@ -260,13 +242,12 @@ class ApiProductController extends Controller
     try {
         // Find the product with its related photos and variants
         $data = Product::with(['fotos', 'varians'])->findOrFail($id);
-
-        // Update the 'tersedia' column to false
-        $data->update(['tersedia' => false]);
-
         if (!$data) {
             return response()->json(['success' => false, 'message' => 'Product not found'], 404);
         }
+        // Update the 'tersedia' column to false
+        $data->update(['tersedia' => false]);
+  
         return response()->json(['success' => true, 'message' => 'Product has been deleted']);
     } catch (ModelNotFoundException $e) {
         return response()->json(['success' => false, 'message' => 'Something went wrong'], 404);
