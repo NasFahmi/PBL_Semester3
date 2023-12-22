@@ -2,7 +2,7 @@
 @section('title', 'PawonKoe')
 @section('content')
     {{-- section 1 --}}
-    <div class="bg-cover" style="background-image: url('{{ asset('assets/images/background.png') }}');">
+    <div class="bg-cover" style="background-image: url('{{ asset('assets/images/bg3.jpg') }}');">
         {{-- bg asset('assets/images/background.png') --}}
         <div class="drawer mx-auto max-w-screen-xl">
             <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
@@ -16,7 +16,7 @@
                 </div> 
                 <div class="flex items-center justify-between p-4">
                     <div class="flex items-center">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="logo" class="h-8 mr-2">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="logo" class="h-16 mr-2">
                         <a href="#Home" class="text-lg font-semibold text-gray-50">PAWONKOE</a>
                     </div>
                     <div class="hidden lg:flex items-center space-x-4">
@@ -290,29 +290,29 @@
                         </a>
                     </div>
                     <div class="flex justify-start items-center mt-4 gap-2">
-                        <div class="shopee w-10 h-10">
+                        <div class="shopee w-12 h-12">
                             <a href="https://shopee.co.id/pawonkoe_bwi">
-                                <img src="{{asset('assets/images/shopee.png')}}" alt="" srcset="">
+                                <img src="{{asset('assets/images/sopi1.png')}}" alt="" srcset="">
                             </a>
                         </div>
                         <div class="instagram w-10 h-10">
                             <a href="https://www.instagram.com/pawonkoe.bwi_rambakcumi/">
-                                <img src="{{asset('assets/images/ig.png')}}" alt="" srcset="">
+                                <img src="{{asset('assets/images/ig-icon.png')}}" alt="" srcset="">
                             </a>
                         </div>
                         <div class="wa w-10 h-10">
                             <a href="https://wa.me/+6281316869287" target='_blank'>
-                                <img src="{{asset('assets/images/wa.png')}}" alt="" srcset="">
+                                <img src="{{asset('assets/images/whatsapp.png')}}" alt="" srcset="">
                             </a>
                         </div>
-                        <div class="email w-10 h-10">
+                        <div class="email w-12 h-12">
                             <a href="">
-                                <img src="{{asset('assets/images/email.png')}}" alt="" srcset="">
+                                <img src="{{asset('assets/images/gmail.png')}}" alt="" srcset="">
                             </a>
                         </div>
                         <div class="fb w-10 h-10">
                             <a href="https://www.facebook.com/pawonkoebanyuwangi">
-                                <img src="{{asset('assets/images/fb.png')}}" alt="" srcset="">
+                                <img src="{{asset('assets/images/facebook.png')}}" alt="" srcset="">
                             </a>
                         </div>
                     </div>
