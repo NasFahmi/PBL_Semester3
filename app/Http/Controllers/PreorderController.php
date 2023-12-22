@@ -138,7 +138,7 @@ class PreorderController extends Controller
                 "is_complete" => '0',
             ]);
             DB::commit();
-            return redirect()->route('preorder.index')->with('success', 'Transaksi has been created successfully');
+            return redirect()->route('preorders.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
             // throw $th;
@@ -205,7 +205,7 @@ class PreorderController extends Controller
         
             }
             DB::commit();
-            return redirect()->route('preorder.index')->with('success', 'Preorder has been updated successfully');
+            return redirect()->route('preorders.index')->with('success', 'Preorder has been updated successfully');
 
         } catch (\Throwable $th) {
 
@@ -234,7 +234,7 @@ class PreorderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('preorder.index')->with('success', 'Transaksi has been deleted successfully');
+            return redirect()->route('preorders.index')->with('success', 'Transaksi has been deleted successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
             // throw $th;

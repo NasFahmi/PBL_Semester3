@@ -42,6 +42,7 @@ class TransaksiController extends Controller
      */
     public function create()
     {
+
         $data = Product::get();
         $dataHistory = HistoryProduct::get();
         // dd($data);
