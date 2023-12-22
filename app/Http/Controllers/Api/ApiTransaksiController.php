@@ -35,47 +35,33 @@ class ApiTransaksiController extends Controller
         return response()->json(['success' => true, 'data' => $transformedData], 200);
     }
     public function chart()
-    {
-        $startDate = Carbon::now()->subDays(30)->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
+{
+    $startDate = Carbon::now()->subYear()->startOfDay(); // Changed to subYear
+    $endDate = Carbon::now()->endOfDay();
 
-        $dataPenjualan = Transaksi::where('is_complete', 1)
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->orderBy('tanggal', 'asc')
-            ->selectRaw('tanggal, sum(total_harga) as total_penjualan')
-            ->groupBy('tanggal')
-            ->pluck('total_penjualan', 'tanggal')
-            ->toArray();
+    $dataPenjualan = Transaksi::where('is_complete', 1)
+        ->whereBetween('tanggal', [$startDate, $endDate])
+        ->orderBy('tanggal', 'asc')
+        ->selectRaw('DATE_FORMAT(tanggal, "%Y-%m") as month, sum(total_harga) as total_penjualan')
+        ->groupBy('month') // Group by month
+        ->pluck('total_penjualan', 'month')
+        ->toArray();
 
-        $groupedData = array_chunk($dataPenjualan, 2, true);
+    // No need to chunk or separate data, as it's already grouped by month
 
-        // Separate dates and values within each group and calculate sum
-        $separatedGroupedData = [];
-
-        foreach ($groupedData as $group) {
-            $dates = array_keys($group);
-            $values = array_values($group);
-            $sum = array_sum($values); // Calculate the sum
-
-            $separatedGroupedData[] = [
-                'dates' => $dates,
-                'values' => $values,
-                'sum' => $sum, // Include the sum in the result
-            ];
-        }
-
-        return response()->json(
-            [
-                'success' => true,
-                'data' => [
-                    'data_penjualan' => $separatedGroupedData,
-                    'start_date' => $startDate,
-                    'endDay' => $endDate,
-                ],
+    return response()->json(
+        [
+            'success' => true,
+            'data' => [
+                'data_penjualan' => $dataPenjualan,
+                'start_date' => $startDate,
+                'endDay' => $endDate,
             ],
-            200
-        );
-    }
+        ],
+        200
+    );
+}
+
 
 
 

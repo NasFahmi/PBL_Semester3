@@ -46,11 +46,26 @@ class ApiProductController extends Controller
         $request->validated();
         $data = $request->all();
         // dd($data);
-        $images = $request->file('image');
-        return response()->json($images);
+        // $images = $request->file('image');
+        
 
         // $file = $data['image'];
-        // // // dd($file);
+        // dd($file);
+        // $images = [];
+        //     foreach ($request->file('image') as $file) {
+        //         // dd($file);
+        //         $img = $file->store("images");
+        //         // dd($img); // images/kYu4iKIXFVEypwYb1lp0UfZuH1ST5E5nDoUVgbYx.jpg"
+        //         $filePath = storage_path('app/public/' . $img);
+        //         $manager = new ImageManager(new Driver());
+        //         // dd($manager);
+        //         $image = $manager->read('storage/' . $img);
+        //         $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
+        //         $encoded->save($filePath);
+
+        //         $images[] = $img;
+        //     };
+        // return response()->json($images);
         // // // if (isset($file)) {
         //     $img = $file->store("images"); //images/F0Rz0AKultyXDoTikIbygvKhsFJU0mSnINrpUUSd.jpg
         //     // dd($img);
@@ -86,7 +101,7 @@ class ApiProductController extends Controller
             ]);
             $productID = $product->id;
             $varians = $data['varian'];
-
+            // return response()->json($varians);
             foreach ($varians as $varian) {
                 Varian::create([
                     'jenis_varian' => $varian,
@@ -144,12 +159,12 @@ class ApiProductController extends Controller
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
-            // throw $e;
-            $errorMessage = $e instanceof \Illuminate\Database\QueryException ?
-                'Database error. Something went wrong.' :
-                'An unexpected error occurred.';
+            throw $e;
+            // $errorMessage = $e instanceof \Illuminate\Database\QueryException ?
+            //     'Database error. Something went wrong.' :
+            //     'An unexpected error occurred.';
 
-            return response()->json(['success' => false, 'message' => $errorMessage], 500);
+            // return response()->json(['success' => false, 'message' => $errorMessage], 500);
         }
 
     }
