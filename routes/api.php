@@ -36,7 +36,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
 });
 Route::get('/dashboard',[ApiDashboardController::class,'index']);
-Route::resource('/product',ApiProductController::class);
-Route::resource('/preorder',ApiPreorderController::class);
+Route::resource('/product', ApiProductController::class)->except(['update']);
 Route::resource('/transaksi',ApiTransaksiController::class);
 Route::get('/chart/transaksi',[ApiTransaksiController::class,'chart']);
+
+Route::post('/product/{id}',[ApiProductController::class,'update']);

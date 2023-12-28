@@ -191,8 +191,8 @@ class ApiProductController extends Controller
         $manager = new ImageManager(
             new Driver()
         );
+        // dd($request->all());
         $request->validated();
-        // dd($data);
         try {
             DB::beginTransaction();
 
@@ -242,7 +242,7 @@ class ApiProductController extends Controller
                         $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
                         $encoded->save($filePath);
                     }
-                    
+
                     $images[] = $img;
                 }
             }
@@ -261,7 +261,6 @@ class ApiProductController extends Controller
                         'link_shopee' => $request->link_shopee,
                         'stok' => $request->stok,
                         'spesifikasi_product' => $request->spesifikasi_product,
-                        'berat_jenis' => $request->beratjenis,
                         'varian' => $request->varian,
                         'image' => $images,
 
