@@ -55,15 +55,16 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/admin/transaksi/{transaksi}', [TransaksiController::class, 'update'])->name('transaksis.update');
 
     //Produk
-    Route::middleware(['permission:edit-product'])->group(function () {
+    Route::middleware(['permission:edit-product|hapus-product'])->group(function () {
         Route::get('/admin/product/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+        Route::delete('/admin/product/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+
     });
 
     Route::get('/admin/product', [ProductController::class, 'index'])->name('products.index');
     Route::post('/admin/product', [ProductController::class, 'store'])->name('products.store');
     Route::get('/admin/product/{product}', [ProductController::class, 'show'])->name('products.detail');
     Route::patch('/admin/product/{product}', [ProductController::class, 'update'])->name('products.update');
-    Route::delete('/admin/product/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
     //Preorder
     Route::middleware(['permission:edit-preorder'])->group(function () {

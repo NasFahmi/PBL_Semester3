@@ -21,6 +21,8 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'edit-transaksi']);
         Permission::create(['name' => 'edit-product']);
         Permission::create(['name' => 'cetak-transaksi']);
+        Permission::create(['name' => 'hapus-product']);
+
 
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'superadmin']);
@@ -34,6 +36,7 @@ class RolePermissionSeeder extends Seeder
         $superAdmin->givePermissionTo('edit-preorder');
         $superAdmin->givePermissionTo('edit-transaksi');
         $superAdmin->givePermissionTo('edit-product');
+        $superAdmin->givePermissionTo('hapus-product');
         $superAdmin->givePermissionTo('cetak-transaksi');
     }
 }
