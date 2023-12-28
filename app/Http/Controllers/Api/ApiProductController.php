@@ -47,7 +47,7 @@ class ApiProductController extends Controller
         $data = $request->all();
         // dd($data);
         // $images = $request->file('image');
-        
+
 
         // $file = $data['image'];
         // dd($file);
@@ -70,18 +70,18 @@ class ApiProductController extends Controller
         //     $img = $file->store("images"); //images/F0Rz0AKultyXDoTikIbygvKhsFJU0mSnINrpUUSd.jpg
         //     // dd($img);
         //     // dd($img);
-        //     $filePath = storage_path('app/public/'.$img);
-        //     // $fileSize = filesize($filePath);
-        //         // dd('true');
-        //         // dd($fileSize / 1024); //covert to Kb, memroy->2730.4306640625
-        //         $manager = new ImageManager(new Driver());
-        //         $image = $manager->read('storage/'.$img);
-        //         $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
+            // $filePath = storage_path('app/public/'.$img);
+            // // $fileSize = filesize($filePath);
+            //     // dd('true');
+            //     // dd($fileSize / 1024); //covert to Kb, memroy->2730.4306640625
+            //     $manager = new ImageManager(new Driver());
+            //     $image = $manager->read('storage/'.$img);
+            //     $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
 
-        //         $encoded->save($filePath);                
-        //         $filePath = storage_path('app/public/'.$img);
-        //         $fileSize = filesize($filePath);
-        //         dd($fileSize / 1024);
+            //     $encoded->save($filePath);                
+            //     $filePath = storage_path('app/public/'.$img);
+            //     $fileSize = filesize($filePath);
+            //     dd($fileSize / 1024);
         // // }
 
 
@@ -154,8 +154,9 @@ class ApiProductController extends Controller
 
                     ]
 
-                ]
-                , 201);
+                ],
+                201
+            );
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
@@ -166,7 +167,6 @@ class ApiProductController extends Controller
 
             // return response()->json(['success' => false, 'message' => $errorMessage], 500);
         }
-
     }
 
     /**
@@ -188,9 +188,10 @@ class ApiProductController extends Controller
      */
     public function update(StoreProductRequest $request, $id)
     {
-
+        $manager = new ImageManager(
+            new Driver()
+        );
         $request->validated();
-        $data = $request->all();
         // dd($data);
         try {
             DB::beginTransaction();
@@ -219,9 +220,6 @@ class ApiProductController extends Controller
 
             // Handle image updates
             if ($request->hasFile('image')) {
-                $this->validate($request, [
-                    'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-                ]);
 
                 // Delete existing images
                 foreach ($product->fotos as $foto) {
@@ -230,13 +228,22 @@ class ApiProductController extends Controller
                 }
 
                 // Process each uploaded file
+                $images = [];
                 foreach ($request->file('image') as $file) {
+                    // dd($file);
                     $img = $file->store("images");
-                    // Create new image record
-                    Foto::create([
-                        'foto' => $img,
-                        'product_id' => $product->id,
-                    ]);
+                    // dd($img); // images/kYu4iKIXFVEypwYb1lp0UfZuH1ST5E5nDoUVgbYx.jpg"
+                    $filePath = storage_path('app/public/' . $img);
+                    $fileSize = filesize($filePath);
+                    if($fileSize/1024 > 2048){
+                        $manager = new ImageManager(new Driver());
+                        // dd($manager);
+                        $image = $manager->read('storage/' . $img);
+                        $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
+                        $encoded->save($filePath);
+                    }
+                    
+                    $images[] = $img;
                 }
             }
 
@@ -256,12 +263,13 @@ class ApiProductController extends Controller
                         'spesifikasi_product' => $request->spesifikasi_product,
                         'berat_jenis' => $request->beratjenis,
                         'varian' => $request->varian,
-                        'image' => $request->image,
+                        'image' => $images,
 
                     ]
 
-                ]
-                , 200);
+                ],
+                200
+            );
         } catch (\Exception $e) {
             // If there is an error, rollback the transaction
             DB::rollBack();
@@ -291,5 +299,4 @@ class ApiProductController extends Controller
             return response()->json(['success' => false, 'message' => 'Something went wrong'], 404);
         }
     }
-
 }
