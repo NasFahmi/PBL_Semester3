@@ -5,7 +5,7 @@
         <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Create Product</h1>
         <div class="bg-white  px-8 py-8 shadow-lg rounded-3xl">
 
-            <form action="{{ route('product.store') }}" method="post" class="" enctype="multipart/form-data">
+            <form action="{{ route('products.store') }}" method="post" class="" enctype="multipart/form-data">
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 ">
                     <div class="left">

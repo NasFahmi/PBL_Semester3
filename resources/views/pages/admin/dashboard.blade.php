@@ -18,7 +18,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="mb-2 text-sm font-medium text-gray-600 ">
+                    <p class="mb-2 text-xs font-medium text-gray-600 ">
                         Jumlah Transaksi
                     </p>
                     <p class="text-lg font-semibold text-gray-700 ">
@@ -36,7 +36,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="mb-2 text-sm font-medium text-gray-600 ">
+                    <p class="mb-2 text-xs font-medium text-gray-600 ">
                         Jumlah Pendapatan
                     </p>
                     <p class="text-lg font-semibold text-gray-700 ">
@@ -55,7 +55,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="mb-2 text-sm font-medium text-gray-600 ">
+                    <p class="mb-2 text-xs font-medium text-gray-600 ">
                         Jumlah Produk Terjual
                     </p>
                     <p class="text-lg font-semibold text-gray-700 ">
@@ -73,8 +73,8 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="mb-2 text-sm font-medium text-gray-600 ">
-                        Jumlah Preorder
+                    <p class="mb-2 text-xs font-medium text-gray-600 ">
+                        Jumlah Preorder Selesai
                     </p>
                     <p class="text-lg font-semibold text-gray-700 ">
                         {{ $totalPreorder }}
