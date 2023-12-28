@@ -5,7 +5,7 @@
     <h1 class="text-2xl my-6 font-semibold text-gray-700 ">Edit Product</h1>
     <div class="bg-white flex justify-center items-center px-8 py-8 shadow-lg rounded-3xl">
 
-        <form action="{{route('product.update',$data->id)}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('products.update',$data->id)}}" method="POST" enctype="multipart/form-data">
             @method('patch')
             @csrf
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
