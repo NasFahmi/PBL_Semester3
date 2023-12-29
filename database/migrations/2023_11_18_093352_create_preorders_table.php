@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_DP');
             $table->bigInteger('down_payment')->nullable(true);
-            $table->date('tanggal_pembayaran_preoreder');
             $table->date('tanggal_pembayaran_down_payment');
             $table->timestamps();
         });
