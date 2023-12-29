@@ -87,6 +87,21 @@ class productTest extends TestCase
         $response->assertRedirect(route('products.index'));
 
     }
+    public function test_detail_product()
+    {
+
+        $response = $this->post('/login', [
+            'nama' => 'pawonkoe',
+            'password' => 'pawonkoe',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/admin/dashboard');
+
+        $response = $this->get('/admin/product/1');
+        $response->assertStatus(200);
+
+    }
 
     public function test_hapus_product()
     {
