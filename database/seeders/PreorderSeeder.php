@@ -17,7 +17,6 @@ class PreorderSeeder extends Seeder
         Preorder::insert([
             'is_dp'=>true,
             'down_payment'=>50000,
-            'tanggal_pembayaran_preoreder'=>Carbon::now(),
             'tanggal_pembayaran_down_payment'=>Carbon::now(),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()

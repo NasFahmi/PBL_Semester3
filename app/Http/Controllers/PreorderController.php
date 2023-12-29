@@ -120,7 +120,6 @@ class PreorderController extends Controller
             $dataPreorder = Preorder::create([
                 'is_DP' => '1',
                 'down_payment' => $jumlahDPTanpaTitik,
-                'tanggal_pembayaran_preoreder' => $tanggal,
                 'tanggal_pembayaran_down_payment' => $tanggalDP,
             ]);
             $idPreorder = $dataPreorder->id;
