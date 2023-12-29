@@ -33,11 +33,11 @@ Route::get('/test',function(){
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [ApiAuthController::class, 'logout']);
-    
-});
-Route::get('/dashboard',[ApiDashboardController::class,'index']);
-Route::resource('/product', ApiProductController::class)->except(['update']);
-Route::resource('/transaksi',ApiTransaksiController::class);
-Route::get('/chart/transaksi',[ApiTransaksiController::class,'chart']);
 
-Route::post('/product/{id}',[ApiProductController::class,'update']);
+    Route::get('/dashboard',[ApiDashboardController::class,'index']);
+    Route::resource('/product', ApiProductController::class)->except(['update']);
+    Route::resource('/transaksi',ApiTransaksiController::class);
+    Route::get('/chart/transaksi',[ApiTransaksiController::class,'chart']);
+    
+    Route::post('/product/{id}',[ApiProductController::class,'update']);
+});
