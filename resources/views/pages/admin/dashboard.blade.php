@@ -244,7 +244,7 @@
             let chartyear = document.getElementById('chartyear');
             let judulchart = document.getElementById('judul-chart')
             let pilihanchart = document.getElementById('pilihan-chart')
-            
+
             let options = {
                 chart: {
                     height: "149%",
@@ -340,30 +340,31 @@
                         console.log(dataPenjualanSatuTahun);
                         console.log(dataBulanSatuTahun);
                         // Get the ApexCharts instance
-                        chart.updateSeries([{
-                            name: 'Sales',
-                            data: dataPenjualanSatuTahun
-                        }])
-                        chart.xaxis([{
-                            categories: dataBulanSatuTahun
-                        }])
+                        chart.updateOptions({
+                            xaxis: {
+                                categories: dataBulanSatuTahun
+                            },
+                            series: [{
+                                data: dataPenjualanSatuTahun
+                            }],
+                        });
                     })
                     .catch(error => {
                         console.error('Error:', error);
                     });
             });
-       
+
 
             var dataPenjualan = @json($dataPenjualanFormatted);
             var tanggalPenjualan = @json($tanggalPenjualanFormatted);
-            chart.updateSeries([{
-                name: 'Sales',
-                data: dataPenjualan
-            }])
-            chart.xaxis([{
-                categories: tanggalPenjualan
-            }])
-
+            chart.updateOptions({
+                xaxis: {
+                    categories: tanggalPenjualan
+                },
+                series: [{
+                    data: dataPenjualan
+                }],
+            });
         </script>
         <script src="{{ asset('js/chart.js') }}"></script>
     @endsection
