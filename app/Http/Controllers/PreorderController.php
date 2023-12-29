@@ -25,7 +25,9 @@ class PreorderController extends Controller
             ->where('is_Preorder', 1)
             ->search(request('search'))
             ->get();
-        $totalPreorder = Transaksi::where('is_Preorder', 1)->sum('is_Preorder');
+        $totalPreorder = Transaksi::where('is_Preorder', 1)
+            ->where('is_complete', 0)
+            ->sum('is_Preorder');
         // dd($data);
         $totalDP = Preorder::whereIn('id', function ($query) {
             $query->select('Preorder_id')
