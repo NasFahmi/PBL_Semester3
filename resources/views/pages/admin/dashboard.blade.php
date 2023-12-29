@@ -87,43 +87,48 @@
             <div class=" w-full h-fit bg-white rounded-lg shadow-sm  p-4 md:p-6 col-span-1 lg:col-span-2">
                 <div class="flex justify-between">
                     <div>
-                        <h5 class="leading-none text-xl font-semibold text-gray-900 dark:text-white pb-2">Pendapatan 30 Hari
-                            Terakhir
+                        <h5 id="judul-chart" class="leading-none text-xl font-semibold text-gray-900 dark:text-white pb-2">
+                            Pendapatan 30 Hari Terakhir
+
                         </h5>
                     </div>
                 </div>
+
                 <div id="area-chart"></div>
                 <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
                     <div class="flex justify-between items-center pt-5">
                         <!-- Button -->
-                        {{-- <button id="" data-dropdown-toggle="lastDaysdropdown" data-dropdown-placement="bottom"
+                        <button id="" data-dropdown-toggle="lastDaysdropdown" data-dropdown-placement="bottom"
                             class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
                             type="button">
-                            1 Bulan
+                            <span id="pilihan-chart">
+                                1 Bulan
+                            </span>
+
                             <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="m1 1 4 4 4-4" />
                             </svg>
-                        </button> --}}
+                        </button>
                         <!-- Dropdown menu -->
-                        {{-- <div id="lastDaysdropdown"
+                        <div id="lastDaysdropdown"
                             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                 aria-labelledby="dropdownDefaultButton">
 
                                 <li>
-                                    <a href="#"
+                                    <a href=""
                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        3 Bulan</a>
+                                        1 Bulan</a>
                                 </li>
                                 <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                        1 years</a>
+                                    <a href="#chartyear" id="chartyear"
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        1 Tahun Terakhir</a>
                                 </li>
                             </ul>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,11 +180,11 @@
                                 <div class="">
                                     <h1 class="text-gray-700 text-lg md:text-base lg:text-lg font-semibold">
                                         {{ $item->nama_product }}</h1>
-                                        @if ($item->stok <= 0)
+                                    @if ($item->stok <= 0)
                                         <p class="text-gray-700 text-sm" style="color : red">Stok Sedang Kosong</p>
-                                            @else
-                                    <p class="text-gray-700 text-sm">Stok : {{ $item->stok }}</p>
-                                        @endif
+                                    @else
+                                        <p class="text-gray-700 text-sm">Stok : {{ $item->stok }}</p>
+                                    @endif
                                     <p class="text-gray-700">Harga : {{ $item->harga }}</p>
 
                                 </div>
@@ -236,8 +241,129 @@
         </div>
 
         <script>
-            const dataPenjualan = @json($dataPenjualanFormatted);
-            const tanggalPenjualan = @json($tanggalPenjualanFormatted);
+            let chartyear = document.getElementById('chartyear');
+            let judulchart = document.getElementById('judul-chart')
+            let pilihanchart = document.getElementById('pilihan-chart')
+            
+            let options = {
+                chart: {
+                    height: "149%",
+                    maxWidth: "100%",
+                    type: "area",
+                    fontFamily: "Inter, sans-serif",
+                    dropShadow: {
+                        enabled: false,
+                    },
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                tooltip: {
+                    enabled: true,
+                    x: {
+                        show: false,
+                    },
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        opacityFrom: 0.55,
+                        opacityTo: 0,
+                        shade: "#1C64F2",
+                        gradientToColors: ["#1C64F2"],
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    width: 6,
+                },
+                grid: {
+                    show: false,
+                    strokeDashArray: 4,
+                    padding: {
+                        left: 2,
+                        right: 2,
+                        top: 0
+                    },
+                },
+                series: [{
+                    name: "Pendapatan",
+                    data: [],
+                    color: "#1A56DB",
+                }, ],
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        show: false,
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                    axisTicks: {
+                        show: false,
+                    },
+                },
+                yaxis: {
+                    show: false,
+                },
+            }
+
+            var chart = new ApexCharts(document.getElementById("area-chart"), options);
+            chart.render();
+
+            chartyear.addEventListener('click', function() {
+                // Refresh the window with the #chartYear fragment
+                location.href = location.href.split('#')[0] + '#chartyear';
+
+                judulchart.innerText = 'Pendapatan 1 Tahun Terakhir'; // Ganti dengan judul yang diinginkan
+                pilihanchart.innerText = '1 Tahun';
+                fetch('{{ route('chart.1year') }}', {
+                        headers: {
+                            'Accept': 'application/json',
+                            "X-Requested-With": "XMLHttpRequest",
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json(); // Assuming the response is JSON
+                        } else {
+                            console.error('Failed to check #chartyear');
+                        }
+                    })
+                    .then(dataFecthing => {
+                        console.log(dataFecthing);
+                        var dataPenjualanSatuTahun = dataFecthing.data.data_penjualan;
+                        var dataBulanSatuTahun = dataFecthing.data.bulan;
+                        console.log(dataPenjualanSatuTahun);
+                        console.log(dataBulanSatuTahun);
+                        // Get the ApexCharts instance
+                        chart.updateSeries([{
+                            name: 'Sales',
+                            data: dataPenjualanSatuTahun
+                        }])
+                        chart.xaxis([{
+                            categories: dataBulanSatuTahun
+                        }])
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+       
+
+            var dataPenjualan = @json($dataPenjualanFormatted);
+            var tanggalPenjualan = @json($tanggalPenjualanFormatted);
+            chart.updateSeries([{
+                name: 'Sales',
+                data: dataPenjualan
+            }])
+            chart.xaxis([{
+                categories: tanggalPenjualan
+            }])
+
         </script>
         <script src="{{ asset('js/chart.js') }}"></script>
     @endsection

@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\PreorderController;
-use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PreorderController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\Api\ApiTransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,8 @@ Route::get('/katalog/product/{id}', [HomeController::class, 'detailProduct'])->n
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'indexDashboard'])->name('admin.dashboard');
-    Route::get('/admin/dashboard/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/chart/oneyear',[ApiTransaksiController::class,'chart'])->name('chart.1year');
+    Route::get('/admin/dashboard/logout', [AuthController::class, 'logout'])->name('logout'); 
 
     Route::get('/admin/transaksi/create', [TransaksiController::class, 'create'])
         ->middleware('role_or_permission:superadmin|tambah-product')

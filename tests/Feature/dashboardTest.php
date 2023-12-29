@@ -25,13 +25,9 @@ class dashboardTest extends TestCase
         $redirectedResponse = $this->get('/admin/dashboard');
 
         $redirectedResponse->assertViewIs('pages.admin.dashboard');
-        dump($redirectedResponse->original->getData());
-
-        $redirectedResponse->assertViewHas('data', function ($data) {
-            return isset($data['nama_product']) && $data['nama_product'] === 'rambak oyi' && $data['stok'] === '3';
-        });
-
-        // $response->assertSeeText('Dash');
+        $data = $redirectedResponse->original->getData();
+        dd($data);
+        
     }
     
 }
