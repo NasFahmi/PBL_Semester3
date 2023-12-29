@@ -109,7 +109,7 @@
                             @if (auth()->check() &&
                             (auth()->user()->hasRole('superadmin') ||
                                 auth()->user()->can('edit-preorder')))
-                                @if ($preorder->is_Preorder == 0)
+                                @if ($preorder->is_complete == 0)
                             <a href="{{ route('preorders.edit', $preorder->id) }}"
                                 class="flex justify-center items-center gap-1 cursor-pointer">
                                 <div class="w-4 h-4 ">
