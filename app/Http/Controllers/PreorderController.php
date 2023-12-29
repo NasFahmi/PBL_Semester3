@@ -25,7 +25,7 @@ class PreorderController extends Controller
             ->where('is_Preorder', 1)
             ->search(request('search'))
             ->get();
-        $totalPreorder = Transaksi::where('is_complete', 0)->sum('is_Preorder');
+        $totalPreorder = Transaksi::where('is_Preorder', 1)->sum('is_Preorder');
         // dd($data);
         $totalDP = Preorder::whereIn('id', function ($query) {
             $query->select('Preorder_id')
@@ -51,11 +51,11 @@ class PreorderController extends Controller
     {
         $data = Product::get();
         $dataHistory = HistoryProduct::get();
-        return view('pages.admin.preorder.create', compact('data','dataHistory'));
+        return view('pages.admin.preorder.create', compact('data', 'dataHistory'));
     }
 
 
-    public function show( $id)
+    public function show($id)
     {
 
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
@@ -185,7 +185,7 @@ class PreorderController extends Controller
             $totalharga = $request->input('total');
             $totalHargaTanpaTitik = str_replace(".", "", $totalharga);
             //    Belum selesai
-            if ($dataInput['is_complete']==0) {
+            if ($dataInput['is_complete'] == 0) {
                 $dataPreorder = [
                     "keterangan" => $dataInput['keterangan'],
                 ];
@@ -201,7 +201,7 @@ class PreorderController extends Controller
                 ];
                 $preorder->update($dataPreorder);
                 event(new TransaksiSelesai($id));
-        
+
             }
             DB::commit();
             return redirect()->route('preorders.index')->with('success', 'Preorder has been updated successfully');

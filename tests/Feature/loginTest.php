@@ -2,9 +2,10 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class loginTest extends TestCase
 {
@@ -29,6 +30,8 @@ class loginTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirect('/admin/dashboard');
+        $this->assertAuthenticatedAs(User::where('nama', 'pawonkoe')->first());
+
     }
     public function test_login_as_admin()
     {
@@ -40,6 +43,7 @@ class loginTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirect('/admin/dashboard');
+        $this->assertAuthenticatedAs(User::where('nama', 'admin')->first());
     }
     public function test_login_fail()
     {
@@ -63,6 +67,7 @@ class loginTest extends TestCase
 
         // Logout
         $response = $this->get(route('logout'));
+        $this->assertGuest();
 
         // Check that the user is redirected to the login page after logout
         $response->assertRedirect('/login');
