@@ -191,6 +191,7 @@ class ApiProductController extends Controller
         $manager = new ImageManager(
             new Driver()
         );
+        $images = [];
         // dd($request->all());
         $request->validated();
         try {
@@ -220,7 +221,7 @@ class ApiProductController extends Controller
 
             // Handle image updates
             if ($request->hasFile('image')) {
-
+                // dd('test');
                 // Delete existing images
                 foreach ($product->fotos as $foto) {
                     Storage::delete($foto->foto);
@@ -228,7 +229,7 @@ class ApiProductController extends Controller
                 }
 
                 // Process each uploaded file
-                $images = [];
+          
                 foreach ($request->file('image') as $file) {
                     // dd($file);
                     $img = $file->store("images");
@@ -245,6 +246,13 @@ class ApiProductController extends Controller
 
                     $images[] = $img;
                 }
+                foreach ($images as $image) {
+                    Foto::create([
+                        'foto' => $image,
+                        'product_id' => $id
+                    ]);
+                }
+                // dd($images);
             }
 
             DB::commit();
