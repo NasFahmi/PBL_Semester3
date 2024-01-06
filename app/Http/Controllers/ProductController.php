@@ -21,8 +21,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = Product::with(['fotos', 'varians',])->search(request('search'))->get();
-        return view('pages.admin.product.index', compact('data'));
+        $data = Product::with(['fotos', 'varians',])
+            ->search(request('search'))
+            ->where('tersedia',1)
+            ->paginate(12);
+
+        $totalProduct = Product::where('tersedia',1)->sum('tersedia');
+        return view('pages.admin.product.index', compact('data','totalProduct'));
     }
 
     /**
@@ -71,7 +76,7 @@ class ProductController extends Controller
                 'tersedia' => '1',
             ]);
             $productID = $product->id;
-            
+
             event(new ProductCreated($product));
 
             if (isset($data['varian'])) {

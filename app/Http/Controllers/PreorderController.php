@@ -24,7 +24,7 @@ class PreorderController extends Controller
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran', 'preorders'])
             ->where('is_Preorder', 1)
             ->search(request('search'))
-            ->get();
+            ->paginate(7);
         $totalPreorder = Transaksi::where('is_Preorder', 1)
             ->where('is_complete', 0)
             ->sum('is_Preorder');

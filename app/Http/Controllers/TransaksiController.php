@@ -25,7 +25,7 @@ class TransaksiController extends Controller
     {
         $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran'])
             ->search(request('search'))
-            ->get();
+            ->paginate(10);
         // dd($data);
         return view('pages.admin.transaksi.index', compact('data'));
     }
