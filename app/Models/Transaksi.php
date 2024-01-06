@@ -41,10 +41,9 @@ class Transaksi extends Model
             $query->whereHas('products', function ($query) use ($search) {
                 $query->where('nama_product', 'like', '%' . $search . '%');
             })
-                ->orWhereHas('pembelis', function ($query) use ($search) {
-                    $query->where('nama', 'like', '%' . $search . '%');
-                });
-        }
+                ->orWhere('tanggal', 'like', '%' . $search . '%');
+                }
+        
 
     }
 }

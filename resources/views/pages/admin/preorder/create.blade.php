@@ -297,9 +297,17 @@
             jumlahInput.addEventListener('input', updateTotalHarga);
 
             jumlah_dp.addEventListener('keyup', function(e) {
-                console.log(this.value.length)
-                // console.log(totalHargaDP)
-                if (this.value > totalHargaDP) {
+                // console.log(this.value);
+                // console.log(totalHargaDP);
+
+                // Menghapus karakter titik dari string
+                var stringWithoutDot = this.value.replace('.', '');
+
+                // Mengonversi kembali ke number
+                var numberValue = Number(stringWithoutDot);
+                // console.log(numberValue);
+
+                if (numberValue > totalHargaDP) {
                     this.value = formatTotalHarga(totalHargaDP);
                 }
             });
@@ -324,18 +332,18 @@
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
 
-        is_dp.addEventListener('change', function() {
-            console.log(this.value);
-            let tanggalContainer = document.getElementById('tanggal_dp_container');
-            let jumlahContainer = document.getElementById('jumlah_dp_container');
+        // is_dp.addEventListener('change', function() {
+        //     console.log(this.value);
+        //     let tanggalContainer = document.getElementById('tanggal_dp_container');
+        //     let jumlahContainer = document.getElementById('jumlah_dp_container');
 
-            if (this.value === '1') {
-                tanggalContainer.style.display = 'block';
-                jumlahContainer.style.display = 'block';
-            } else {
-                tanggalContainer.style.display = 'none';
-                jumlahContainer.style.display = 'none';
-            }
-        });
+        //     if (this.value === '1') {
+        //         tanggalContainer.style.display = 'block';
+        //         jumlahContainer.style.display = 'block';
+        //     } else {
+        //         tanggalContainer.style.display = 'none';
+        //         jumlahContainer.style.display = 'none';
+        //     }
+        // });
     </script>
 @endsection
