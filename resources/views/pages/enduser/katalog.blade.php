@@ -24,19 +24,25 @@
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center">
                             <img src="{{ asset('assets/images/logo.png') }}" alt="logo" class="h-16 mr-2">
-                            <a href="{{ route('landing_page') }}" class="text-lg font-semibold text-gray-700">PAWONKOE</a>
+                            <a href="{{ route('landing_page') }}" class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                PAWONKOE</a>
                         </div>
                         <div class="hidden lg:flex items-center space-x-4">
                             <a href="{{ url('/#tentang_kami') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Tentang Kami</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Tentang Kami</a>
                             <a href="{{ url('/#perjalanan') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Perjalanan</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Perjalanan</a>
                             <a href="{{ url('/#visi-misi') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Visi Misi</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Visi Misi</a>
                             <a href="{{ route('katalog') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Katalog Produk</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Katalog Produk</a>
                             <a href="{{ url('/#kontak') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Kontak</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Kontak</a>
                         </div>
                     </div>
                 </div>

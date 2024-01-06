@@ -21,19 +21,24 @@
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center">
                             <img src="{{ asset('assets/images/logo.png') }}" alt="logo" class="h-16 mr-2">
-                            <a href="{{ route('landing_page') }}" class="text-lg font-semibold text-gray-700">PAWONKOE</a>
+                            <a href="{{ route('landing_page') }}" class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">PAWONKOE</a>
                         </div>
                         <div class="hidden lg:flex items-center space-x-4">
                             <a href="{{ url('/#tentang_kami') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Tentang Kami</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Tentang Kami</a>
                             <a href="{{ url('/#perjalanan') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Perjalanan</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Perjalanan</a>
                             <a href="{{ url('/#visi-misi') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Visi Misi</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Visi Misi</a>
                             <a href="{{ route('katalog') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Katalog Produk</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Katalog Produk</a>
                             <a href="{{ url('/#kontak') }}"
-                                class="text-gray-700 hover:text-gray-900  duration-300 font-medium">Kontak</a>
+                                class="text-black hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">
+                                Kontak</a>
                         </div>
                     </div>
                 </div>
@@ -60,7 +65,7 @@
     </div>
     <div class=" px-4 md:px-20 w-full  justify-center items-center flex-col bg-white py-10">
         <div class="flex justify-center items-start gap-10 flex-col md:flex-row">
-            <div id="default-carousel" class="relative w-full md:w-1/2" data-carousel="slide">
+            <div id="default-carousel" class="relative w-full md:w-1/2 drop-shadow-xl" data-carousel="slide">
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
                     @if ($data->fotos->count() > 1)
@@ -133,12 +138,12 @@
                 @endforeach
 
                 <div class="mt-2">
-                    <h1 class="text-2xl font-medium" >Product Spesifikasi</h1>
-                    <p class="text-lg">{{ $data->spesifikasi_product }}</p>
+                    <h1 class="text-2xl font-medium">Product Spesifikasi</h1>
+                    <p class="text-lg">{!! nl2br(e($data->spesifikasi_product)) !!}</p>
                 </div>
                 <a href="{{ $data->link_shopee }}"
-                    class="block w-full md:w-fit px-8 py-2 mt-4 text-sm font-medium text-center text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700">
-                    <div class="flex justify-center items-center">
+                    class="block w-full md:w-fit px-8 py-2 mt-4 text-sm font-medium text-center text-white transition-colors duration-150 bg-orange-500 border border-transparent rounded-lg active:bg-orange-600 hover:bg-orange-700 shadow-xl">
+                    <div class="flex justify-center items-center ">
                         <img src="{{ asset('assets/images/shopee.png') }}" alt="Shopee Logo" class="w-8 h-8 mr-2">
                         <span>Shopee</span>
                     </div>
