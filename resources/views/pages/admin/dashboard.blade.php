@@ -133,7 +133,7 @@
                 </div>
             </div>
             <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
-                <h1 class="text-gray-800 font-semibold mb-4">Preorder Terbaru</h1>
+                <h1 class="text-gray-800 font-semibold mb-4">5 Preorder Belum Selesai Terbaru</h1>
                 <div class="overflow-y-auto costumscroll  rounded-lg max-h-80">
                     {{-- card --}}
                     @foreach ($preorderRecently as $index => $preorder)
@@ -146,6 +146,7 @@
                                         </div>
                                         <img src="{{ asset('storage/' . $item->foto) }}" alt="" srcset=""
                                             class="rounded-full">
+                                           
                                     @endforeach
                                 </div>
                                 <div class="">

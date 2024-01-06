@@ -36,11 +36,8 @@
                                     {{-- {{$data}} --}}
                                     <select id="product" name="product"
                                         class="bg-gray-50 border max-w-4xl border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        @foreach ($data as $product)
-                                            <option value="{{ $product->id }}"
-                                                {{ old('product') == $product->id ? 'selected' : '' }}>
-                                                {{ $product->nama_product }}
-                                            </option>
+                                        @foreach ($data->where('tersedia', 1) as $product)
+                                            <option value="{{ $product->id }}">{{ $product->nama_product }}</option>
                                         @endforeach
 
                                     </select>
@@ -228,22 +225,19 @@
             let productDataHistory = {!! json_encode($dataHistory) !!};;
             let jumlah_dp = document.getElementById('jumlah_dp');
             let is_dp = document.getElementById('is_dp');
+            var totalHargaDP = 0;
+            let teleponInput = document.getElementById('telepon');
 
+            teleponInput.addEventListener('input', function() {
+                let maxLength = 12;
+                let enteredValue = this.value;
 
-            jumlah_dp.addEventListener('keyup', function(e) {
-                console.log(this.value)
-                // let enteredAmount = unformatRupiah(this.value);
-                let totalHarga = unformatCurrency(totalHargaInput.value);
-                console.log(totalHarga.toString());
-                let hargaInt = parseInt(totalHarga.replace(/[^\d]/g, ''));
-                console.log(hargaInt)
-
-                if (enteredAmount > totalHarga) {
-                    this.value = formatRupiah(totalHarga);
-                } else {
-                    this.value = formatRupiah(enteredAmount);
+                if (enteredValue.length > maxLength) {
+                    this.value = enteredValue.slice(0, maxLength);
                 }
             });
+
+
 
             function unformatCurrency(currencyString) {
                 return parseFloat(currencyString.replace(/[^0-9.]/g, ''));
@@ -285,8 +279,10 @@
                         jumlahInput.value = 0; // Set the input value to 0 if negative
                     }
 
-                    let totalHarga = jumlah * hargaPerItem;
+                    var totalHarga = jumlah * hargaPerItem;
                     totalHargaInput.value = formatTotalHarga(totalHarga);
+                    totalHargaDP = totalHarga;
+                    // console.log(totalHargaDP)
                 } else {
                     // Handle if the product is not found
                     console.error('Product not found');
@@ -299,7 +295,17 @@
 
             // Attach the 'input' event listener to the jumlahInput
             jumlahInput.addEventListener('input', updateTotalHarga);
+
+            jumlah_dp.addEventListener('keyup', function(e) {
+                console.log(this.value.length)
+                // console.log(totalHargaDP)
+                if (this.value > totalHargaDP) {
+                    this.value = formatTotalHarga(totalHargaDP);
+                }
+            });
         });
+
+
 
         /* Fungsi */
         function formatRupiah(angka, prefix) {

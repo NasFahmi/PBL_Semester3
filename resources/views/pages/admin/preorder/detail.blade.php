@@ -147,24 +147,32 @@
                     <div class="bg-white rounded-3xl p-8">
                         <p class="text-base text-gray-800 font-medium mb-2">Informasi Preorder</p>
                         <hr>
-                        <div class="flex flex-col gap-2 mt-1">
-                            <div class="grid grid-cols-2 justify-start items-start">
-                                <p class="text-sm col-span-1 text-gray-500">DP</p>
-                                <p class="text-base col-span-1 text-gray-800 font-medium">Rp.
-                                    {{ number_format($data->preorders->down_payment, 0, ',', '.') }} </p>
-                            </div>
-                            <div class="grid grid-cols-2 justify-start items-start">
-                                <p class="text-sm col-span-1 text-gray-500 whitespace-nowrap ">Tanggal Pembayaran DP</p>
+                       <div class="grid grid-cols-2 justify-start items-start">
+                                <p class="text-sm col-span-1 text-gray-500 whitespace-nowrap ">Tanggal DP</p>
                                 <p class="text-base col-span-1 text-gray-800 font-medium">
                                     {{ \Carbon\Carbon::parse($data->preorders->tanggal_pembayaran_down_payment)->format('d F Y') }}
                                 </p>
                             </div>
+                        <div class="flex flex-col gap-2 mt-1">
+                            <div class="grid grid-cols-2 justify-start items-start">
+                                <p class="text-sm col-span-1 text-gray-500">Down Payment</p>
+                                <p class="text-base col-span-1 text-gray-800 font-medium">Rp.
+                                    {{ number_format($data->preorders->down_payment, 0, ',', '.') }} </p>
+                            </div>
+                            
+                            @if ($data->is_complete == 1)
+                                 <div class="grid grid-cols-2 justify-start items-start">
+                                <p class="text-sm col-span-1 text-gray-500 whitespace-nowrap">Kekurangan Harga</p>
+                                <p class="text-base col-span-1 text-green-500    font-medium">Lunas</p>
+                            </div>
+                            @elseif ($data->is_complete == 0)
                             <div class="grid grid-cols-2 justify-start items-start">
                                 <p class="text-sm col-span-1 text-gray-500 whitespace-nowrap">Kekurangan Harga</p>
                                 <p class="text-base col-span-1 text-red-400 font-medium">Rp.
                                     {{ number_format($data->total_harga - $data->preorders->down_payment, 0, ',', '.') }}
                                 </p>
                             </div>
+                            @endif
 
                         </div>
                     </div>

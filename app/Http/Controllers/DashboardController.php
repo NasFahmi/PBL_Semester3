@@ -47,13 +47,14 @@ class DashboardController extends Controller
             ->get();
 
         $preorderRecently = Preorder::whereHas('transaksis', function ($query) {
-            $query->where('is_preorder', 1);
+            $query->where('is_preorder', 1)->where('is_complete',0);
         })
             ->latest()
             ->limit(3)
             ->get();
         $productRecently = Product::with('fotos', 'transaksis')
-            ->latest()->limit(5)->get();
+        ->where('tersedia' ,1)    
+        ->latest()->limit(5)->get();
 
         $foto = Foto::join('transaksis', 'fotos.product_id', '=', 'transaksis.product_id')
             ->where('transaksis.is_complete', 0)

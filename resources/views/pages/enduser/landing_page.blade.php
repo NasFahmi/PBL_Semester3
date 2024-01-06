@@ -21,15 +21,21 @@
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center">
                             <img src="{{ asset('assets/images/logo.png') }}" alt="logo" class="h-16 mr-2">
-                            <a href="#Home" class="text-lg font-semibold text-gray-50">PAWONKOE</a>
+                            <a href="/" class="text-lg text-gray-50 hover:text-yellow-300 font-semibold transition duration-300 transform hover:scale-105">PAWONKOE</a>
                         </div>
                         <div class="hidden lg:flex items-center space-x-4">
-                            <a href="#tentang_kami" class="text-gray-50 hover:text-gray-200  duration-300">Tentang Kami</a>
-                            <a href="#perjalanan" class="text-gray-50 hover:text-gray-200  duration-300">Perjalanan</a>
-                            <a href="#visi-misi" class="text-gray-50 hover:text-gray-200  duration-300">Visi Misi</a>
-                            <a href="{{ route('katalog') }}" class="text-gray-50 hover:text-gray-200  duration-300">Katalog
+                            <a href="#tentang_kami"
+                                class="text-gray-50 hover:text-yellow-300 font-semibold transition duration-300 transform hover:scale-105">Tentang
+                                Kami</a>
+                            <a href="#perjalanan"
+                                class="text-gray-50 hover:text-yellow-300 font-semibold transition duration-300 transform hover:scale-105">Perjalanan</a>
+                            <a href="#visi-misi" class="text-gray-50 hover:text-yellow-300 font-semibold transition duration-300 transform hover:scale-105">
+                                Visi Misi</a>
+                            <a href="{{ route('katalog') }}"
+                                class="text-gray-50 hover:text-yellow-300 font-semibold transition duration-300 transform hover:scale-105">Katalog
                                 Produk</a>
-                            <a href="#kontak" class="text-gray-50 hover:text-gray-200  duration-300">Kontak</a>
+                            <a href="#kontak" 
+                            class="text-gray-50 hover:text-yellow-300 font-semibold transition duration-300 transform hover:scale-105">Kontak</a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +77,7 @@
         class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-20 md:px-10 md:flex-row md:gap-8 lg:items-stretch">
         <div class="mb-10 md:w-1/2">
             <div class="lg:w-8/12">
-                <h1 class="text-2xl font-semibold mb-4 pt-10 lg:text-3xl">Tentang kami</h1>
+                <h1 class="text-2xl font-semibold mb-4 pt-10 lg:text-3xl">Tentang Kami</h1>
                 <p class="text-sm lg:text-base">PAWONKOE Memulai usaha sejak maret 2021 Lokasi usaha
                     kami ada di desa sempu kabupaten Banyuwangi.
                     Berawal dari memproduksi aneka Sambal dan kini usaha kami
@@ -104,9 +110,9 @@
     </div>
 
     {{-- Section 4 --}}
-    <div class="">
-        <h1 class="text-2xl text-center font-semibold mb-4 mt-28 lg:text-3xl">Vision, Mission, dan Goals</h1>
-        <div id="visi-misi"
+    <div class="" id="visi-misi">
+        <h1 class="text-2xl text-center font-semibold mb-4 mt-28 lg:text-3xl">Visi, Misi, dan Tujuan</h1>
+        <div
             class="mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-16 md:px-10 md:flex-row-reverse md:gap-8 lg:items-stretch md:justify-around">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 <div class="flex justify-center items-center flex-col mt-8">
@@ -114,7 +120,7 @@
                         <img src="{{ asset('assets/images/vision.png') }}" alt="" srcset="" class="w-1/4">
                     </div>
                     <div class="w-3/4 mt-5">
-                        <h1 class="text-xl text-center font-semibold mb-3">Vision</h1>
+                        <h1 class="text-xl text-center font-semibold mb-3">Visi</h1>
                         <p class="text-sm text-center">Menjadi unit pengolah ikan yang inovatif dan menjaminkeamanan mutu
                             produk dan akan selalu bisa di andalkan</p>
                     </div>
@@ -124,7 +130,7 @@
                         <img src="{{ asset('assets/images/mission.png') }}" alt="" srcset="" class="w-1/4">
                     </div>
                     <div class="w-3/4 mt-5">
-                        <h1 class="text-xl text-center font-semibold mb-3">Mission</h1>
+                        <h1 class="text-xl text-center font-semibold mb-3">Misi</h1>
                         <p class="text-sm text-center">Meningkatkan perekonomian dan pemberdayaan warga sekitar mengenalkan
                             cita rasa nusantara ke dunia.Menguasai pasar baik lokal maupun lintas provisi, Cegah stunting.
                         </p>
@@ -135,7 +141,7 @@
                         <img src="{{ asset('assets/images/goal.png') }}" alt="" srcset="" class="w-1/4">
                     </div>
                     <div class="lg:w-3/4 md:w-5/12 w-3/4 mt-5">
-                        <h1 class="text-xl text-center font-semibold mb-3">Goals</h1>
+                        <h1 class="text-xl text-center font-semibold mb-3">Tujuan</h1>
                         <p class="text-sm text-center">Produk kami di kenal dunia
                             Memperkerjakan lebih banyak karyawan. Produk hasil perikanan yang ber SNI</p>
                     </div>
@@ -151,7 +157,7 @@
             class="mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-10 md:px-10 md:flex-row-reverse md:gap-8 lg:items-stretch md:justify-around lg:px-56">
             <div class="grid grid-cols-1 md:grid-cols-2 ">
                 <div class="flex justify-center items-center">
-                    <div class="flex justify-center items-center flex-col mt-8 bg-blue-50 p-10 rounded-xl w-10/12">
+                    <div class="flex justify-center items-center flex-col mt-8 bg-red-200 p-10 rounded-xl w-10/12">
                         <div class="flex justify-center items-center">
                             <img src="{{ asset('assets/images/pin.png') }}" alt="" srcset=""
                                 class="w-1/4">
@@ -163,7 +169,7 @@
                     </div>
                 </div>
                 <div class="flex justify-center items-center">
-                    <div class="flex justify-center items-center flex-col mt-8 bg-blue-50 p-10 rounded-xl w-10/12 ">
+                    <div class="flex justify-center items-center flex-col mt-8 bg-red-200 p-10 rounded-xl w-10/12 ">
                         <div class="flex justify-center items-center">
                             <img src="{{ asset('assets/images/shopping.png') }}" alt="" srcset=""
                                 class="w-1/4">
@@ -175,7 +181,7 @@
                     </div>
                 </div>
                 <div class="flex justify-center items-center">
-                    <div class="flex justify-center items-center flex-col mt-8 bg-blue-50 p-10 rounded-xl w-10/12 ">
+                    <div class="flex justify-center items-center flex-col mt-8 bg-red-200 p-10 rounded-xl w-10/12 ">
                         <div class="flex justify-center items-center">
                             <img src="{{ asset('assets/images/social-media.png') }}" alt="" srcset=""
                                 class="w-1/4">
@@ -187,7 +193,7 @@
                     </div>
                 </div>
                 <div class="flex justify-center items-center">
-                    <div class="flex justify-center items-center flex-col mt-8 bg-blue-50 p-10 rounded-xl w-10/12 ">
+                    <div class="flex justify-center items-center flex-col mt-8 bg-red-200 p-10 rounded-xl w-10/12 ">
                         <div class="flex justify-center items-center">
                             <img src="{{ asset('assets/images/people.png') }}" alt="" srcset=""
                                 class="w-1/4">
@@ -204,12 +210,12 @@
 
     {{-- section 6 --}}
     <div class="bg-blue-100 pb-10 md:mt-28">
-        <h1 class="text-2xl text-center font-semibold mb-10 pt-10 lg:text-3xl">Keungulan Produk Kami</h1>
+        <h1 class="text-2xl text-center font-semibold mb-10 pt-10 lg:text-3xl">Keunggulan Produk Kami</h1>
         <div id="keungulan"
             class=" mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col   md:px-10 md:flex-row md:gap-8 lg:mt-0 lg:items-stretch gap-8">
             <div class="ml-4 md:w-1/2">
                 <div class="lg:w-8/12">
-                    <ul class="px-5 list-disc lg:text-lg">
+                    <ul class="px-5 list-disc lg:text-lg whitespace-nowrap">
                         <li>Produk bersertifikat HALAL</li>
                         <li>Kemasan rapi dan tahan lama</li>
                         <li>Menggunakan bahan premium</li>
@@ -291,19 +297,22 @@
     <div class="" id="kontak">
         <h1 class="text-2xl text-center font-semibold mb-4 mt-20 lg:text-3xl">Tim Kami</h1>
         <div id="visi-misi"
-            class="mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col  md:mt-16 md:px-10 md:flex-row-reverse md:gap-8 lg:items-stretch md:justify-around">
+            class="mx-auto max-w-screen-xl px-4 flex justify-center items-center flex-col md:mt-16 md:px-10 md:flex-row-reverse md:gap-8 lg:items-stretch md:justify-around">
             <div class="grid grid-cols-1 md:grid-cols-2 justify-center items-start gap-8 md:gap-0">
-                <div class="flex justify-start items-center flex-col  ">
+                <div class="flex justify-start items-center flex-col"> <!-- Closing tag was added here -->
                     <div class="flex justify-center items-center">
                         <img src="{{ asset('assets/images/jp.png') }}" alt="" srcset="" class="w-1/4">
                     </div>
-                    <div class="w-3/4 lg:5/12 mt-5">
-                        <h1 class="text-xl text-center font-semibold mb-3 text-green-500">JP</h1>
-                        <h1 class="text-xl text-center font-semibold mb-1">Busines Analyst</h1>
-                        <p class="text-sm text-center">Iman kita adalah inti masa depan kita. Tidak ada kesuksesan besar
-                            tanpa pengorbanan besar.</p>
+                    <div class="w-3/4 lg:w-5/12 mt-5 flex justify-center items-center flex-col">
+                        <!-- Fixed class attribute here -->
+                        <div class="w-52">
+                            <h1 class="text-xl text-center font-semibold mb-3 text-green-500">JP</h1>
+                            <h1 class="text-xl text-center font-semibold mb-1">Business Analyst</h1>
+                            <p class="text-sm text-center">Iman kita adalah inti masa depan kita. Tidak ada kesuksesan
+                                besar tanpa pengorbanan besar.</p>
+                        </div>
                     </div>
-                </div>
+                </div> <!-- Closing tag was missing here -->
                 <div class="flex justify-start items-center flex-col">
                     <div class="flex justify-center items-center">
                         <img src="{{ asset('assets/images/diah.png') }}" alt="" srcset="" class="w-1/4">
@@ -318,6 +327,7 @@
             </div>
         </div>
     </div>
+
 
     {{-- section 8 -- footer --}}
     <div class="bg-gray-800 mt-20">
