@@ -22,13 +22,13 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call(RolePermissionSeeder::class);
         $this->call(akunSeeder::class);
-        $this->call(PembeliSeeder::class);
+        // $this->call(PembeliSeeder::class);
         $this->call(MethodePembayaranSeeder::class);
-        $this->call(PreorderSeeder::class);
-        $this->call(ProductSeeder::class);
-        $this->call(VarianSeeder::class);
-        $this->call(FotoSeeder::class);
-        $this->call(TransaksiSeeder::class);
-        $this->call(HistoryProductSeeder::class);
+        // $this->call(PreorderSeeder::class);
+        // $this->call(ProductSeeder::class);
+        // $this->call(VarianSeeder::class);
+        // $this->call(FotoSeeder::class);
+        // $this->call(TransaksiSeeder::class);
+        // $this->call(HistoryProductSeeder::class);
     }
 }

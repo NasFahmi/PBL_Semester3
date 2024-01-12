@@ -133,7 +133,7 @@
                 </div>
             </div>
             <div class="bg-white p-4 rounded-lg w-full h-fit mt-8 md:mt-0 shadow-sm">
-                <h1 class="text-gray-800 font-semibold mb-4">5 Preorder Belum Selesai Terbaru</h1>
+                <h1 class="text-gray-800 font-semibold mb-4">3 Preorder Belum Selesai Terbaru</h1>
                 <div class="overflow-y-auto costumscroll  rounded-lg max-h-80">
                     {{-- card --}}
                     @foreach ($preorderRecently as $index => $preorder)
@@ -141,11 +141,12 @@
                             <div class="flex justify-start items-center gap-4 mb-2">
                                 <div class="w-10 h-10 ">
                                     @foreach ($foto->where('product_id', $preorder->transaksis->product_id) as $item)
-                                        <div class="rounded-full bg-cover bg-no-repeat bg-center"
-                                            style="background-image: url('{{ asset('storage/' . $item->foto) }}')">
+                                        <div class="rounded-full w-10 h-10 bg-no-repeat bg-center"
+                                        style="background-image: url('{{ asset('storage/' . $item->first()->foto) }}');
+                                        background-size: cover;">
                                         </div>
-                                        <img src="{{ asset('storage/' . $item->foto) }}" alt="" srcset=""
-                                            class="rounded-full">
+                                        {{-- <img src="{{ asset('storage/' . $item->foto) }}" alt="" srcset=""
+                                            class="rounded-full"> --}}
                                            
                                     @endforeach
                                 </div>
