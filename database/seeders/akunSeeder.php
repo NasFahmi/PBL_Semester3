@@ -17,22 +17,14 @@ class AkunSeeder extends Seeder
         $admin = User::create([
             "nama" => "admin",
             "email" => "pawonkoeAdmin@gmail.com",
-            "password" => Hash::make('admin'),
-            "link_toko" => "tidak punya",
-            "link_wa" => "tidak punya",
-            "link_ig" => "tidak punya",
-            "alamat" => "sempu"
+            "password" => Hash::make('admin')
         ]);
         $admin->assignRole('admin');
 
         $owner = User::create([
             "nama" => "pawonkoe",
             "email" => "pawonkoe@gmail.com",
-            "password" => Hash::make('pawonkoe'),
-            "link_toko" => "ini toko",
-            "link_wa" => "ini wa",
-            "link_ig" => "ini ig",
-            "alamat" => "sempu"
+            "password" => Hash::make('pawonkoe')
         ]);
         $owner->assignRole('superadmin');
     }

@@ -10,7 +10,7 @@
          </svg>
       </button>
       <div>
-         <h1 class="text-2xl font-bold text-slate-950">Hi , Admin👅</h1>
+         <h1 class="text-2xl font-bold text-slate-950">Hi , Admin</h1>
       </div>
       <ul class="flex items-center  flex-shrink-0 space-x-6">
          <!-- Profile menu -->

@@ -21,11 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'nama',
         'email',
-        'password',
-        'link_toko',
-        'link_wa',
-        'link_ig',
-        'alamat'
+        'password'
     ];
 
     /**
