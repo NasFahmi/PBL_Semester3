@@ -237,7 +237,17 @@
             let jumlahDpInput = document.getElementById('jumlah_dp');
             let totalHargaInput = document.getElementById('total-harga');
             let is_dp = document.getElementById('is_dp');
+            let teleponInput = document.getElementById('telepon');
 
+            teleponInput.addEventListener('input', function() {
+                let maxLength = 12;
+                let enteredValue = this.value;
+
+                if (enteredValue.length > maxLength) {
+                    this.value = enteredValue.slice(0, maxLength);
+                }
+            });
+            
             jumlahDpInput.addEventListener('keyup', function(e) {
                 jumlahDpInput.value = formatRupiah(this.value);
             });

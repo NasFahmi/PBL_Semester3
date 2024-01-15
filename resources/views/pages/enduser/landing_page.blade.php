@@ -2,7 +2,7 @@
 @section('title', 'PawonKoe')
 @section('content')
     {{-- section 1 --}}
-    <div class="bg-cover rounded-b-3xl shadow-xl" style="background-image: url('{{ asset('assets/images/bg3.jpg') }}');">
+    <div class="bg-cover shadow-xl" style="background-image: url('{{ asset('assets/images/bg3.jpg') }}');">
         {{-- bg asset('assets/images/background.png') --}}
         <div class="drawer mx-auto max-w-screen-xl ">
             <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
