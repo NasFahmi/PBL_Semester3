@@ -6,7 +6,7 @@
                 <img src="{{ asset('assets/images/logo.png') }}" alt="" class="w-10 h-auto">
             </a>
             <div>
-                <h1 class="text-lg font-bold text-slate-800">PAWONKOE</h1>
+                <a href="{{ route('landing_page') }}" class="text-lg font-bold text-slate-800">PAWONKOE</a>
             </div>
         </div>
         <ul class="mt-6">

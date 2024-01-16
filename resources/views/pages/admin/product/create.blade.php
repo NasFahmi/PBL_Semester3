@@ -110,15 +110,18 @@
                                     </svg>
                                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
                                             class="font-semibold">Click to upload</span> or drag and drop</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPEG, JPG</p>
                                 </div>
                                 <input id="dropzone-file" type="file" value="{{ old('image[]') }}"
                                     class="absolute w-full h-full border opacity-0" name="image[]" multiple
                                     onchange="previewImages()" />
                             </label>
-                            
+
                         </div>
-                        @error('image[]')
+                        @error('image')
+                            <small class="error" style="color: red">{{ $message }}</small>
+                        @enderror
+                        @error('image.*')
                             <small class="error" style="color: red">{{ $message }}</small>
                         @enderror
 

@@ -230,14 +230,17 @@
 
                     </tbody>
                 </table>
-                <div class="mt-4 flex flex-col items-center justify-center">
-                    <div class="flex items-center space-x-4">
-                        {{ $data->links('pagination::tailwind') }}
+                @if ($data->count() > 10)
+                    <div class="mt-4 flex flex-col items-center justify-center">
+                        <div class="flex items-center space-x-4">
+                            {{ $data->links('pagination::tailwind') }}
+                        </div>
+                        <div class="mt-2 text-sm text-gray-700">
+                            Page {{ $data->currentPage() }} of {{ $data->lastPage() }}
+                        </div>
                     </div>
-                    <div class="mt-2 text-sm text-gray-700">
-                        Page {{ $data->currentPage() }} of {{ $data->lastPage() }}
-                    </div>
-                </div>
+                @endif
+
             </div>
         </div>
     </div>
