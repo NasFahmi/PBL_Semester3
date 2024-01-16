@@ -51,7 +51,8 @@ class ProductController extends Controller
             'link_shopee' => 'required',
             'stok' => 'required',
             'spesifikasi_product' => 'required',
-            'image[]' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'required',
+            'image.*'=>'mimes:jpeg,png,jpg|max:2048'
         ], [
             'nama_product.required' => 'Nama produk wajib diisi.',
             'harga.required' => 'Harga wajib diisi.',
@@ -59,10 +60,9 @@ class ProductController extends Controller
             'link_shopee.required' => 'Link Shopee wajib diisi.',
             'stok.required' => 'Stok wajib diisi.',
             'spesifikasi_product.required' => 'Spesifikasi produk wajib diisi.',
-            'image[].required' => 'Setiap Produk harus memiliki foto.',
-            'image[].image' => 'File harus berupa gambar.',
-            'image[].mimes' => 'Format gambar harus jpeg, png, atau jpg.',
-            'image[].max' => 'Ukuran gambar tidak boleh lebih dari 2 MB.', 
+            'image.required' => 'Setiap Produk harus memiliki foto.',
+            'image.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
+            'image.*.max' => 'Ukuran gambar tidak boleh lebih dari 2 MB.', 
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
