@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-
 use App\Models\Foto;
 use App\Models\Varian;
+
 use App\Models\Product;
 use App\Models\BeratJenis;
 use Illuminate\Http\Request;
+use App\Events\ProductCreated;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductResources;
+use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\StoreProductRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -45,45 +46,6 @@ class ApiProductController extends Controller
         );
         $request->validated();
         $data = $request->all();
-        // dd($data);
-        // $images = $request->file('image');
-
-
-        // $file = $data['image'];
-        // dd($file);
-        // $images = [];
-        //     foreach ($request->file('image') as $file) {
-        //         // dd($file);
-        //         $img = $file->store("images");
-        //         // dd($img); // images/kYu4iKIXFVEypwYb1lp0UfZuH1ST5E5nDoUVgbYx.jpg"
-        //         $filePath = storage_path('app/public/' . $img);
-        //         $manager = new ImageManager(new Driver());
-        //         // dd($manager);
-        //         $image = $manager->read('storage/' . $img);
-        //         $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
-        //         $encoded->save($filePath);
-
-        //         $images[] = $img;
-        //     };
-        // return response()->json($images);
-        // // // if (isset($file)) {
-        //     $img = $file->store("images"); //images/F0Rz0AKultyXDoTikIbygvKhsFJU0mSnINrpUUSd.jpg
-        //     // dd($img);
-        //     // dd($img);
-            // $filePath = storage_path('app/public/'.$img);
-            // // $fileSize = filesize($filePath);
-            //     // dd('true');
-            //     // dd($fileSize / 1024); //covert to Kb, memroy->2730.4306640625
-            //     $manager = new ImageManager(new Driver());
-            //     $image = $manager->read('storage/'.$img);
-            //     $encoded = $image->toJpeg(40); // Intervention\Image\EncodedImage
-
-            //     $encoded->save($filePath);                
-            //     $filePath = storage_path('app/public/'.$img);
-            //     $fileSize = filesize($filePath);
-            //     dd($fileSize / 1024);
-        // // }
-
 
 
         try {
@@ -101,6 +63,7 @@ class ApiProductController extends Controller
             ]);
             $productID = $product->id;
             $varians = $data['varian'];
+            event(new ProductCreated($product,$productID));
             // return response()->json($varians);
             foreach ($varians as $varian) {
                 Varian::create([
@@ -210,7 +173,7 @@ class ApiProductController extends Controller
                 'spesifikasi_product' => $request->spesifikasi_product,
             ]);
 
-
+            event(new ProductCreated($product,$id));
             // $product->beratJenis()->sync($beratJenisIds);
 
             // Update or create varians records
