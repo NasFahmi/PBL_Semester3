@@ -83,7 +83,7 @@ class ProductController extends Controller
             ]);
             $productID = $product->id;
 
-            event(new ProductCreated($product));
+            event(new ProductCreated($product,$productID));
 
             if (isset($data['varian'])) {
 
@@ -172,7 +172,7 @@ class ProductController extends Controller
                 'spesifikasi_product' => $request->spesifikasi_product,
                 'tersedia' => '1',
             ]);
-
+            event(new ProductCreated($product,$id));
             // $product->beratJenis()->sync($beratJenisIds);
             if (isset($request->varian)) {
                 // Update or create varians records

@@ -28,6 +28,24 @@ class TransaksiController extends Controller
             ->paginate(10);
         // dd($data);
         return view('pages.admin.transaksi.index', compact('data'));
+        
+        //! code
+        // $dataProduct = Product::find(1);
+
+        // // Ambil dua data history pertama terkait dengan product tersebut
+        // // Ambil data history pertama
+        // $dataHistory = HistoryProduct::where('product_id', 1);
+        // $jumlahdataHistory = $dataHistory->count() - 1;
+        // // dd($jumlahdataHistory);
+        // $historyData = HistoryProduct::where('product_id', $dataProduct->id)
+        //     ->orderBy('created_at', 'asc')
+        //     ->take($jumlahdataHistory)
+        //     ->get();
+
+        // // Ambil data history dengan created_at terbaru dari kedua data tersebut
+        // $latestHistory = $historyData->sortByDesc('created_at')->first();
+
+        // dd($latestHistory);
     }
 
     public function cetakTransaksi()
@@ -109,7 +127,6 @@ class TransaksiController extends Controller
             DB::rollBack();
             // throw $th;
             return redirect()->back()->with('error', 'Failed to create transaksi data.');
-
         }
     }
 

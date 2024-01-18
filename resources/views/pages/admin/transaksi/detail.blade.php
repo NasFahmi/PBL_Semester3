@@ -88,6 +88,11 @@
                                 {{ $data->methode_pembayaran->methode_pembayaran }}</p>
                         </div>
                         <div class="grid grid-cols-5 justify-start items-start">
+                            <p class="text-base col-span-2 text-gray-500">Harga Product</p>
+                            <p class="text-base col-span-3 text-gray-800 font-medium">Rp.
+                                {{ number_format($data->products->harga, 0, ',', '.') }}</p>
+                        </div>
+                        <div class="grid grid-cols-5 justify-start items-start">
                             <p class="text-base col-span-2 text-gray-500">Jumlah</p>
                             <p class="text-base col-span-3 text-gray-800 font-medium">{{ $data->jumlah }}</p>
                         </div>

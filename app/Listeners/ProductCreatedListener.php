@@ -24,6 +24,7 @@ class ProductCreatedListener
     public function handle(ProductCreated $event): void
     {
             HistoryProduct::insert([
+            'product_id'=>$event->productID,
             'nama_product' => $event->product->nama_product,
             'harga' => $event->product->harga,
             'deskripsi' => $event->product->deskripsi,
