@@ -68,7 +68,7 @@
 
                             <div class="grid grid-cols-2 gap-4 mb-1">
                                 <p class=" text-gray-400">Product</p>
-                                <p class="font-medium text-gray-800">: {{ $preorder->products->nama_product }}</p>
+                                <p class="font-medium text-gray-800 whitespace-nowrap">: {{ $preorder->products->nama_product }}</p>
 
                             </div>
                             <div class="grid grid-cols-2 gap-4 mb-1">
@@ -134,9 +134,9 @@
 
                             <div>
                                 @if ($preorder->is_complete == true)
-                                    <p class="text-base col-span-3 text-green-400 font-medium">Selesai</p>
+                                    <p class="text-md col-span-3 text-green-400 font-medium whitespace-nowrap">Selesai</p>
                                 @elseif ($preorder->is_complete == false)
-                                    <p class="text-base col-span-3 text-red-400 font-medium">Belum Selesai</p>
+                                    <p class="text-md col-span-3 text-red-400 font-medium whitespace-nowrap">Belum Selesai</p>
                                 @endif
                             </div>
 

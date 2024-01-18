@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\HistoryProduct;
 use App\Events\TransaksiSelesai;
 use Illuminate\Support\Facades\DB;
+use App\Models\HistoryProductTransaksi;
 use App\Http\Requests\StorePreorderRequest;
 use App\Http\Requests\UpdatePreorderRequest;
 
@@ -126,7 +127,7 @@ class PreorderController extends Controller
             ]);
             $idPreorder = $dataPreorder->id;
 
-            Transaksi::create([
+            $transaksi = Transaksi::create([
                 "tanggal" => $tanggal,
                 "pembeli_id" => $idPembeli,
                 "product_id" => $data['product'],
@@ -138,6 +139,13 @@ class PreorderController extends Controller
                 "Preorder_id" => $idPreorder,
                 "is_complete" => '0',
             ]);
+            $historyProduct = HistoryProduct::where('product_id',$data['product'])->get()->last();
+            // dd($historyProduct->id);
+            HistoryProductTransaksi::create([
+                "transaksi_id"=>$transaksi->id,
+                "history_product_id"=> $historyProduct->id,
+            ]);
+            
             DB::commit();
             return redirect()->route('preorders.index')->with('success', 'Transaksi has been created successfully');
         } catch (\Throwable $th) {
