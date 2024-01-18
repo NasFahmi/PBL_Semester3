@@ -9,6 +9,7 @@ class HistoryProduct extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'product_id',
         'nama_product',
         'harga',
         'deskripsi',
@@ -16,4 +17,9 @@ class HistoryProduct extends Model
         'stok',
         'spesifikasi_product',
     ];
+
+    public function history_product_transaksi()
+    {
+        return $this->hasOne(HistoryProductTransaksi::class);
+    }
 }

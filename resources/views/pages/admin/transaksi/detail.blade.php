@@ -79,7 +79,9 @@
                     <div class="flex flex-col gap-2 mt-1">
                         <div class="grid grid-cols-5 justify-start items-start">
                             <p class="text-base col-span-2 text-gray-500">Nama Product</p>
-                            <p class="text-base col-span-3 text-gray-800 font-medium">{{ $data->products->nama_product }}
+                            @foreach ($data->history_product_transaksis as $history_product )
+                            <p class="text-base col-span-3 text-gray-800 font-medium">{{ $history_product->history_product->nama_product }}
+                            @endforeach
                             </p>
                         </div>
                         <div class="grid grid-cols-5 justify-start items-start">
@@ -89,8 +91,11 @@
                         </div>
                         <div class="grid grid-cols-5 justify-start items-start">
                             <p class="text-base col-span-2 text-gray-500">Harga Product</p>
-                            <p class="text-base col-span-3 text-gray-800 font-medium">Rp.
-                                {{ number_format($data->products->harga, 0, ',', '.') }}</p>
+                            @foreach ($data->history_product_transaksis as $history_product )
+                                    <p class="text-base col-span-3 text-gray-800 font-medium">Rp.
+                                        {{ number_format($history_product->history_product->harga, 0, ',', '.') }}</p>
+                            @endforeach
+                            
                         </div>
                         <div class="grid grid-cols-5 justify-start items-start">
                             <p class="text-base col-span-2 text-gray-500">Jumlah</p>

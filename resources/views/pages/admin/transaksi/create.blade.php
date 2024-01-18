@@ -129,7 +129,7 @@
             let totalHargaInput = document.getElementById('total-harga');
             let productSelectedInput = document.getElementById('product');
             let productData = {!! json_encode($data) !!};
-            let productDataHistory = {!! json_encode($dataHistory) !!};
+            let productDataHistory = {!! json_encode($data) !!};
             console.log(productDataHistory)
             console.log(productData)
             // Function to format the total price with Rupiah

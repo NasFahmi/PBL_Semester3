@@ -22,17 +22,25 @@ class Transaksi extends Model
         'Preorder_id',
         'is_complete',
     ];
-    public function pembelis(){
-        return $this->belongsTo(Pembeli::class,'pembeli_id','id');
+    public function pembelis()
+    {
+        return $this->belongsTo(Pembeli::class, 'pembeli_id', 'id');
     }
-    public function products(){
-        return $this->belongsTo(Product::class,'product_id','id');
+    public function products()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
-    public function methode_pembayaran(){
-        return $this->belongsTo(MethodePembayaran::class,'methode_pembayaran_id','id');
+    public function methode_pembayaran()
+    {
+        return $this->belongsTo(MethodePembayaran::class, 'methode_pembayaran_id', 'id');
     }
-    public function preorders(){
-        return $this->belongsTo(Preorder::class,'Preorder_id','id');
+    public function preorders()
+    {
+        return $this->belongsTo(Preorder::class, 'Preorder_id', 'id');
+    }
+    public function history_product_transaksis()
+    {
+        return $this->hasMany(HistoryProductTransaksi::class, 'transaksi_id', 'id');
     }
     // Transaksi.php
     public function scopeSearch($query, $search)
@@ -42,8 +50,6 @@ class Transaksi extends Model
                 $query->where('nama_product', 'like', '%' . $search . '%');
             })
                 ->orWhere('tanggal', 'like', '%' . $search . '%');
-                }
-        
-
+        }
     }
 }
