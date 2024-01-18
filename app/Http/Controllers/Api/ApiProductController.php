@@ -62,15 +62,22 @@ class ApiProductController extends Controller
                 'tersedia' => '1',
             ]);
             $productID = $product->id;
-            $varians = $data['varian'];
-            event(new ProductCreated($product,$productID));
-            // return response()->json($varians);
-            foreach ($varians as $varian) {
-                Varian::create([
-                    'jenis_varian' => $varian,
-                    'product_id' => $productID,
-                ]);
+
+            event(new ProductCreated($product, $productID));
+
+            if (isset($data['varian'])) {
+                $varians = $data['varian'];
+                // return response()->json($varians);
+                foreach ($varians as $varian) {
+                    Varian::create([
+                        'jenis_varian' => $varian,
+                        'product_id' => $productID,
+                    ]);
+                }
             }
+
+
+
 
             // Proses setiap file yang diunggah
             $images = [];
@@ -173,7 +180,7 @@ class ApiProductController extends Controller
                 'spesifikasi_product' => $request->spesifikasi_product,
             ]);
 
-            event(new ProductCreated($product,$id));
+            event(new ProductCreated($product, $id));
             // $product->beratJenis()->sync($beratJenisIds);
 
             // Update or create varians records
@@ -192,14 +199,14 @@ class ApiProductController extends Controller
                 }
 
                 // Process each uploaded file
-          
+
                 foreach ($request->file('image') as $file) {
                     // dd($file);
                     $img = $file->store("images");
                     // dd($img); // images/kYu4iKIXFVEypwYb1lp0UfZuH1ST5E5nDoUVgbYx.jpg"
                     $filePath = storage_path('app/public/' . $img);
                     $fileSize = filesize($filePath);
-                    if($fileSize/1024 > 2048){
+                    if ($fileSize / 1024 > 2048) {
                         $manager = new ImageManager(new Driver());
                         // dd($manager);
                         $image = $manager->read('storage/' . $img);
