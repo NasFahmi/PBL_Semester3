@@ -270,16 +270,16 @@
                 @endif
             @endforeach
         </div>
-         <div class="mt-4 flex flex-col items-center justify-center">
-            <div class="flex items-center space-x-4">
-                {{ $data->links('pagination::tailwind') }}
-            </div>
-            <div class="mt-2 text-sm text-gray-700">
-                Page {{ $data->currentPage() }} of {{ $data->lastPage() }}
-            </div>
-        </div>
-
-        
+        @if ($data->count > 20)          
+        <div class="mt-4 flex flex-col items-center justify-center">
+           <div class="flex items-center space-x-4">
+               {{ $data->links('pagination::tailwind') }}
+           </div>
+           <div class="mt-2 text-sm text-gray-700">
+               Page {{ $data->currentPage() }} of {{ $data->lastPage() }}
+           </div>
+       </div>
+        @endif
     </div>
     <div class="bg-gray-800 mt-20">
         <h1 class="text-2xl text-center font-semibold text-white mb-10 pt-10 lg:text-3xl">Temukan Kami</h1>
