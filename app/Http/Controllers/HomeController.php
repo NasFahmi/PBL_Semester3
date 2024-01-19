@@ -24,7 +24,7 @@ class HomeController extends Controller
         $data = Product::with(['fotos', 'varians',])
             ->search(request('search'))
             ->where('tersedia', 1)
-            ->get();
+            ->paginate(20);
         return view('pages.enduser.katalog',compact('data'));
     }
 

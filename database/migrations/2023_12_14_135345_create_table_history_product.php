@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->bigInteger('product_id');
             $table->string('nama_product', 100);
             $table->string('harga', 100);
-            $table->string('deskripsi', 255);
+            $table->longtext('deskripsi');
             $table->string('link_shopee', 255);
             $table->string('stok', 100);
             $table->longText('spesifikasi_product');
