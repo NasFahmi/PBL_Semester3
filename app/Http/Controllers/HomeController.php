@@ -21,7 +21,10 @@ class HomeController extends Controller
     
 
     public function katalog(){
-        $data = Product::with(['fotos', 'varians'])->get();
+        $data = Product::with(['fotos', 'varians',])
+            ->search(request('search'))
+            ->where('tersedia', 1)
+            ->get();
         return view('pages.enduser.katalog',compact('data'));
     }
 
