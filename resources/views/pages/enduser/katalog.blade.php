@@ -270,7 +270,7 @@
                 @endif
             @endforeach
         </div>
-        @if ($data->count > 20)          
+        @if ($data->count()> 20)          
         <div class="mt-4 flex flex-col items-center justify-center">
            <div class="flex items-center space-x-4">
                {{ $data->links('pagination::tailwind') }}
