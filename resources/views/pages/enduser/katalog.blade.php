@@ -249,7 +249,7 @@
     {{-- <p>{{$data}}</p> --}}
     <div class=" mx-auto max-w-screen-xl px-4 mt-20 md:px-10 flex justify-center items-center flex-col ">
         <h1 class="text-3xl font-semibold text-center mb-10">Produk Kami</h1>
-        <div class="mx-auto max-w-screen-xl  w-full md:w-3/4 ">
+        <div class="mx-auto max-w-screen-xl  w-full md:w-3/4 mb-10 ">
             <label for="default-search" class="sr-only">Search</label>
             <div class="relative w-2/4">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -275,7 +275,7 @@
                                 class="h-auto w-full" />
                         </figure>
                         <div class="card-body">
-                            <h2 class="card-title">{{ $items->nama_product }}</h2>
+                            <h2 class="card-title line-clamp-1">{{ $items->nama_product }}</h2>
                             <p class="line-clamp-2">{{ $items->deskripsi }}</p>
                             <div class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">
                                 <p class="text-start text-lg font-semibold mb-2 md:mb-0">Rp.
