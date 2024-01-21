@@ -74,7 +74,7 @@
                                         class="h-auto w-full" />
                                 </figure>
                                 <div class="card-body">
-                                    <h2 class="card-title">{{ $items->nama_product }}</h2>
+                                    <h2 class="card-title line-clamp-1">{{ $items->nama_product }}</h2>
                                     <p class="line-clamp-2">{{ $items->deskripsi }}</p>
                                     <div
                                         class="flex justify-between items-start md:items-center flex-col md:flex-row md:mt-4">

@@ -51,12 +51,18 @@ class ProductController extends Controller
             'link_shopee' => 'required',
             'stok' => 'required',
             'spesifikasi_product' => 'required',
-            'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'required',
+            'image.*'=>'mimes:jpeg,png,jpg|max:2048'
         ], [
-            'image.*.required' => 'Setiap gambar wajib diunggah.',
-            'image.*.image' => 'File harus berupa gambar.',
+            'nama_product.required' => 'Nama produk wajib diisi.',
+            'harga.required' => 'Harga wajib diisi.',
+            'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'link_shopee.required' => 'Link Shopee wajib diisi.',
+            'stok.required' => 'Stok wajib diisi.',
+            'spesifikasi_product.required' => 'Spesifikasi produk wajib diisi.',
+            'image.required' => 'Setiap Produk harus memiliki foto.',
             'image.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
-            'image.*.max' => 'Ukuran gambar tidak boleh lebih dari 2 MB.',
+            'image.*.max' => 'Ukuran gambar tidak boleh lebih dari 2 MB.', 
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -77,7 +83,7 @@ class ProductController extends Controller
             ]);
             $productID = $product->id;
 
-            event(new ProductCreated($product));
+            event(new ProductCreated($product,$productID));
 
             if (isset($data['varian'])) {
 
@@ -114,7 +120,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
-            // throw $e;
+            throw $e;
             // dd('gagal ');
             // Handle kesalahan sesuai kebutuhan Anda, misalnya:
             return redirect()->back()->with('error', 'Gagal menyimpan data Product.');
@@ -166,7 +172,7 @@ class ProductController extends Controller
                 'spesifikasi_product' => $request->spesifikasi_product,
                 'tersedia' => '1',
             ]);
-
+            event(new ProductCreated($product,$id));
             // $product->beratJenis()->sync($beratJenisIds);
             if (isset($request->varian)) {
                 // Update or create varians records

@@ -15,23 +15,21 @@
                             </label>
                             <input type="text" placeholder="nama product" name="nama_product"
                                 value="{{ old('nama_product') }}"
-                                class="input input-bordered input-info bg-slate-50 w-full max-w-4xl duration-50 mb-3" />
+                                class="input input-bordered input-info bg-slate-50 w-full max-w-4xl duration-50 " />
                             @error('nama_product')
                                 <small class="error" style="color: red">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="">
-                            <label class="block text-sm mb-1">
+                            <label class="block text-sm mt-3 mb-1">
                                 <span class="text-gray-700 dark:text-gray-400">Harga</span>
                             </label>
-                                <input type="number" placeholder="Harga" name="harga"
-                                    value="{{ old('harga') }}"
-                                    class="input input-bordered input-info w-full bg-slate-50  duration-50 " />
-                                
-                                @error('harga')
-                                    <small class="error" style="color: red">{{ $message }}</small>
-                                @enderror
-                            
+                            <input type="number" placeholder="Harga" name="harga" value="{{ old('harga') }}"
+                                class="input input-bordered input-info w-full bg-slate-50  duration-50 " />
+                            @error('harga')
+                                <small class="error" style="color: red">{{ $message }}</small>
+                            @enderror
+
                         </div>
                         <div class="">
                             <label class="block text-sm mb-1 mt-3">
@@ -44,7 +42,7 @@
                             @enderror
                         </div>
 
-                        
+
                     </div>
                     <div class="right">
                         <div class="">
@@ -53,23 +51,23 @@
                             </label>
                             <input type="text" placeholder="Link Shopee" name="link_shopee"
                                 value="{{ old('link_shopee') }}"
-                                class="input input-bordered input-info w-full max-w-4xl duration-50 bg-slate-50  mb-3" />
+                                class="input input-bordered input-info w-full max-w-4xl duration-50 bg-slate-50 " />
                             @error('link_shopee')
                                 <small class="error" style="color: red">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="">
-                            <label class="block text-sm mb-1">
+                            <label class="block text-sm mb-1 mt-3">
                                 <span class="text-gray-700 dark:text-gray-400">Stok</span>
                             </label>
                             <input type="number" placeholder="Jumlah Stok" name="stok" value="{{ old('stok') }}"
-                                class="input input-bordered input-info w-full max-w-4xl duration-50 bg-slate-50 mb-3" />
+                                class="input input-bordered input-info w-full max-w-4xl duration-50 bg-slate-50 " />
                             @error('stok')
                                 <small class="error" style="color: red">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="">
-                            <label class="block text-sm mb-1">
+                            <label class="block text-sm mb-1 mt-3">
                                 <span class="text-gray-700 dark:text-gray-400">Spesifikasi Product</span>
                             </label>
                             <textarea class="textarea textarea-info w-full max-w-4xl bg-slate-50" placeholder="Spesifikasi Product"
@@ -79,48 +77,6 @@
                             @enderror
                         </div>
 
-                        {{-- <div class="">
-                            <label class="block text-sm mb-1">
-                                <span class="text-gray-700 dark:text-gray-400">Berat Jenis Product</span>
-                            </label>
-                            <ul
-                                class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white mb-3">
-                                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                    <div class="flex items-center ps-3">
-                                        <input id="kecil" type="checkbox" value="Kecil" name="beratjenis[0]"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="kecil"
-                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kecil</label>
-                                    </div>
-                                </li>
-                                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                    <div class="flex items-center ps-3">
-                                        <input id="Sedang" type="checkbox" value="Sedang" name="beratjenis[1]"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="Sedang"
-                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sedang</label>
-                                    </div>
-                                </li>
-                                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                    <div class="flex items-center ps-3">
-                                        <input id="Besar" type="checkbox" value="Besar" name="beratjenis[2]"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="Besar"
-                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Besar</label>
-                                    </div>
-                                </li>
-                                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                    <div class="flex items-center ps-3">
-                                        <input id="Sangat Besar" type="checkbox" value="Sangat Besar"
-                                            name="beratjenis[3]"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="Sangat Besar"
-                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sangat
-                                            Besar</label>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div> --}}
                         <div class="">
                             <label class="block text-sm mb-1">
                                 <span class="text-gray-700 dark:text-gray-400">Varian Product</span>
@@ -154,16 +110,20 @@
                                     </svg>
                                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
                                             class="font-semibold">Click to upload</span> or drag and drop</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">JPG, PNG, JPEG</p>
                                 </div>
                                 <input id="dropzone-file" type="file" value="{{ old('image[]') }}"
                                     class="absolute w-full h-full border opacity-0" name="image[]" multiple
                                     onchange="previewImages()" />
                             </label>
-                            @error('image.*')
-                                <li>{{ $message }}</li>
-                            @enderror
+                            
                         </div>
+                        @error('image')
+                            <small class="error" style="color: red">{{ $message }}</small>
+                        @enderror
+                        @error('image.*')
+                            <small class="error" style="color: red">{{ $message }}</small>
+                        @enderror
 
                     </div>
                     <!-- Image Preview -->

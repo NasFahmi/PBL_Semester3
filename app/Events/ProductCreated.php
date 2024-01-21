@@ -18,9 +18,11 @@ class ProductCreated
      * Create a new event instance.
      */
     public $product;
-    public function __construct(Product $product)
+    public $productID;
+    public function __construct(Product $product,$productID)
     {
         $this->product = $product;
+        $this->productID=$productID;
 
     }
 

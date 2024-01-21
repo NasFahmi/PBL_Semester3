@@ -222,7 +222,7 @@
             let totalHargaInput = document.getElementById('total-harga');
             let productSelectedInput = document.getElementById('product');
             let productData = {!! json_encode($data) !!};
-            let productDataHistory = {!! json_encode($dataHistory) !!};;
+            let productDataHistory = {!! json_encode($data) !!};;
             let jumlah_dp = document.getElementById('jumlah_dp');
             let is_dp = document.getElementById('is_dp');
             var totalHargaDP = 0;

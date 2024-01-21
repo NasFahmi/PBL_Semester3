@@ -16,10 +16,6 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email');
             $table->string('password');
-            $table->string('link_toko');
-            $table->string('link_wa');
-            $table->string('link_ig');
-            $table->string('alamat');
             $table->timestamps();
         });
     }

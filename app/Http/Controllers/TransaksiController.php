@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HistoryProduct;
+use App\Models\HistoryProductTransaksi;
 use DateTime;
 use App\Models\Pembeli;
 use App\Models\Product;
@@ -23,11 +24,17 @@ class TransaksiController extends Controller
     // TransaksiController.php
     public function index()
     {
-        $data = Transaksi::with(['pembelis', 'products', 'methode_pembayaran'])
+        //! add realasi transkasi dan history product transaksi .
+        //! with history product transakski otomatis dapat id History product
+        //! find history procut berdsarkan id historu product dari tabel historu product transaksi
+        //! simpan di variabel dan return view di product nama dan harga
+
+        $data = Transaksi::with(['pembelis', 'history_product_transaksis.history_product', 'methode_pembayaran'])
             ->search(request('search'))
             ->paginate(10);
-        // dd($data);
         return view('pages.admin.transaksi.index', compact('data'));
+
+
     }
 
     public function cetakTransaksi()
@@ -44,9 +51,9 @@ class TransaksiController extends Controller
     {
 
         $data = Product::get();
-        $dataHistory = HistoryProduct::get();
+        // $dataHistory = HistoryProduct::get();
         // dd($data);
-        return view('pages.admin.transaksi.create', compact('data', 'dataHistory'));
+        return view('pages.admin.transaksi.create', compact('data'));
     }
 
     /**
@@ -54,6 +61,7 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'tanggal' => 'required|date',
             'product' => 'required',
@@ -96,8 +104,16 @@ class TransaksiController extends Controller
                 "Preorder_id" => null,
                 "is_complete" => $data['is_complete'],
             ]);
-
-
+            //! add data di tabel transakai history product
+            //! id transakasi dari $trasnkasi->id
+            //! id history product dapat dari HistoryProduct::where(product_id == data['product'])
+            $historyProduct = HistoryProduct::where('product_id',$data['product'])->get()->last();
+            // dd($historyProduct->id);
+            HistoryProductTransaksi::create([
+                "transaksi_id"=>$transaksi->id,
+                "history_product_id"=> $historyProduct->id,
+            ]);
+            
             if ($transaksi->is_complete == 1) {
                 event(new TransaksiSelesai($transaksi->id));
             }
@@ -109,7 +125,6 @@ class TransaksiController extends Controller
             DB::rollBack();
             // throw $th;
             return redirect()->back()->with('error', 'Failed to create transaksi data.');
-
         }
     }
 
@@ -118,9 +133,13 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
+         //! with history product transakski otomatis dapat id History product
+        //! find history procut berdsarkan id historu product dari tabel historu product transaksi
+        //! simpan di variabel dan return view di product nama dan harga
 
-        $data = Transaksi::with(['products', 'methode_pembayaran', 'preorders'])
+        $data = Transaksi::with(['pembelis', 'history_product_transaksis.history_product', 'methode_pembayaran'])
             ->findOrFail($transaksi->id);
+        // dd($data);
         // dd($data->methode_pembayaran->methode_pembayaran);
 
         // dd($data); // Uncomment this line for debugging
@@ -133,8 +152,13 @@ class TransaksiController extends Controller
      */
     public function edit(Transaksi $transaksi)
     {
+         //! with history product transakski otomatis dapat id History product
+        //! find history procut berdsarkan id historu product dari tabel historu product transaksi
+        //! simpan di variabel dan return view di product nama dan harga
+
         $dataTransaksi = Transaksi::with(['products', 'methode_pembayaran', 'preorders'])
             ->findOrFail($transaksi->id);
+        // dd($dataTransaksi);
         $data = Product::get();
 
 

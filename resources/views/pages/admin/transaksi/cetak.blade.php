@@ -17,41 +17,44 @@
             <thead>
                 <tr>
                     <th class="border border-gray-700">No.</th>
-                    <th class="border border-gray-700">Nama Pembeli</th>
                     <th class="border border-gray-700">Product</th>
                     <th class="border border-gray-700">Tanggal</th>
                     <th class="border border-gray-700">Jumlah Pesanan</th>
                     <th class="border border-gray-700">Total Harga </th>
-
-  
-
-
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $totalHarga = 0; // Inisialisasi total harga
+                @endphp
 
                 @foreach ($data as $transaction)
-                <tr>
-                    <td class="border text-center border-gray-700">{{ $loop->iteration }}</td>
-                    <td class="border pl-3 border-gray-700">{{ $transaction->pembelis->nama }}</td>
-                    <td class="border pl-3 border-gray-700">{{ $transaction->products->nama_product }}</td>
-                    <td class="border text-center border-gray-700">{{ $transaction->tanggal }}</td>
-                    <td class="border text-center border-gray-700">{{ $transaction->jumlah }}</td>
-                    <td class="border text-center border-gray-700">Rp. {{ number_format($transaction-> total_harga, 0, ',', '.')}}</td>
-
- 
-
-
-                </tr>
+                    <tr>
+                        <td class="border text-center border-gray-700">{{ $loop->iteration }}</td>
+                        <td class="border pl-3 border-gray-700">{{ $transaction->products->nama_product }}</td>
+                        <td class="border text-center border-gray-700">{{ $transaction->tanggal }}</td>
+                        <td class="border text-center border-gray-700">{{ $transaction->jumlah }}</td>
+                        <td class="border text-center border-gray-700">Rp. {{ number_format($transaction->total_harga, 0, ',', '.') }}</td>
+                        @php
+                            $totalHarga += $transaction->total_harga; // Tambahkan total harga transaksi ke totalHarga
+                        @endphp
+                    </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="border text-center border-gray-700 font-bold">Total Pendapatan</td>
+                    <td class="border text-center border-gray-700 font-bold">
+                        Rp. {{ number_format($totalHarga, 0, ',', '.') }}
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 
     <script type="text/javascript">
         window.print();
     </script>
-
 </body>
 
 </html>

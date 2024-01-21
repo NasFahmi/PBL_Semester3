@@ -26,7 +26,6 @@ class ApiTransaksiController extends Controller
     {
 
         $data = Transaksi::with(['products', 'products.fotos'])
-            ->where('is_Preorder', 0)
             ->get();
         $transformedData = $data->map(function ($transaksi) {
             return new TransaksiResources($transaksi);

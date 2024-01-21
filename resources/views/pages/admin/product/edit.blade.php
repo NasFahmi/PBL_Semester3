@@ -22,7 +22,7 @@
                         <label class="block text-sm mb-1">
                             <span class="text-gray-700 dark:text-gray-400">Harga</span>
                         </label>
-                        <div class="grid grid-cols-2 justify-start items-center gap-4 max-w-4xl mb-3">
+                        <div>
                             <input type="number" placeholder="Harga" name="harga"
                                 value="{{ old('harga', $data->harga) }}"
                                 class="input input-bordered input-info w-full bg-slate-50  duration-50 " />
@@ -37,6 +37,9 @@
                             rows="4">{{ old('deskripsi', $data->deskripsi) }}</textarea>
                     </div>
 
+                    
+                </div>
+                <div class="right">
                     <div class="">
                         <label class="block text-sm mb-1">
                             <span class="text-gray-700 dark:text-gray-400 ">Link Shopee</span>
@@ -60,33 +63,7 @@
                             placeholder="Spesifikasi Product" name="spesifikasi_product"
                             rows="4">{{ old('spesifikasi_product', $data->spesifikasi_product) }}</textarea>
                     </div>
-
-                </div>
-                <div class="right">
-                    {{-- <div class="">
-                        <label class="block text-sm mb-1">
-                            <span class="text-gray-700 dark:text-gray-400">Berat Jenis Product</span>
-                        </label>
-                        <ul
-                            class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white mb-3">
-                            <!-- Loop through Berat Jenis options -->
-                            @foreach (['Kecil', 'Sedang', 'Besar', 'Sangat Besar'] as $option)
-                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="{{ strtolower($option) }}" type="checkbox" value="{{ $option }}"
-                                        name="beratjenis[]" {{ in_array($option,
-                                        $data->beratJenis->pluck('berat_jenis')->toArray()) ? 'checked' : '' }}
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
-                                    dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700
-                                    focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="{{ strtolower($option) }}"
-                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
-                                        $option }}</label>
-                                </div>
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div> --}}
+                   
                     <!-- Prefill Varians input fields -->
                     <div id="form-container">
                         @foreach ($data->varians as $index => $varian)
