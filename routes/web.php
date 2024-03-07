@@ -24,16 +24,19 @@ use App\Http\Controllers\Api\ApiTransaksiController;
 // enduser
 Route::get('/', [HomeController::class, 'landingpage'])->name('landing_page');
 Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');
-Route::get('/login', [AuthController::class, 'loginview'])->name('loginview');
-Route::post('/login', [AuthController::class, 'Authlogin'])->name('login');
 Route::get('/katalog/product/{id}', [HomeController::class, 'detailProduct'])->name('detail_product');
+
+Route::middleware(['throttle:login'])->group(function () {
+    Route::get('/login', [AuthController::class, 'loginview'])->name('loginview');
+    Route::post('/login', [AuthController::class, 'Authlogin'])->name('login');
+});
 
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'indexDashboard'])->name('admin.dashboard');
-    Route::get('/chart/oneyear',[ApiTransaksiController::class,'chart'])->name('chart.1year');
-    Route::get('/admin/dashboard/logout', [AuthController::class, 'logout'])->name('logout'); 
+    Route::get('/chart/oneyear', [ApiTransaksiController::class, 'chart'])->name('chart.1year');
+    Route::get('/admin/dashboard/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/admin/transaksi/create', [TransaksiController::class, 'create'])
         ->middleware('role_or_permission:superadmin|tambah-product')
