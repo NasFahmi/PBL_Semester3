@@ -133,11 +133,14 @@
                 <br>
                 <p class="text-lg">{{ $data->deskripsi }}</p>
                 <br>
+                <p>{{count($data->varians)}}</p>
+                @if (count($data->varians)!= 0 )    
                 <h1 class="font-semibold">Varian : </h1>
                 @foreach ($data->varians as $varian)
                     <li class="text-lg">{{ $varian->jenis_varian }}</li>
                 @endforeach
                 <br>
+                @endif
                 <div class="mt-2">
                     <h1 class="text-2xl font-medium">Product Spesifikasi</h1>
                     <p class="text-lg">{!! nl2br(e($data->spesifikasi_product)) !!}</p>
