@@ -131,6 +131,7 @@
                 <h1 class="text-3xl font-semibold mb-2">{{ $data->nama_product }}</h1>
                 <h1 class="text-2xl font-semibold mb-1">Rp. {{ $data->harga }}</h1>
                 <br>
+                <h1 class="text-2xl font-semibold mb-1">Deskripsi</h1>
                 <p class="text-lg">{{ $data->deskripsi }}</p>
                 <br>
                 @if (count($data->varians)!= 0 )    
