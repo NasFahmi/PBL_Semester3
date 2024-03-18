@@ -133,7 +133,6 @@
                 <br>
                 <p class="text-lg">{{ $data->deskripsi }}</p>
                 <br>
-                <p>{{count($data->varians)}}</p>
                 @if (count($data->varians)!= 0 )    
                 <h1 class="font-semibold">Varian : </h1>
                 @foreach ($data->varians as $varian)
