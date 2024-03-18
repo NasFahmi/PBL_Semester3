@@ -129,14 +129,15 @@
 
             <div class="w-full md:w-1/2">
                 <h1 class="text-3xl font-semibold mb-2">{{ $data->nama_product }}</h1>
-                <h1 class="text-2xl font-semibold mb-1">{{ $data->harga }}</h1>
+                <h1 class="text-2xl font-semibold mb-1">Rp. {{ $data->harga }}</h1>
+                <br>
                 <p class="text-lg">{{ $data->deskripsi }}</p>
-
+                <br>
                 <h1 class="font-semibold">Varian : </h1>
                 @foreach ($data->varians as $varian)
                     <li class="text-lg">{{ $varian->jenis_varian }}</li>
                 @endforeach
-
+                <br>
                 <div class="mt-2">
                     <h1 class="text-2xl font-medium">Product Spesifikasi</h1>
                     <p class="text-lg">{!! nl2br(e($data->spesifikasi_product)) !!}</p>
