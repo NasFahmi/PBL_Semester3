@@ -251,7 +251,7 @@
         <h1 class="text-3xl font-semibold text-center mb-10">Produk Kami</h1>
         <div class="mx-auto max-w-screen-xl  w-full md:w-3/4 mb-10 ">
             <label for="default-search" class="sr-only">Search</label>
-            <div class="relative w-2/4">
+            <div class="relative ">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 20 20">
